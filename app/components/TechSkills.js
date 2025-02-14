@@ -61,7 +61,7 @@ export default function TechSkills() {
                                 whileHover={{ scale: 1.1, transition: { duration: 0.3 } }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                <Chip label={skill.label} color={skill.color} sx={{ p: 1.5, mb: 1, fontSize: "1rem" }} />
+                                <Chip label={skill.label} color={skill.color} sx={{ p: 1.5, mb: 2, fontSize: "1rem" }} />
                             </motion.div>
                         ))}
                     </Stack>
