@@ -10,12 +10,13 @@ const contacts = [
   { icon: '/contact/gmail.png', link: "mailto:yasinhassim43@gmail.com", label: "Email" },
 ];
 
-export default function ContactMe() {
+export default function ContactMe({ id }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "50px" });
 
   return (
     <Box
+    id={id}
       sx={{
         backgroundColor: "#121212",
         color: "white",

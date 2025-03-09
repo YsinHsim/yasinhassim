@@ -33,6 +33,8 @@ export default function Navbar() {
         block: "start",
       });
     }
+    setDrawerOpen(false);
+    console.log("\n\nDrawer Open: " + drawerOpen);
   };
 
   return (
@@ -48,7 +50,7 @@ export default function Navbar() {
       <Toolbar sx={{ justifyContent: "space-between", px: 3 }}>
         {/* Logo or Brand Name */}
         <Typography variant="h6" color="white" fontWeight="bold">
-          MY PORTFOLIO
+          Yasin Hassim
         </Typography>
 
         {/* Navigation Links */}
@@ -70,12 +72,26 @@ export default function Navbar() {
       </Toolbar>
 
       {/* Drawer for Mobile */}
-      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer}>
-        <Box sx={{ width: 250, p: 2 }}>
-          <Button sx={{ color: "black", width: "100%", mb: 2 }} onClick={() => scrollToSection("home")}>Home</Button>
-          <Button sx={{ color: "black", width: "100%", mb: 2 }} onClick={() => scrollToSection("projects")}>Projects</Button>
-          <Button sx={{ color: "black", width: "100%", mb: 2 }} onClick={() => scrollToSection("about")}>About</Button>
-          <Button sx={{ color: "black", width: "100%" }} onClick={() => scrollToSection("contact")}>Contact</Button>
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={toggleDrawer}
+        sx={{
+          display: { xs: "block", sm: "none" }, // Show only on mobile
+        }}
+      >
+        <Box
+          sx={{
+            width: 250,
+            p: 2,
+            bgcolor: "#212121", // Background color for sidebar
+            height: "100vh", // Ensure it covers the full height
+          }}
+        >
+          <Button sx={{ color: "white", width: "100%", mb: 2 }} onClick={() => scrollToSection("home")}>Home</Button>
+          <Button sx={{ color: "white", width: "100%", mb: 2 }} onClick={() => scrollToSection("projects")}>Projects</Button>
+          <Button sx={{ color: "white", width: "100%", mb: 2 }} onClick={() => scrollToSection("about")}>About</Button>
+          <Button sx={{ color: "white", width: "100%" }} onClick={() => scrollToSection("contact")}>Contact</Button>
         </Box>
       </Drawer>
     </AppBar>

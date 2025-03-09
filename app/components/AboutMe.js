@@ -9,12 +9,13 @@ import LinuxAndScripting from "./about-me-components/LinuxAndScripting";
 import LifeSkillAndCareer from "./about-me-components/LifeSkillAndCareer";
 import ExperienceAndChallenges from "./about-me-components/ExperienceAndChallenges";
 
-export default function AboutMe() {
+export default function AboutMe({ id }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "50px" });
 
   return (
     <Box
+      id={id}
       sx={{
         backgroundColor: "#121212", // Dark background
         color: "white",

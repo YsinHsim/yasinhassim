@@ -15,6 +15,7 @@ export default function HomePage() {
       <Box sx={{ overflowX: "hidden" }}> {/* Prevents unwanted horizontal scrolling */}
         {/* Hero Section */}
         <Box
+          id="home"
           sx={{
             position: "relative",
             width: "100vw",

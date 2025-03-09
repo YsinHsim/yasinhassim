@@ -18,7 +18,7 @@ const inHouseSystems = [
   "Budget System",
 ];
 
-export default function Responsibilities() {
+export default function Responsibilities({ id }) {
   const refResponsibilities = useRef(null);
   const isInViewResponsibilities = useInView(refResponsibilities, { once: true, margin: "50px" });
 
@@ -26,7 +26,7 @@ export default function Responsibilities() {
   const isInViewInHouse = useInView(refInHouse, { once: true, margin: "50px" });
 
   return (
-    <Box sx={{ backgroundColor: "#121212", color: "white", p: 4 }}>
+    <Box id={id} sx={{ backgroundColor: "#121212", color: "white", p: 4 }}>
       {/* Responsibilities Section */}
       <motion.div
         ref={refResponsibilities}
