@@ -23,7 +23,7 @@ export default function ExperienceAndChallenges() {
             <Avatar
               src="/about-me/transmitter.jpeg"
               sx={{
-                width: { xs: 180, sm: 200, md: 250 },
+                width: { xs: "100%", sm: 200, md: 250 },
                 height: { xs: 180, sm: 200, md: 250 },
                 borderRadius: 3,
                 mx: "auto",

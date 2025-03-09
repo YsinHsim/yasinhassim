@@ -23,7 +23,7 @@ export default function LifeSkillAndCareer() {
             <Avatar
               src="/about-me/butcher.jpeg"
               sx={{
-                width: { xs: 180, sm: 200, md: 250 },
+                width: { xs: 250, sm: 200, md: 250 },
                 height: { xs: 180, sm: 200, md: 250 },
                 borderRadius: 3,
                 mx: "auto",
