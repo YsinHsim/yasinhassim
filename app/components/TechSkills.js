@@ -6,20 +6,27 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 const techSkills = [
-    { label: "JavaScript", color: "primary" },
     { label: "C++", color: "primary" },
-    { label: "Python", color: "primary" },
-    { label: "PHP", color: "primary" },
-    { label: "SQL", color: "primary" },
     { label: "Java", color: "primary" },
-    { label: "MongoDB", color: "secondary" },
-    { label: "Laravel", color: "secondary" },
-    { label: "ReactJS", color: "secondary" },
-    { label: "Node.js", color: "secondary" },
-    { label: "Express.js", color: "secondary" },
-    { label: "Next.js", color: "secondary" },
-    { label: "Git", color: "default" },
-    { label: "Vercel", color: "default" },
+    { label: "Python", color: "primary" },
+    { label: "JavaScript", color: "primary" },
+    { label: "Git", color: "primary" },
+    { label: "Vercel", color: "primary" },
+    { label: "PHP", color: "primary" },
+    { label: "MySQL", color: "primary" },
+    { label: "MariaDB", color: "primary" },
+    { label: "MongoDB", color: "primary" },
+    { label: "mongoose", color: "primary" },
+    { label: "Laravel", color: "primary" },
+    { label: "InertiaJs", color: "primary" },
+    { label: "Next.js", color: "primary" },
+    { label: "ReactJS", color: "primary" },
+    { label: "Node.js", color: "primary" },
+    { label: "Express.js", color: "primary" },
+    { label: "Bootstrap 3", color: "primary" },
+    { label: "Tailwind CSS", color: "primary" },
+    { label: "Material UI", color: "primary" },
+    { label: "Framer Motion", color: "primary" },
 ];
 
 export default function TechSkills() {
@@ -61,7 +68,7 @@ export default function TechSkills() {
                                 whileHover={{ scale: 1.1, transition: { duration: 0.3 } }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                <Chip label={skill.label} color={skill.color} sx={{ p: 1.5, mb: 2, fontSize: "1rem" }} />
+                                <Chip label={skill.label} color={skill.color} sx={{ p: 1.5, mb: 2, fontSize: "1rem", fontWeight: "bold" }} />
                             </motion.div>
                         ))}
                     </Stack>
