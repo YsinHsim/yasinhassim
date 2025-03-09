@@ -13,9 +13,9 @@ const responsibilities = [
 ];
 
 const inHouseSystems = [
-  "Hardware Tracking System",
-  "Purchase Document Tracking System",
-  "Budget System",
+  { name: "Hardware Tracking System", link: "https://github.com/YsinHsim/hardware-tracking" },
+  { name: "Purchase Document Tracking System" },
+  { name: "Budget System" },
 ];
 
 export default function Responsibilities({ id }) {
@@ -65,7 +65,20 @@ export default function Responsibilities({ id }) {
                 fontWeight: "bold",
               }}
             >
-              <Typography variant="body1">{system}</Typography>
+              {system.link ? (
+                <Typography
+                  variant="body1"
+                  component="a"
+                  href={system.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{ textDecoration: "none", color: "inherit" }}
+                >
+                  {system.name}
+                </Typography>
+              ) : (
+                <Typography variant="body1">{system.name}</Typography>
+              )}
             </motion.div>
           </Grid>
         ))}
