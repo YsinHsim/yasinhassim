@@ -1,0 +1,244 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Light Theme */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --border-color: #e2e8f0;
+  --border-hover: #cbd5e1;
+  --accent-primary: #3b82f6;
+  --accent-secondary: #8b5cf6;
+  --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --card-hover-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --glow-color: transparent;
+}
+
+[data-theme="dark"] {
+  /* Dark Theme */
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+  --border-color: #334155;
+  --border-hover: #475569;
+  --accent-primary: #60a5fa;
+  --accent-secondary: #a78bfa;
+  --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --card-hover-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.5);
+  --glow-color: rgba(59, 130, 246, 0.15);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+@layer components {
+  /* Dashboard Widget Card */
+  .widget {
+    @apply rounded-2xl border transition-all duration-300;
+    background-color: var(--bg-secondary);
+    border-color: var(--border-color);
+    box-shadow: var(--card-shadow);
+  }
+
+  .widget:hover {
+    border-color: var(--border-hover);
+    box-shadow: var(--card-hover-shadow);
+    transform: translateY(-2px);
+  }
+
+  .widget-large {
+    @apply widget md:col-span-2;
+  }
+
+  .widget-wide {
+    @apply widget md:row-span-2;
+  }
+
+  .widget-header {
+    @apply flex items-center justify-between mb-4 pb-4 border-b;
+    border-color: var(--border-color);
+  }
+
+  .widget-title {
+    @apply text-sm font-semibold uppercase tracking-wider;
+    color: var(--text-muted);
+  }
+
+  /* Theme Toggle */
+  .theme-toggle {
+    @apply relative w-14 h-7 rounded-full cursor-pointer transition-colors duration-300;
+    background-color: var(--bg-tertiary);
+  }
+
+  .theme-toggle::after {
+    @apply absolute top-1 left-1 w-5 h-5 rounded-full transition-transform duration-300;
+    content: '';
+    background: var(--accent-gradient);
+    transform: translateX(0);
+  }
+
+  [data-theme="dark"] .theme-toggle::after {
+    transform: translateX(28px);
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    background: var(--accent-gradient);
+    @apply bg-clip-text text-transparent font-bold;
+  }
+
+  /* Navigation Link */
+  .nav-link {
+    @apply text-sm font-medium transition-colors duration-200;
+    color: var(--text-secondary);
+  }
+
+  .nav-link:hover {
+    color: var(--text-primary);
+  }
+
+  /* Section Label */
+  .section-label {
+    @apply text-xs font-semibold uppercase tracking-wider mb-4;
+    color: var(--text-muted);
+  }
+
+  /* Stat Card */
+  .stat-card {
+    @apply flex flex-col items-center justify-center p-4 rounded-xl;
+    background-color: var(--bg-tertiary);
+  }
+
+  .stat-value {
+    @apply text-3xl font-bold gradient-text;
+  }
+
+  .stat-label {
+    @apply text-xs mt-1;
+    color: var(--text-muted);
+  }
+
+  /* Button Styles */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-white transition-all duration-300;
+    background: var(--accent-gradient);
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-semibold transition-all duration-300 border;
+    background-color: transparent;
+    border-color: var(--border-color);
+    color: var(--text-primary);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-hover);
+  }
+
+  /* Skill Badge */
+  .skill-badge {
+    @apply inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200;
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+  }
+
+  .skill-badge:hover {
+    background: var(--accent-gradient);
+    color: white;
+    transform: scale(1.05);
+  }
+
+  /* Input Field */
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl border transition-all duration-200 outline-none;
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+  }
+
+  .input-field:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-hover);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.5); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.6s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Stagger animations */
+.widget:nth-child(1) { animation-delay: 0.1s; }
+.widget:nth-child(2) { animation-delay: 0.2s; }
+.widget:nth-child(3) { animation-delay: 0.3s; }
+.widget:nth-child(4) { animation-delay: 0.4s; }
+.widget:nth-child(5) { animation-delay: 0.5s; }
+.widget:nth-child(6) { animation-delay: 0.6s; }
