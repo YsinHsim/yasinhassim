@@ -1,0 +1,97 @@
+---
+import BlogLayout from '@layouts/BlogLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const blogPosts = await getCollection('blog');
+  
+  return blogPosts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const relatedPosts = allPosts
+  .filter((p) => p.slug !== post.slug && p.data.tags.some((tag) => post.data.tags.includes(tag)))
+  .slice(0, 3);
+---
+
+<BlogLayout
+  title={`${post.data.title} - Yasin Hassim`}
+  description={post.data.description}
+>
+  <header class="mb-8">
+    <div class="flex items-center gap-3 mb-4">
+      <a href="/blog" class="text-sm font-medium hover:underline flex items-center gap-1 text-accent">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Back to Blog
+      </a>
+    </div>
+
+    <div class="flex items-center gap-2 mb-4">
+      {post.data.tags.map((tag: string) => (
+        <span class="text-xs px-2 py-1 rounded-full bg-tertiary text-muted">
+          {tag}
+        </span>
+      ))}
+    </div>
+
+    <h1 class="text-3xl md:text-4xl font-bold mb-4 text-primary">
+      {post.data.title}
+    </h1>
+
+    <p class="text-lg mb-6 text-secondary">
+      {post.data.description}
+    </p>
+
+    <div class="flex items-center gap-4 text-sm text-muted">
+      <time datetime={post.data.pubDate.toISOString()}>
+        {post.data.pubDate.toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric'
+        })}
+      </time>
+      {post.data.updatedDate && (
+        <span>• Updated: {post.data.updatedDate.toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric'
+        })}</span>
+      )}
+    </div>
+  </header>
+
+  <div class="blog-content">
+    <Content />
+  </div>
+
+  {relatedPosts.length > 0 && (
+    <section class="mt-12 pt-8 border-t border-color">
+      <h2 class="text-xl font-bold mb-6 text-primary">Related Posts</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {relatedPosts.map((relatedPost) => (
+          <a href={`/blog/${relatedPost.slug}`} class="widget p-4 transition-transform hover:scale-105 cursor-pointer">
+            <div class="flex items-center gap-2 mb-2">
+              {relatedPost.data.tags[0] && (
+                <span class="text-xs px-2 py-1 rounded-full bg-tertiary text-muted">
+                  {relatedPost.data.tags[0]}
+                </span>
+              )}
+            </div>
+            <h3 class="font-bold mb-1 text-primary">{relatedPost.data.title}</h3>
+            <p class="text-xs text-muted">
+              {relatedPost.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+            </p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+</BlogLayout>
