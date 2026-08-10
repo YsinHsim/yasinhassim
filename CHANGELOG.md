@@ -4,6 +4,8 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-08-10
 
+- Add Open Graph and Twitter Card meta tags (786ef5b)
+- Add CLAUDE.md with commit and changelog SOPs (b424ec1)
 - Add auto-generated changelog from git history (b5f013d)
 - Add blog post about flower-for-sharana (b8db45e)
 
