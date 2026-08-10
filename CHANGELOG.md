@@ -4,6 +4,7 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-08-10
 
+- Add auto-generated changelog from git history (b5f013d)
 - Add blog post about flower-for-sharana (b8db45e)
 
 ## 2026-07-02
