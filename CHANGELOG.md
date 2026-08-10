@@ -4,6 +4,8 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-08-10
 
+- Add blog post about rebuilding my resume for ATS (3de2cc3)
+- Update changelog (be055bd)
 - Refine resume spacing and shorten summary (6787ea6)
 - Update changelog (02396d1)
 - Loosen resume spacing and set custom download filename (c655236)
