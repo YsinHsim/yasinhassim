@@ -2,8 +2,14 @@
 
 Auto-generated from git history. Run `npm run changelog` to regenerate.
 
+## 2026-08-11
+
+- Add blog post: Travel Schedule VBS loader / ManageEngine RMM backdoor (e80ba0c)
+- Add security-post components (badges, callouts, IOC tables, diagrams) (05d6de9)
+
 ## 2026-08-10
 
+- Update changelog (c335043)
 - Add blog post about rebuilding my resume for ATS (3de2cc3)
 - Update changelog (be055bd)
 - Refine resume spacing and shorten summary (6787ea6)
