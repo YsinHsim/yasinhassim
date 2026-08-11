@@ -97,53 +97,43 @@ Six hops, one deliberate handoff point: everything before step four is custom at
 <path d="M0,0 L10,5 L0,10 z" fill="currentColor"></path>
 </marker>
 </defs>
-
 <line x1="650" y1="40" x2="650" y2="340" stroke="currentColor" stroke-opacity="0.25" stroke-dasharray="4 5"></line>
 <text x="650" y="26" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.55" font-family="JetBrains Mono, monospace">CROSSES INTO "TRUSTED SOFTWARE"</text>
-
 <line x1="200" y1="140" x2="238" y2="140" stroke="currentColor" stroke-opacity="0.5" marker-end="url(#arrow)"></line>
 <line x1="420" y1="140" x2="458" y2="140" stroke="currentColor" stroke-opacity="0.5" marker-end="url(#arrow)"></line>
 <line x1="640" y1="140" x2="678" y2="140" stroke="currentColor" stroke-opacity="0.5" marker-end="url(#arrow)"></line>
 <line x1="860" y1="140" x2="898" y2="140" stroke="currentColor" stroke-opacity="0.5" marker-end="url(#arrow)"></line>
 <line x1="1080" y1="140" x2="1118" y2="140" stroke="currentColor" stroke-opacity="0.5" marker-end="url(#arrow)"></line>
-
 <text x="219" y="120" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.65" font-family="JetBrains Mono, monospace">runs</text>
 <text x="439" y="120" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.65" font-family="JetBrains Mono, monospace">fetches</text>
 <text x="659" y="120" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.65" font-family="JetBrains Mono, monospace">installs</text>
 <text x="879" y="120" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.65" font-family="JetBrains Mono, monospace">enrolls to</text>
 <text x="1099" y="120" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.65" font-family="JetBrains Mono, monospace">grants</text>
-
 <rect x="20" y="90" width="180" height="100" rx="12" fill="none" stroke="currentColor" stroke-opacity="0.55"></rect>
 <text x="110" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">TRAVEL SCHEDULE</text>
 <text x="110" y="146" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">.VBS</text>
 <text x="110" y="170" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.6" font-family="JetBrains Mono, monospace">the lure</text>
-
 <rect x="240" y="90" width="180" height="100" rx="12" fill="none" stroke="currentColor" stroke-opacity="0.55"></rect>
 <text x="330" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">UAC SUPPRESS</text>
 <text x="330" y="146" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">+ SLEEP 30-80s</text>
 <text x="330" y="170" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.6" font-family="JetBrains Mono, monospace">defense evasion</text>
-
 <rect x="460" y="90" width="180" height="100" rx="12" fill="none" stroke="currentColor" stroke-opacity="0.55"></rect>
 <text x="550" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">KILMSSWM.ZIP</text>
 <text x="550" y="146" text-anchor="middle" font-size="11" fill="currentColor" font-family="JetBrains Mono, monospace">kmmiiaaa.com</text>
 <text x="550" y="170" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.6" font-family="JetBrains Mono, monospace">MOTW stripped</text>
-
 <rect x="680" y="85" width="180" height="110" rx="12" fill="currentColor" fill-opacity="0.06" stroke="var(--accent-primary)" stroke-width="2"></rect>
 <text x="770" y="123" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">UEMSAGENT.MSI</text>
 <text x="770" y="139" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.75">genuine, signed RMM tool</text>
 <text x="770" y="158" text-anchor="middle" font-size="10.5" fill="var(--accent-primary)" font-weight="700" font-family="JetBrains Mono, monospace">installed /qn</text>
 <text x="770" y="176" text-anchor="middle" font-size="9.5" fill="currentColor" fill-opacity="0.55">(silent, no window)</text>
-
 <rect x="900" y="90" width="180" height="100" rx="12" fill="none" stroke="currentColor" stroke-opacity="0.55"></rect>
 <text x="990" y="130" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">ROGUE SERVER</text>
 <text x="990" y="148" text-anchor="middle" font-size="11" fill="currentColor" font-family="JetBrains Mono, monospace">192.229.81.104</text>
 <text x="990" y="170" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.6" font-family="JetBrains Mono, monospace">:8383</text>
-
 <rect x="1120" y="90" width="180" height="100" rx="12" fill="none" stroke="currentColor" stroke-opacity="0.55"></rect>
 <text x="1210" y="126" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">FULL REMOTE</text>
 <text x="1210" y="142" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">CONTROL</text>
 <text x="1210" y="166" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.6" font-family="JetBrains Mono, monospace">exec · files · patch</text>
-
 <text x="325" y="230" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.5">Custom malicious VBScript — this is the part AV usually catches</text>
 <text x="985" y="230" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.5">Legitimate signed software — this is the part AV usually trusts</text>
 </svg>
