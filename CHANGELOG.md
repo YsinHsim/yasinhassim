@@ -4,6 +4,8 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-08-18
 
+- Point Startpage project card to the enhanced Next.js version (41b3faf)
+- Update changelog (9989392)
 - Fix broken footer section links off the portfolio page (f322586)
 - Add pirate favicon (16b83c0)
 - Update changelog (e8fe193)
