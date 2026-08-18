@@ -1,5 +1,6 @@
 ---
 const currentYear = new Date().getFullYear();
+const sectionBase = Astro.url.pathname.replace(/\/$/, '') === '/portfolio' ? '' : '/portfolio';
 ---
 
 <footer id="footer" class="border-t bg-primary border-color">
@@ -8,17 +9,17 @@ const currentYear = new Date().getFullYear();
 
       <!-- Brand -->
       <div class="text-center md:text-left">
-        <a href="#home" class="text-lg font-bold gradient-text">yasin.dev</a>
+        <a href={`${sectionBase}#home`} class="text-lg font-bold gradient-text">yasin.dev</a>
         <p class="text-xs mt-1 text-muted">IT Technician | Software Developer</p>
       </div>
 
       <!-- Quick Links -->
       <nav class="flex flex-wrap justify-center gap-6 text-sm">
-        <a href="#home" class="nav-link">Dashboard</a>
-        <a href="#about" class="nav-link">About</a>
-        <a href="#work" class="nav-link">Work</a>
-        <a href="#skills" class="nav-link">Skills</a>
-        <a href="#contact" class="nav-link">Contact</a>
+        <a href={`${sectionBase}#home`} class="nav-link">Dashboard</a>
+        <a href={`${sectionBase}#about`} class="nav-link">About</a>
+        <a href={`${sectionBase}#work`} class="nav-link">Work</a>
+        <a href={`${sectionBase}#skills`} class="nav-link">Skills</a>
+        <a href={`${sectionBase}#contact`} class="nav-link">Contact</a>
       </nav>
 
       <!-- Social -->
