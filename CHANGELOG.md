@@ -4,6 +4,9 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-08-18
 
+- Fix broken footer section links off the portfolio page (f322586)
+- Add pirate favicon (16b83c0)
+- Update changelog (e8fe193)
 - Add blog post: How I Actually Work With AI on a Live Production System (a1b2b6a)
 - Add AI-Assisted Development to resume skills (8876413)
 
