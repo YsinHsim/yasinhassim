@@ -2,8 +2,15 @@
 
 Auto-generated from git history. Run `npm run changelog` to regenerate.
 
+## 2026-08-18
+
+- Add blog post: How I Actually Work With AI on a Live Production System (a1b2b6a)
+- Add AI-Assisted Development to resume skills (8876413)
+
 ## 2026-08-11
 
+- Fix attack-chain diagram not rendering (855a58b)
+- Update changelog (28b7101)
 - Add blog post: Travel Schedule VBS loader / ManageEngine RMM backdoor (e80ba0c)
 - Add security-post components (badges, callouts, IOC tables, diagrams) (05d6de9)
 
