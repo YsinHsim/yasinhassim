@@ -2,8 +2,14 @@
 
 Auto-generated from git history. Run `npm run changelog` to regenerate.
 
+## 2026-08-27
+
+- Add Rental Management System project card, unfeature eNORES to fix grid (b834222)
+
 ## 2026-08-18
 
+- Stop tracking .astro/ build cache (4238e29)
+- Update changelog (e136df5)
 - Point Startpage project card to the enhanced Next.js version (41b3faf)
 - Update changelog (9989392)
 - Fix broken footer section links off the portfolio page (f322586)
