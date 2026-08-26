@@ -4,6 +4,8 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-08-27
 
+- Stop tracking dist/ build output in git (30cc6b0)
+- Update changelog (292c45d)
 - Add Rental Management System project card, unfeature eNORES to fix grid (b834222)
 
 ## 2026-08-18
