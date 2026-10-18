@@ -4,6 +4,8 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-10-18
 
+- Fill in Kuiz Interaktif post details from interview (3b0ff5c)
+- Update changelog (bff1972)
 - Add draft blog post about Kuiz Interaktif (88df7ea)
 
 ## 2026-08-27
