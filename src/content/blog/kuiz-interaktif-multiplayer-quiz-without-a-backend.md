@@ -3,7 +3,7 @@ title: "Kuiz Interaktif: A Kahoot-Style Quiz Game With No Backend"
 description: "How I built a multiplayer quiz for workshops where the host's browser tab is the game server, and phones connect to it directly over WebRTC."
 pubDate: 2026-10-18
 tags: ["Development", "Personal Projects"]
-draft: true
+draft: false
 ---
 
 ## Why I Built This
