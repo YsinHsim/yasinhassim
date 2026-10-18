@@ -4,6 +4,9 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-10-18
 
+- Publish Kuiz Interaktif blog post (8e27382)
+- Merge pull request #1 from YsinHsim/claude/yasin-kuiz-projects-review-lcabhi (d35cab4)
+- Update changelog (582d41a)
 - Add Kuiz Interaktif project card as full-width row (5eb8a2a)
 - Update changelog (f48ae7c)
 - Fill in Kuiz Interaktif post details from interview (3b0ff5c)
