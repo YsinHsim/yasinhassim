@@ -2,8 +2,17 @@
 
 Auto-generated from git history. Run `npm run changelog` to regenerate.
 
+## 2026-10-18
+
+- Add Kuiz Interaktif project card as full-width row (5eb8a2a)
+- Update changelog (f48ae7c)
+- Fill in Kuiz Interaktif post details from interview (3b0ff5c)
+- Update changelog (bff1972)
+- Add draft blog post about Kuiz Interaktif (88df7ea)
+
 ## 2026-08-27
 
+- Update changelog (57d6019)
 - Stop tracking dist/ build output in git (30cc6b0)
 - Update changelog (292c45d)
 - Add Rental Management System project card, unfeature eNORES to fix grid (b834222)
