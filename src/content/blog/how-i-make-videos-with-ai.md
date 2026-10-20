@@ -9,7 +9,7 @@ draft: false
 
 ## My First Version Was Bland
 
-I built a rental-management system for boarding houses, and I wanted a short video to show it off on LinkedIn. The first version took an afternoon: real screenshots of the app, smooth camera zooms, a highlight box on each feature, a title card per section, and a calm music bed. Sixty seconds, no voice.
+I built a rental-management system for boarding houses, and I wanted a short video to show it off on LinkedIn. The first version was built from real screenshots of the app, with smooth camera zooms, a highlight box on each feature, a title card per section, and a calm music bed. Sixty seconds, no voice.
 
 It looked clean. My honest verdict after watching it: bland. No talking, no process flow, no explanation. It showed *what* the app had, never *why* anyone would care.
 
@@ -108,7 +108,7 @@ Under the table sits a short **truthfulness rules** section, because this is a r
 
 Before building anything, I ask the AI to attack the script as a skeptical viewer scrolling a feed. Is there a process, or a list? Which scene doesn't answer "why should I care"? Would the first three seconds stop a thumb? With the sound off, do the captions alone tell the story?
 
-Version 1 never went through this step, and it would have failed every question. The critique is one message. Skipping it cost me a whole video.
+Version 1 had no script at all: it went straight from screenshots to a build, so nothing ever asked these questions, and it would have failed every one. The critique is one message; rebuilding a finished video is a whole second round.
 
 ## 4. Record: A Script Clicks Through the App
 
@@ -213,9 +213,9 @@ Version 1's build script is still in the project next to version 2's. Keeping bo
 
 ## 8. Check, Then Render
 
-Before rendering I run the framework's checks (lint, layout, contrast) and take snapshots of key frames from every scene. Then I actually look at them: cut-off text, captions sitting on top of the action, the wrong step highlighted, anything from the "never on screen" list. I read every caption against the script too, because that's where small errors hide.
+Before rendering I run the framework's checks (lint, layout, contrast) and take snapshots of key frames from every scene. Then I actually look at them: cut-off text, captions sitting on top of the action, the wrong step highlighted, anything from the "never on screen" list. Then the render: 105 seconds, 1920x1080, H.264, plus a thumbnail exported from a strong frame.
 
-Then the render: 105 seconds, 1920x1080, H.264, plus a thumbnail exported from a strong frame.
+Small errors hide in the captions, and my first upload proved it. The build script already corrected the transcriber's slips, but the render came from an older build, so "room two, forty" went out as "room 240." and "Billed" as "Build," (on the thumbnail, too). Snapshotting those moments next to the script caught it. One rebuild, one re-render, one re-upload later, the video below is the fixed one. The check list now ends with: rebuild, then confirm the render came from that build.
 
 ## The Result
 
@@ -244,4 +244,4 @@ I've written the process up in two forms. Take whichever fits how you work:
 </a>
 </div>
 
-If you only take one thing from either file: **write the one-sentence story, then make the AI critique the script before you build anything.** That step costs one message. Skipping it cost me a whole video.
+If you only take one thing from either file: **write the one-sentence story, then make the AI critique the script before you build anything.** That step costs one message. Skipping it is how my first version ended up bland.
