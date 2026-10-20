@@ -604,8 +604,9 @@ table.post-ioc td.mono, table.post-ioc code {
   position: absolute;
   inset: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
+  padding-bottom: 7%;
 }
 .post-yt-play span {
   display: inline-flex;
@@ -635,3 +636,17 @@ table.post-ioc td.mono, table.post-ioc code {
 .post-download strong { display: block; margin-bottom: 0.25rem; }
 .post-download span { display: block; font-size: 0.85rem; color: var(--text-secondary); }
 .post-download code { font-size: 0.8em; }
+
+/* Plain Markdown tables inside .post-table-wrap (tables with their own class, like .post-ioc, keep theirs) */
+.post-table-wrap table:not([class]) { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 0.875rem; }
+.post-table-wrap table:not([class]) th,
+.post-table-wrap table:not([class]) td {
+  padding: 0.65rem 0.85rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+.post-table-wrap table:not([class]) th { background: var(--bg-secondary); color: var(--text-primary); font-weight: 600; }
+.post-table-wrap table:not([class]) tr:last-child td { border-bottom: none; }
+.post-table-wrap table:not([class]) td:nth-child(-n+2) { white-space: nowrap; }
