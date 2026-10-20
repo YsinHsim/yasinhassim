@@ -4,6 +4,9 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-10-20
 
+- Publish video workflow blog post (cd0a1f4)
+- Merge pull request #3 from YsinHsim/blog/video-workflow (f0741ae)
+- Update changelog (d5d517d)
 - Exclude draft posts from production page generation (0bfaf78)
 - Update changelog (351fcd1)
 - Regenerate video post media from the caption-fixed render (ecdace8)
