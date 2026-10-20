@@ -4,6 +4,8 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-10-20
 
+- Regenerate video post media from the caption-fixed render (ecdace8)
+- Update changelog (e8669c1)
 - Add draft post: how I make narrated videos with an AI agent (83200be)
 - Use a caption-free end-card frame as the video post cover (3be769c)
 - Style plain Markdown tables in posts and move YouTube play button down (8824d4c)
