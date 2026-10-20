@@ -4,6 +4,8 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-10-20
 
+- Add the stale-render lesson to the video skill and prompt guide (f750c3c)
+- Update changelog (830c737)
 - Correct unverified claims in the video workflow post (f14e1d8)
 - Update changelog (00f6474)
 - Point walkthrough embeds to the caption-fixed YouTube upload (3e878b5)
