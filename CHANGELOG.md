@@ -4,6 +4,9 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-10-20
 
+- Rewrite the AI workflow post around the full task lifecycle (d37c231)
+- Add session replay video and poster for the AI workflow post (30d4c71)
+- Update changelog (a237f8b)
 - Add the stale-render lesson to the video skill and prompt guide (f750c3c)
 - Update changelog (830c737)
 - Correct unverified claims in the video workflow post (f14e1d8)
