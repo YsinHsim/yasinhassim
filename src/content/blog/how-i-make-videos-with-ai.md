@@ -4,7 +4,7 @@ description: "Script, critique, scripted screen recording, synthesized voice and
 pubDate: 2026-10-20
 heroImage: "/blog/how-i-make-videos-with-ai/cover.jpg"
 tags: ["Video", "AI", "Workflow"]
-draft: true
+draft: false
 ---
 
 ## My First Version Was Bland
