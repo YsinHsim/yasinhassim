@@ -4,6 +4,13 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-10-20
 
+- Add draft post: how I make narrated videos with an AI agent (83200be)
+- Use a caption-free end-card frame as the video post cover (3be769c)
+- Style plain Markdown tables in posts and move YouTube play button down (8824d4c)
+- Add downloadable video workflow skill and prompt guide (59469de)
+- Add media for the video workflow blog post (411db0b)
+- Add blog styles for media figures, audio, downloads and click-to-load YouTube (eba9afd)
+- Update changelog (3322121)
 - Add walkthrough video modal to Rental Management card (472740b)
 
 ## 2026-10-18
