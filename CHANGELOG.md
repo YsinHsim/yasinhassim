@@ -2,8 +2,14 @@
 
 Auto-generated from git history. Run `npm run changelog` to regenerate.
 
+## 2026-10-20
+
+- Add walkthrough video modal to Rental Management card (472740b)
+
 ## 2026-10-18
 
+- Merge pull request #2 from YsinHsim/claude/yasin-kuiz-projects-review-lcabhi (0488204)
+- Update changelog (418902d)
 - Publish Kuiz Interaktif blog post (8e27382)
 - Merge pull request #1 from YsinHsim/claude/yasin-kuiz-projects-review-lcabhi (d35cab4)
 - Update changelog (582d41a)
