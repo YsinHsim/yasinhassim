@@ -108,7 +108,9 @@ SCENES = [
 - Run the framework's validator or linter.
 - Snapshot frames at the key moments of every scene and look at them: text cut off, captions over the action, wrong step highlighted, anything from the "never on screen" list.
 - Read every caption against the script.
-- Rebuild before the final render, and confirm the render was made from the latest build.
+- Rebuild before the final render, and confirm the render was made from the latest build. A stale build is the easiest way to ship errors you already fixed.
+- After rendering, check the rendered file itself, not just the composition: grab frames from the MP4 at every caption you corrected and every number on screen, and compare them with the script. Check the thumbnail too; it is usually cut from the same render.
+- Published platforms rarely let you replace a video file in place (YouTube doesn't), so a caption mistake found after upload means a new upload with a new link. Catching it here is much cheaper.
 
 ## 8. Render and publish
 

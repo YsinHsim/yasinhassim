@@ -108,6 +108,11 @@ Also list the on-screen labels I need (step names, titles, end card text).
 
 ## 8. Review before publishing
 
+Rebuild and re-render right before this step, then review frames taken from the final file
+(not from your editor's preview), including the thumbnail. A render from an older build can
+quietly bring back mistakes you already fixed, and most platforms won't let you swap the file
+after upload.
+
 ```
 Here are frames from the rendered video at these times: <attach screenshots>.
 Check each against the script: cut-off text, captions covering the action, wrong labels,

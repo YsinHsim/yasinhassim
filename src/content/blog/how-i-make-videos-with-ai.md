@@ -2,6 +2,7 @@
 title: "How I Make Narrated Videos With an AI Agent (and the Skill You Can Steal)"
 description: "Script, critique, scripted screen recording, synthesized voice and sound, a video built from code. The full process behind my rental-management walkthrough, with a downloadable skill and prompt guide at the end."
 pubDate: 2026-10-20
+updatedDate: 2026-10-20
 heroImage: "/blog/how-i-make-videos-with-ai/cover.jpg"
 tags: ["Video", "AI", "Workflow"]
 draft: false
