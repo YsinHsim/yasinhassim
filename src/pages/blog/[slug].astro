@@ -3,7 +3,8 @@ import BlogLayout from '@layouts/BlogLayout.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const blogPosts = await getCollection('blog');
+  // Drafts get a page in `astro dev` for previewing, but are left out of production builds
+  const blogPosts = await getCollection('blog', ({ data }) => !import.meta.env.PROD || !data.draft);
   
   return blogPosts.map((post) => ({
     params: { slug: post.slug },
@@ -96,3 +97,23 @@ const relatedPosts = allPosts
     </section>
   )}
 </BlogLayout>
+
+<script>
+  // Click-to-load YouTube embeds in posts: a <button class="post-yt" data-youtube-id="..."> shows a
+  // local thumbnail and only swaps in the player (privacy-enhanced domain) when a visitor clicks it.
+  document.querySelectorAll<HTMLButtonElement>(".post-yt[data-youtube-id]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://www.youtube-nocookie.com/embed/${button.dataset.youtubeId}?autoplay=1&rel=0&modestbranding=1`;
+      iframe.title = button.getAttribute("aria-label") ?? "YouTube video";
+      iframe.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+      iframe.allowFullscreen = true;
+      // an iframe can't live inside a <button>, so the button is replaced by a same-sized box
+      const frame = document.createElement("div");
+      frame.className = "post-yt";
+      frame.style.cursor = "default";
+      frame.append(iframe);
+      button.replaceWith(frame);
+    });
+  });
+</script>
