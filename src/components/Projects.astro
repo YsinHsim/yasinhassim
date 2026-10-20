@@ -40,8 +40,8 @@
         </div>
       </a>
 
-      <!-- Rental Management System -->
-      <a href="https://rental-management-t65r.onrender.com" target="_blank" class="widget p-6 group cursor-pointer">
+      <!-- Rental Management System: two actions (live demo, walkthrough video), so the card is not one big link -->
+      <div class="widget p-6 group">
         <div class="widget-header">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);">
@@ -54,17 +54,23 @@
               <p class="text-xs text-muted">Property Management SaaS</p>
             </div>
           </div>
-          <svg class="w-5 h-5 transition-transform group-hover:translate-x-1 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-          </svg>
         </div>
-        <span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 mb-3 text-xs font-semibold" style="background: rgba(34, 197, 94, 0.12); color: #16a34a;">
-          <span class="relative flex w-2 h-2">
-            <span class="animate-ping absolute inline-flex w-full h-full rounded-full opacity-75" style="background: #22c55e;"></span>
-            <span class="relative inline-flex rounded-full w-2 h-2" style="background: #22c55e;"></span>
-          </span>
-          Live demo -- click to explore
-        </span>
+        <div class="flex flex-wrap items-center gap-2 mb-3">
+          <a href="https://rental-management-t65r.onrender.com" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold transition-opacity hover:opacity-80" style="background: rgba(34, 197, 94, 0.12); color: #16a34a;">
+            <span class="relative flex w-2 h-2">
+              <span class="animate-ping absolute inline-flex w-full h-full rounded-full opacity-75" style="background: #22c55e;"></span>
+              <span class="relative inline-flex rounded-full w-2 h-2" style="background: #22c55e;"></span>
+            </span>
+            Live demo
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+          </a>
+          <button type="button" data-video-open="rental-walkthrough" class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold transition-opacity hover:opacity-80 cursor-pointer" style="background: rgba(59, 130, 246, 0.12); color: var(--accent-primary);">
+            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            Watch walkthrough (1:45)
+          </button>
+        </div>
         <p class="text-sm mb-4 text-secondary">
           Full rental management system for multi-property landlords -- flexible leasing, itemized billing, Stripe payments, maintenance tracking, and a self-service tenant portal.
         </p>
@@ -74,7 +80,7 @@
           <span class="skill-badge">PostgreSQL</span>
           <span class="skill-badge">Stripe</span>
         </div>
-      </a>
+      </div>
 
       <!-- Hardware Tracking -->
       <a href="https://github.com/YsinHsim/hardware-tracking" target="_blank" class="widget p-6 group cursor-pointer">
@@ -299,4 +305,94 @@
     </div>
 
   </div>
+
+  <!-- Walkthrough video modal. The YouTube player (privacy-enhanced domain) is only injected when
+       the modal opens and removed when it closes, so nothing loads from YouTube until a visitor asks. -->
+  <dialog id="rental-walkthrough" data-youtube-id="EToFhfXE9Wc" class="video-dialog" aria-label="Rental Management System walkthrough video">
+    <div class="video-dialog-inner">
+      <div class="flex items-center justify-between gap-4 mb-3">
+        <p class="font-semibold text-primary">Rental Management System: full workflow walkthrough</p>
+        <button type="button" data-video-close class="video-dialog-close" aria-label="Close video">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="video-frame" data-video-frame></div>
+    </div>
+  </dialog>
 </section>
+
+<style>
+  .video-dialog {
+    width: min(1100px, calc(100vw - 32px));
+    max-width: none;
+    padding: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+  }
+  .video-dialog::backdrop {
+    background: rgb(2 6 23 / 0.75);
+    backdrop-filter: blur(4px);
+  }
+  .video-dialog-inner {
+    padding: 16px;
+  }
+  .video-dialog-close {
+    display: inline-flex;
+    padding: 6px;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    cursor: pointer;
+  }
+  .video-dialog-close:hover {
+    background: var(--bg-tertiary);
+  }
+  .video-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #000;
+  }
+  /* :global because the iframe is created by the script, outside Astro's scoped-style attributes */
+  .video-frame :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+</style>
+
+<script>
+  // Open a video dialog from any [data-video-open] button; load the player on open, unload on close.
+  document.querySelectorAll<HTMLButtonElement>("[data-video-open]").forEach((button) => {
+    const dialog = document.getElementById(button.dataset.videoOpen ?? "") as HTMLDialogElement | null;
+    if (!dialog) return;
+    const frame = dialog.querySelector<HTMLElement>("[data-video-frame]");
+    const id = dialog.dataset.youtubeId;
+
+    button.addEventListener("click", () => {
+      if (frame && id) {
+        const iframe = document.createElement("iframe");
+        iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
+        iframe.title = "Rental Management System walkthrough";
+        iframe.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+        iframe.allowFullscreen = true;
+        frame.replaceChildren(iframe);
+      }
+      dialog.showModal();
+    });
+
+    dialog.querySelector("[data-video-close]")?.addEventListener("click", () => dialog.close());
+    // a click on the backdrop lands on the dialog element itself
+    dialog.addEventListener("click", (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+    dialog.addEventListener("close", () => frame?.replaceChildren());
+  });
+</script>
