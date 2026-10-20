@@ -220,11 +220,11 @@ Then the render: 105 seconds, 1920x1080, H.264, plus a thumbnail exported from a
 ## The Result
 
 <figure class="post-media">
-<button type="button" class="post-yt" data-youtube-id="EToFhfXE9Wc" aria-label="Play: Rental Management System walkthrough on YouTube">
+<button type="button" class="post-yt" data-youtube-id="qxDsRdBmf40" aria-label="Play: Rental Management System walkthrough on YouTube">
 <img src="/blog/how-i-make-videos-with-ai/cover.jpg" alt="" loading="lazy" width="1200" height="675" />
 <span class="post-yt-play"><span>▶ Play the full walkthrough (1:45)</span></span>
 </button>
-<figcaption>The player loads from YouTube only when you click. <a href="https://youtu.be/EToFhfXE9Wc">Watch on YouTube</a>.</figcaption>
+<figcaption>The player loads from YouTube only when you click. <a href="https://youtu.be/qxDsRdBmf40">Watch on YouTube</a>.</figcaption>
 </figure>
 
 Same app, same features as version 1. What changed is a story, a voice, and a process that made both cheap to get right.
