@@ -10,7 +10,7 @@ const videos = projects.flatMap((p) => (p.video ? [p.video] : []));
 
 <BaseLayout
   title="Work - Yasin Hassim"
-  description="Projects, skills and story of Muhammad Yasin Abdul Hassim, an IT Technician and Software Developer in Sabah, Malaysia."
+  description="Projects, skills and story of Muhammad Yasin Abdul Hassim, a Software Developer, IT Technician and System Analyst in Kota Kinabalu, Sabah."
 >
   <!-- Header -->
   <section id="home" class="shell pt-14 sm:pt-20 scroll-mt-20">
@@ -132,14 +132,18 @@ const videos = projects.flatMap((p) => (p.video ? [p.video] : []));
       <div>
         <p class="eyebrow">Journey</p>
         <h2 class="display mt-3 text-4xl text-primary">How I got here</h2>
-        <p class="mt-4 text-sm text-secondary">Five chapters, from a military camp in Kedah to my first IT job.</p>
+        <p class="mt-4 text-sm text-secondary">{story.length} chapters, from a military camp in Kedah to writing software for a living.</p>
       </div>
       <div class="border-t rule">
         {story.map((chapter, i) => (
           <details class="chapter group border-b rule" open={i === 0}>
             <summary class="flex cursor-pointer list-none items-center gap-4 py-5">
               <span class="font-mono text-xs text-muted w-6">{String(i + 1).padStart(2, '0')}</span>
-              <img src={chapter.image} alt="" class="h-12 w-12 flex-shrink-0 rounded-xl object-cover transition-opacity group-open:opacity-0 sm:h-14 sm:w-14" loading="lazy" />
+              {chapter.image ? (
+                <img src={chapter.image} alt="" class="h-12 w-12 flex-shrink-0 rounded-xl object-cover transition-opacity group-open:opacity-0 sm:h-14 sm:w-14" loading="lazy" />
+              ) : (
+                <span class="chapter-badge h-12 w-12 flex-shrink-0 rounded-xl transition-opacity group-open:opacity-0 sm:h-14 sm:w-14" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              )}
               <div class="flex-1">
                 <h3 class="display text-2xl sm:text-3xl text-primary">{chapter.title}</h3>
                 <p class="mt-0.5 text-xs text-muted">{chapter.meta}</p>
@@ -149,7 +153,11 @@ const videos = projects.flatMap((p) => (p.video ? [p.video] : []));
               </span>
             </summary>
             <div class="chapter-body grid gap-6 pb-8 sm:grid-cols-[14rem_1fr] sm:pl-10">
-              <img src={chapter.image} alt={chapter.title} class="aspect-[4/3] w-full rounded-xl object-cover sm:aspect-square" loading="lazy" />
+              {chapter.image ? (
+                <img src={chapter.image} alt={chapter.title} class="aspect-[4/3] w-full rounded-xl object-cover sm:aspect-square" loading="lazy" />
+              ) : (
+                <span class="chapter-badge display aspect-[4/3] w-full rounded-xl text-7xl sm:aspect-square" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              )}
               <div class="space-y-4 leading-relaxed text-secondary">
                 {chapter.body.map((para) => <p>{para}</p>)}
               </div>
@@ -200,6 +208,17 @@ const videos = projects.flatMap((p) => (p.video ? [p.video] : []));
 <style>
   .chapter summary::-webkit-details-marker { display: none; }
   .chapter[open] .chapter-body { animation: rise 0.45s ease-out both; }
+  /* Stand-in for a chapter without a photo */
+  .chapter-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent-primary);
+    background: var(--accent-soft);
+  }
+  .chapter-badge.display { font-family: 'Instrument Serif', Georgia, serif; font-size: 4.5rem; }
 
   .video-dialog {
     width: min(1100px, calc(100vw - 32px));
