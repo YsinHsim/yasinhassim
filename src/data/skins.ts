@@ -16,7 +16,7 @@ export const skins: Skin[] = [
   { id: 'bento', name: 'Bento', hint: 'Tiles and serif type', ready: true, home: '/', work: '/portfolio' },
   { id: 'terminal', name: 'Terminal', hint: 'Type commands, hacker style', ready: true, home: '/terminal/', work: '/terminal/#work', forceTheme: 'dark' },
   { id: 'genz', name: 'Gen Z', hint: 'Loud, bold, no cap', ready: true, home: '/genz/', work: '/genz/#work' },
-  { id: 'anime', name: 'Anime', hint: 'Visual-novel vibes', ready: false, home: '/', work: '/portfolio' },
+  { id: 'anime', name: 'Anime', hint: 'Visual-novel vibes', ready: true, home: '/anime/', work: '/anime/#work' },
 ];
 
 export const defaultSkin = 'bento';

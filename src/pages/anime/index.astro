@@ -1,0 +1,491 @@
+---
+// Anime skin: home and work as a visual novel and game profile. Facts come from the same
+// data as the other skins; dialogue lines and section names are written for this skin.
+// All decoration is CSS (sparkles, petals, glow); the only portrait is the site avatar.
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+import { getCollection } from 'astro:content';
+import { profile, stats, projects, responsibilities, sideGig, skillGroups, story, readingTime, formatDate } from '@/data/profile';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const lines = [
+  `Ah, a new visitor! Welcome~ I'm ${profile.name}.`,
+  `By day I'm a ${profile.roles[0]} in ${profile.location}. I started out as an ${profile.roles[1]}, and these days I'm a ${profile.roles[2]} too.`,
+  `I build systems for government and agricultural-estate clients with Laravel, Nuxt and React.`,
+  `Right now I'm ${profile.status.toLowerCase()}. So... where shall we go?`,
+];
+const choices = [
+  { t: 'Show me your quests (projects)', href: '#work' },
+  { t: 'Tell me your story', href: '#about' },
+  { t: 'How can I reach you?', href: '#contact' },
+];
+const achievements = ['Years as a developer', 'Projects shipped', 'Estates kept online'];
+const gems = ['💎', '🌸', '⚡', '🔮', '🛠️', '✨'];
+const petals = Array.from({ length: 14 }, (_, i) => ({
+  left: (i * 7.3 + 3) % 100,
+  delay: (i * 1.7) % 12,
+  dur: 9 + (i % 5) * 2,
+  size: 10 + (i % 4) * 4,
+}));
+---
+
+<BaseLayout
+  title="Yasin Hassim ✦ Character Select"
+  description="Yasin Hassim's portfolio, anime edition: a visual novel, quest log and story arcs."
+  canonical="/"
+  noindex
+  pageSkin="anime"
+>
+  <div class="an">
+    <!-- falling petals, purely decorative -->
+    <div class="an-petals" aria-hidden="true">
+      {petals.map((p) => <i style={`left:${p.left}%; animation-delay:-${p.delay}s; animation-duration:${p.dur}s; width:${p.size}px; height:${p.size}px`}></i>)}
+    </div>
+
+    <!-- Title screen -->
+    <section class="an-title shell pt-14 sm:pt-20 text-center">
+      <p class="an-kicker rise">✦ a portfolio adventure ✦</p>
+      <h1 class="display an-logo rise mt-4 text-6xl sm:text-8xl" style="--i:1">
+        Yasin <span>Hassim</span>
+      </h1>
+      <p class="an-jp rise mt-3" style="--i:2" aria-hidden="true">ヤシン・ハッシム</p>
+      <a href="#vn" class="an-start rise mt-10" style="--i:3">▶ Press start</a>
+    </section>
+
+    <!-- Visual novel -->
+    <section id="vn" class="shell mt-20 scroll-mt-24">
+      <div class="an-stage">
+        <div class="an-portrait">
+          <img src={profile.photo} alt={`${profile.name}'s avatar`} />
+        </div>
+        <div class="an-box" id="an-box" role="button" tabindex="0" aria-label="Next line">
+          <span class="an-name">{profile.name.split(' ')[0]}</span>
+          <p class="an-text" id="an-text" aria-live="polite">{lines[0]}</p>
+          <span class="an-next" id="an-next" aria-hidden="true">▼</span>
+          <div class="an-choices" id="an-choices" hidden>
+            {choices.map((c) => <a href={c.href} class="an-choice">{c.t}</a>)}
+          </div>
+        </div>
+      </div>
+      <p class="mt-3 text-center text-xs text-muted">tap the box or press Enter to continue · <button type="button" class="underline" id="an-skip">skip</button></p>
+    </section>
+
+    <!-- Character profile -->
+    <section id="profile" class="shell mt-24 scroll-mt-24">
+      <h2 class="an-h2 display">Character profile</h2>
+      <div class="an-card mt-8 grid gap-8 md:grid-cols-[14rem_1fr] md:items-center">
+        <div class="an-frame mx-auto w-48 md:w-full">
+          <img src={profile.photo} alt="" class="aspect-square w-full rounded-[1.25rem] object-cover" />
+        </div>
+        <div>
+          <dl class="grid gap-x-8 gap-y-3 sm:grid-cols-2">
+            <div><dt class="an-label">Name</dt><dd class="font-bold text-primary">{profile.fullName}</dd></div>
+            <div><dt class="an-label">Class</dt><dd class="font-bold text-primary">{profile.roles[0]}</dd></div>
+            <div><dt class="an-label">Sub-classes</dt><dd class="text-primary">{profile.roles.slice(1).join(' · ')}</dd></div>
+            <div><dt class="an-label">Origin</dt><dd class="text-primary">{profile.location}, Malaysia</dd></div>
+            <div class="sm:col-span-2"><dt class="an-label">Status</dt><dd class="text-primary"><span class="status-dot mr-2"></span>{profile.status}</dd></div>
+          </dl>
+          <p class="mt-6 text-secondary">{profile.summary}</p>
+          <div class="mt-6 grid grid-cols-3 gap-3">
+            {stats.map((s, i) => (
+              <div class="an-achieve">
+                <p class="display text-3xl an-grad">{s.value}</p>
+                <p class="mt-1 text-xs text-muted">🏆 {achievements[i] ?? s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quest log -->
+    <section id="work" class="shell mt-24 scroll-mt-24">
+      <h2 class="an-h2 display">Quest log</h2>
+      <p class="mt-3 text-center text-secondary">Every quest here is a real project. Rewards listed are the tech it uses.</p>
+      <div class="mt-10 grid gap-5 md:grid-cols-2">
+        {projects.map((p) => (
+          <article class:list={['an-card an-quest flex flex-col gap-3', { main: p.featured }]}>
+            <div class="flex items-center justify-between gap-3">
+              <span class="an-rank">{p.featured ? '★ Main quest' : 'Side quest'}</span>
+              <span class="text-xs text-muted">{p.kind}</span>
+            </div>
+            <h3 class="display text-2xl sm:text-3xl text-primary">{p.name}</h3>
+            <p class="flex-1 text-secondary">{p.description}</p>
+            <div>
+              <p class="an-label">Rewards</p>
+              <div class="mt-1.5 flex flex-wrap gap-1.5">
+                {p.tech.map((t) => <span class="an-gem">{t}</span>)}
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-2 pt-1">
+              <a href={p.href} target="_blank" rel="noopener" class="an-btn">Start quest →</a>
+              {p.video && <a href={`https://www.youtube.com/watch?v=${p.video.youtubeId}`} target="_blank" rel="noopener" class="an-btn an-btn-ghost">▶ Watch cutscene</a>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- Daily quests + guild job -->
+    <section class="shell mt-24 grid gap-6 lg:grid-cols-2">
+      <div class="an-card">
+        <h2 class="display text-3xl text-primary">Daily quests</h2>
+        <ul class="mt-5 space-y-2.5">
+          {responsibilities.map((r) => (
+            <li class="an-daily">
+              <span class="an-tick" aria-hidden="true">✓</span>
+              <span><b class="text-primary">{r.title}</b><span class="block text-sm text-muted">{r.detail}</span></span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="an-card">
+        <span class="an-rank">Guild job · {sideGig.kind}</span>
+        <h2 class="display mt-3 text-3xl text-primary">{sideGig.title}</h2>
+        <p class="mt-3 text-secondary">{sideGig.body}</p>
+        <div class="mt-5 grid grid-cols-2 gap-3">
+          {sideGig.photos.map((ph) => (
+            <img src={ph.src} alt={ph.alt} loading="lazy" class="an-frame aspect-[4/3] w-full rounded-2xl object-cover" />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Skill tree -->
+    <section id="skills" class="shell mt-24 scroll-mt-24">
+      <h2 class="an-h2 display">Skill tree</h2>
+      <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {skillGroups.map((g, i) => (
+          <div class="an-card">
+            <p class="flex items-center gap-2 font-bold text-primary"><span class="text-xl" aria-hidden="true">{gems[i % gems.length]}</span> {g.name}</p>
+            <div class="mt-3 flex flex-wrap gap-1.5">
+              {g.items.map((item) => <span class="an-gem">{item}</span>)}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Story arcs -->
+    <section id="about" class="shell mt-24 scroll-mt-24">
+      <h2 class="an-h2 display">Story arcs</h2>
+      <ol class="an-arcs mt-10">
+        {story.map((ch, i) => (
+          <li class="an-arc">
+            <span class="an-node" aria-hidden="true">{i + 1}</span>
+            <details class="an-card" open={i === story.length - 1}>
+              <summary class="flex cursor-pointer list-none items-center gap-4">
+                {ch.image && <img src={ch.image} alt="" loading="lazy" class="h-16 w-16 flex-shrink-0 rounded-2xl object-cover" />}
+                <span class="flex-1">
+                  <span class="an-label">Arc {i + 1}</span>
+                  <span class="display block text-xl sm:text-2xl text-primary">{ch.title}</span>
+                  <span class="block text-xs text-muted">{ch.meta}</span>
+                </span>
+                <span class="an-chev" aria-hidden="true">▾</span>
+              </summary>
+              <div class="mt-4 space-y-3 text-secondary">
+                {ch.body.map((para) => <p>{para}</p>)}
+              </div>
+            </details>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <!-- Chronicles -->
+    <section class="shell mt-24">
+      <h2 class="an-h2 display">Chronicles</h2>
+      <div class="mt-10 grid gap-4 md:grid-cols-3">
+        {posts.map((post) => (
+          <a href={`/blog/${post.slug}`} class="an-card an-hover block">
+            <p class="text-xs text-muted">📖 {formatDate(post.data.pubDate)} · {readingTime(post.body)}</p>
+            <h3 class="display mt-2 text-xl text-primary">{post.data.title}</h3>
+          </a>
+        ))}
+      </div>
+      <p class="mt-6 text-center"><a href="/blog" class="an-btn an-btn-ghost">Read all chronicles →</a></p>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="shell mt-24 scroll-mt-24">
+      <div class="an-stage">
+        <div class="an-portrait small"><img src={profile.photo} alt="" /></div>
+        <div class="an-box static">
+          <span class="an-name">{profile.name.split(' ')[0]}</span>
+          <p class="an-text">Thanks for playing this far! If you want to team up on a project, or just say hi, pick one~</p>
+          <div class="an-choices">
+            <a href={`mailto:${profile.email}`} class="an-choice"><Icon name="mail" class="w-4 h-4" /> Send an email</a>
+            <a href={profile.whatsapp} target="_blank" rel="noopener" class="an-choice"><Icon name="whatsapp" class="w-4 h-4" /> Message on WhatsApp</a>
+            <a href={profile.github} target="_blank" rel="noopener" class="an-choice"><Icon name="github" class="w-4 h-4" /> Visit my GitHub</a>
+            <a href={profile.resume} download={profile.resumeName} class="an-choice"><Icon name="download" class="w-4 h-4" /> Download my resume</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script type="application/json" id="an-lines" set:html={JSON.stringify(lines).replace(/</g, '\\u003c')} />
+</BaseLayout>
+
+<style>
+  .an { position: relative; overflow-x: clip; }
+  .an::before {
+    content: '';
+    position: absolute;
+    inset: -4rem 0 auto;
+    height: 46rem;
+    z-index: -1;
+    background:
+      radial-gradient(circle at 20% 20%, var(--glow), transparent 40%),
+      radial-gradient(circle at 80% 30%, rgb(124 92 255 / 0.25), transparent 45%),
+      linear-gradient(180deg, var(--sky-a), var(--sky-b) 70%, transparent);
+  }
+
+  /* petals */
+  .an-petals { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .an-petals i {
+    position: absolute;
+    top: -20px;
+    background: linear-gradient(135deg, #ffd1e6, #ff8cbf);
+    border-radius: 80% 0 80% 0;
+    opacity: 0.7;
+    animation: petal linear infinite;
+  }
+  @keyframes petal {
+    to { transform: translate(-80px, 110vh) rotate(540deg); }
+  }
+
+  .an-kicker { font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent-primary); font-weight: 700; }
+  .an-logo { color: var(--text-primary); text-shadow: 0 4px 0 var(--accent-soft), 0 0 40px var(--glow); }
+  /* the shadow would show through the clipped gradient, so this word gets a filter shadow instead */
+  .an-logo span { background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: none; filter: drop-shadow(0 4px 0 var(--accent-soft)); }
+  .an-jp { font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 700; letter-spacing: 0.4em; color: var(--accent-secondary); }
+  .an-start {
+    display: inline-block;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    padding: 0.8rem 1.6rem;
+    border-radius: 999px;
+    border: 2px solid var(--accent-primary);
+    background: var(--bg-secondary);
+    box-shadow: 0 0 24px var(--glow);
+    animation: rise 0.7s both, blink 1.6s 1s ease-in-out infinite;
+  }
+  @keyframes blink { 50% { box-shadow: 0 0 6px var(--glow); opacity: 0.75; } }
+
+  .an-h2 { text-align: center; font-size: clamp(2.2rem, 6vw, 3.5rem); color: var(--text-primary); }
+  .an-h2::before, .an-h2::after { content: '✦'; color: var(--accent-primary); font-size: 0.5em; vertical-align: middle; margin: 0 0.6em; }
+
+  .an-card {
+    position: relative;
+    border: 1.5px solid var(--border-color);
+    border-radius: 1.5rem;
+    background: color-mix(in srgb, var(--bg-secondary) 88%, transparent);
+    backdrop-filter: blur(6px);
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .an-quest:hover, .an-hover:hover { transform: translateY(-4px); box-shadow: var(--card-hover-shadow); border-color: var(--accent-primary); }
+  .an-quest.main { border-color: var(--accent-primary); background: linear-gradient(160deg, color-mix(in srgb, var(--accent-soft) 70%, var(--bg-secondary)), var(--bg-secondary)); }
+  .an-rank {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  }
+  .an-label { display: block; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-secondary); }
+  .an-gem {
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    color: var(--accent-secondary);
+    background: color-mix(in srgb, var(--accent-secondary) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent-secondary) 35%, transparent);
+  }
+  .an-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: #fff;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    box-shadow: 0 8px 20px -10px var(--glow);
+    transition: transform 0.2s ease;
+  }
+  .an-btn:hover { transform: translateY(-2px); }
+  .an-btn-ghost { background: transparent; color: var(--accent-primary); border: 1.5px solid var(--accent-primary); box-shadow: none; }
+  .an-grad { background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .an-achieve { border-radius: 1rem; padding: 0.75rem; background: var(--bg-tertiary); text-align: center; }
+  .an-frame { padding: 6px; border-radius: 1.6rem; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); box-shadow: 0 12px 40px -16px var(--glow); }
+
+  /* visual novel */
+  .an-stage { position: relative; display: grid; gap: 1rem; align-items: end; }
+  @media (min-width: 768px) { .an-stage { grid-template-columns: 15rem 1fr; } }
+  .an-portrait { justify-self: center; width: 11rem; }
+  @media (min-width: 768px) { .an-portrait { width: 100%; } }
+  .an-portrait img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 1.5rem; border: 4px solid var(--bg-secondary); box-shadow: 0 0 0 3px var(--accent-primary), 0 20px 50px -20px var(--glow); }
+  .an-portrait.small { width: 8rem; }
+  @media (min-width: 768px) { .an-portrait.small { width: 100%; max-width: 11rem; justify-self: end; } }
+  .an-box {
+    position: relative;
+    min-height: 11rem;
+    border-radius: 1.5rem;
+    padding: 2.25rem 1.5rem 1.5rem;
+    border: 2px solid var(--accent-primary);
+    background: color-mix(in srgb, var(--bg-secondary) 92%, transparent);
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent-primary) 15%, transparent), var(--card-hover-shadow);
+    cursor: pointer;
+  }
+  .an-box.static { cursor: default; }
+  .an-name {
+    position: absolute;
+    top: -1rem;
+    left: 1.25rem;
+    padding: 0.3rem 1rem;
+    border-radius: 999px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: 800;
+    color: #fff;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  }
+  .an-text { font-size: 1.08rem; line-height: 1.75; color: var(--text-primary); min-height: 3.5em; }
+  .an-next { position: absolute; right: 1.25rem; bottom: 0.9rem; color: var(--accent-primary); animation: bob 1s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translateY(4px); } }
+  .an-choices { display: grid; gap: 0.6rem; margin-top: 1.25rem; }
+  .an-choices[hidden] { display: none; }
+  .an-choice {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.75rem 1.1rem;
+    border-radius: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    border: 1.5px solid var(--border-color);
+    background: var(--bg-tertiary);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+  .an-choice::before { content: '▸'; color: var(--accent-primary); }
+  .an-choice:hover { transform: translateX(6px); border-color: var(--accent-primary); }
+
+  .an-daily { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.6rem 0.8rem; border-radius: 1rem; background: var(--bg-tertiary); }
+  .an-tick { flex-shrink: 0; width: 1.5rem; height: 1.5rem; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 900; color: #fff; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); }
+
+  /* story timeline */
+  .an-arcs { position: relative; display: grid; gap: 1.25rem; padding-left: 2.75rem; }
+  .an-arcs::before { content: ''; position: absolute; left: 1rem; top: 0.5rem; bottom: 0.5rem; width: 3px; border-radius: 3px; background: linear-gradient(var(--accent-primary), var(--accent-secondary)); }
+  .an-arc { position: relative; }
+  .an-node {
+    position: absolute;
+    left: -2.75rem;
+    top: 1.4rem;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: #fff;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    box-shadow: 0 0 0 4px var(--bg-primary), 0 0 18px var(--glow);
+  }
+  .an-arc summary::-webkit-details-marker { display: none; }
+  .an-chev { color: var(--accent-primary); font-size: 1.4rem; line-height: 1; transition: transform 0.25s ease; }
+  .an-arc details[open] .an-chev { transform: rotate(180deg); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .an-petals { display: none; }
+    .an-start, .an-next { animation: none; }
+  }
+</style>
+
+<script>
+  // Visual-novel dialogue: type each line out, advance on click or Enter, then show choices
+  const lines: string[] = JSON.parse(document.getElementById('an-lines')!.textContent!);
+  const box = document.getElementById('an-box')!;
+  const text = document.getElementById('an-text')!;
+  const next = document.getElementById('an-next')!;
+  const choices = document.getElementById('an-choices')!;
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let index = 0;
+  let typing: number | undefined;
+  let done = false;
+  let started = false;
+
+  function show(i: number) {
+    started = true;
+    window.clearInterval(typing);
+    index = i;
+    const line = lines[i];
+    done = false;
+    if (reduceMotion) {
+      text.textContent = line;
+      finish();
+      return;
+    }
+    let n = 0;
+    text.textContent = '';
+    typing = window.setInterval(() => {
+      text.textContent = line.slice(0, ++n);
+      if (n >= line.length) finish();
+    }, 22);
+  }
+
+  function finish() {
+    window.clearInterval(typing);
+    text.textContent = lines[index];
+    done = true;
+    const last = index === lines.length - 1;
+    next.hidden = last;
+    choices.hidden = !last;
+  }
+
+  function advance() {
+    if (!started) return show(0);
+    if (!done) return finish();
+    if (index < lines.length - 1) show(++index);
+  }
+
+  box.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('a')) return;
+    advance();
+  });
+  box.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      advance();
+    }
+  });
+  document.getElementById('an-skip')?.addEventListener('click', () => {
+    started = true;
+    index = lines.length - 1;
+    finish();
+  });
+
+  // Start typing when the box scrolls into view
+  new IntersectionObserver((entries, obs) => {
+    if (entries[0].isIntersecting) {
+      if (!started) show(0);
+      obs.disconnect();
+    }
+  }, { threshold: 0.4 }).observe(box);
+</script>
