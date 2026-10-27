@@ -4,6 +4,14 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-10-27
 
+- Add a column-order diagram and the resume page to the ATS post (572929e)
+- Add bloom screenshots and a rendering diagram to the flower post (48346c5)
+- Add screenshots and a before/after sync diagram to the startpage-app post (fa9fff2)
+- Add screenshots and an architecture diagram to the Kuiz Interaktif post (816dfb6)
+- Add a three-up screenshot row and diagram accent classes for posts (ff4ea99)
+- Replace the strawberry favicon with a mango (b5fd19d)
+- Merge pull request #5 from YsinHsim/feat/update-profile (0a7bf64)
+- Update changelog (bce0b9e)
 - Replace the favicon with a strawberry (e14ffc5)
 - Add a desk photo to the software developer chapter (f072433)
 - Update changelog (471f628)

@@ -558,6 +558,15 @@ table.post-ioc td.mono, table.post-ioc code {
 @media (min-width: 768px) { .post-media-pair { grid-template-columns: 1fr 1fr; } }
 .post-media-pair figure { margin: 0; }
 .post-media-pair figcaption { margin-top: 0.5rem; }
+/* Three phone-sized screenshots in a row; stays three-up on phones but smaller */
+.post-media-trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+@media (min-width: 640px) { .post-media-trio { gap: 1rem; padding: 0 2rem; } }
+.post-media-trio figure { margin: 0; }
+.post-media-trio figcaption { margin-top: 0.5rem; font-size: 0.75rem; }
+.post-media-narrow img { max-width: 30rem; margin-inline: auto; }
+/* Accent colour inside diagrams */
+.dg-accent { color: var(--accent-primary); }
+.dg-warm { color: var(--accent-secondary); }
 .post-media-label {
   display: inline-block;
   font-size: 0.72rem;
