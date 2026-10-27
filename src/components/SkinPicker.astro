@@ -1,0 +1,68 @@
+---
+import { skins } from '../data/skins';
+---
+
+<details class="skin-picker relative" id="skin-picker">
+  <summary class="icon-btn w-auto gap-1.5 px-3 cursor-pointer list-none text-xs font-medium" aria-label="Choose a UI skin">
+    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 100 18c.8 0 1.5-.7 1.5-1.5 0-.4-.1-.7-.4-1-.3-.3-.4-.6-.4-1 0-.8.7-1.5 1.5-1.5H16a5 5 0 005-5c0-4.4-4-8-9-8z" /><circle cx="7.5" cy="10.5" r="1" /><circle cx="10.5" cy="7" r="1" /><circle cx="15" cy="7.5" r="1" /></svg>
+    <span class="hidden sm:inline">Skin</span>
+  </summary>
+  <div class="skin-menu absolute right-0 top-11 z-50 w-60 rounded-2xl border rule bg-secondary p-1.5" role="menu">
+    {skins.map((s) => (
+      <button
+        type="button"
+        role="menuitemradio"
+        class="skin-option flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-left disabled:cursor-not-allowed disabled:opacity-50"
+        data-skin-choice={s.id}
+        data-home={s.home}
+        data-work={s.work}
+        disabled={!s.ready}
+      >
+        <span>
+          <span class="block text-sm font-medium text-primary">{s.name}</span>
+          <span class="block text-xs text-muted">{s.ready ? s.hint : 'Coming soon'}</span>
+        </span>
+        <span class="skin-check text-accent" aria-hidden="true">●</span>
+      </button>
+    ))}
+  </div>
+</details>
+
+<style>
+  .skin-picker summary::-webkit-details-marker { display: none; }
+  .skin-menu { box-shadow: var(--card-hover-shadow); }
+  .skin-option:not(:disabled):hover { background: var(--bg-tertiary); }
+  .skin-check { visibility: hidden; }
+  .skin-option[aria-checked='true'] .skin-check { visibility: visible; }
+</style>
+
+<script>
+  // Save the chosen skin. On a page the skin replaces (home, work), go to that skin's version;
+  // anywhere else (the blog) just restyle in place.
+  const picker = document.getElementById('skin-picker') as HTMLDetailsElement | null;
+  const current = document.documentElement.dataset.skin ?? 'bento';
+
+  picker?.querySelectorAll<HTMLButtonElement>('[data-skin-choice]').forEach((button) => {
+    button.setAttribute('aria-checked', String(button.dataset.skinChoice === current));
+    button.addEventListener('click', () => {
+      const skin = button.dataset.skinChoice!;
+      try { localStorage.setItem('skin', skin); } catch {}
+      const path = location.pathname.replace(/\/$/, '') || '/';
+      const onWork = path === '/portfolio' || location.hash === '#work';
+      const onSkinPage = path === '/' || path === '/portfolio' || path.startsWith('/terminal');
+      if (onSkinPage) {
+        location.href = onWork ? button.dataset.work! : button.dataset.home!;
+      } else {
+        location.reload();
+      }
+    });
+  });
+
+  // Close the menu on an outside click or Escape
+  document.addEventListener('click', (e) => {
+    if (picker?.open && !picker.contains(e.target as Node)) picker.open = false;
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && picker) picker.open = false;
+  });
+</script>

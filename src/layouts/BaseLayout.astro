@@ -9,16 +9,23 @@ import '@fontsource/instrument-serif/400-italic.css';
 import '@fontsource/jetbrains-mono/400.css';
 import Footer from '@components/Footer.astro';
 import Icon from '@components/Icon.astro';
+import SkinPicker from '@components/SkinPicker.astro';
+import { skinRoutes, skinThemes } from '@/data/skins';
 
 interface Props {
   title: string;
   description: string;
   image?: string;
+  // Skin variants of a page point search engines at the default version
+  canonical?: string;
+  noindex?: boolean;
+  // Set on a skin's own pages so a direct visit switches to that skin
+  pageSkin?: string;
 }
 
-const { title, description, image = '/og-default.png' } = Astro.props;
+const { title, description, image = '/og-default.png', canonical, noindex = false, pageSkin } = Astro.props;
 const currentPath = Astro.url.pathname;
-const canonicalURL = new URL(currentPath, Astro.site);
+const canonicalURL = new URL(canonical ?? currentPath, Astro.site);
 const ogImageURL = new URL(image, Astro.site);
 
 const links = [
@@ -34,13 +41,14 @@ function isActive(path: string): boolean {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-page-skin={pageSkin}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <title>{title}</title>
 
     <!-- Open Graph -->
@@ -59,14 +67,28 @@ function isActive(path: string): boolean {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
 
-    <!-- Set the theme before first paint: saved choice, else the system setting -->
-    <script is:inline>
-      (function () {
-        var saved = null;
-        try { saved = localStorage.getItem('theme'); } catch (e) {}
-        var theme = saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', theme);
-      })();
+    <!-- Before first paint: pick the skin (a ?skin= link wins, then the saved choice), send
+         home and work visits to that skin's version, then set the theme (forced by the skin,
+         else the saved choice, else the system setting). -->
+    <script is:inline define:vars={{ skinRoutes, skinThemes }}>
+      var html = document.documentElement;
+      var store = {
+        get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+        set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+      };
+      var fromUrl = new URLSearchParams(location.search).get('skin');
+      if (fromUrl) store.set('skin', fromUrl);
+      var skin = fromUrl || store.get('skin') || 'bento';
+      // A skin's own pages (like /terminal/) mark themselves, so visiting one directly switches to it
+      var pageSkin = html.getAttribute('data-page-skin');
+      if (pageSkin && !fromUrl) { skin = pageSkin; store.set('skin', skin); }
+      var path = location.pathname.replace(/\/$/, '') || '/';
+      var target = skinRoutes[skin] && skinRoutes[skin][path];
+      if (target && !pageSkin) location.replace(target);
+      html.setAttribute('data-skin', skin);
+      var theme = skinThemes[skin] || store.get('theme') ||
+        (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      html.setAttribute('data-theme', theme);
     </script>
   </head>
   <body id="top" class="min-h-screen flex flex-col">
@@ -86,7 +108,8 @@ function isActive(path: string): boolean {
         </nav>
 
         <div class="flex items-center gap-2">
-          <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle dark mode">
+          <SkinPicker />
+          <button id="theme-toggle" class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode">
             <span class="theme-icon-dark"><Icon name="moon" class="w-4 h-4" /></span>
             <span class="theme-icon-light"><Icon name="sun" class="w-4 h-4" /></span>
           </button>
@@ -115,6 +138,8 @@ function isActive(path: string): boolean {
 
     <style>
       .theme-icon-light { display: none; }
+      /* Skins with a fixed look don't offer light/dark */
+      :global([data-skin='terminal']) .theme-toggle { display: none; }
       :global([data-theme='dark']) .theme-icon-light { display: inline; }
       :global([data-theme='dark']) .theme-icon-dark { display: none; }
     </style>
