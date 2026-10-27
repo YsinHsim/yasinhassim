@@ -2,8 +2,18 @@
 
 Auto-generated from git history. Run `npm run changelog` to regenerate.
 
+## 2026-10-27
+
+- Remove the old component styles (f23772d)
+- Redesign the blog index and post pages (d437ad1)
+- Redesign the work page with editorial sections (ccb7d01)
+- Redesign the home page as a bento grid (f6a6ae7)
+- Add new design tokens, sticky nav and shared footer (c71a97c)
+- Add site content module, icon component and serif display font (9547389)
+
 ## 2026-10-20
 
+- Update changelog (89c9468)
 - Rewrite the AI workflow post around the full task lifecycle (d37c231)
 - Add session replay video and poster for the AI workflow post (30d4c71)
 - Update changelog (a237f8b)
