@@ -144,6 +144,58 @@
 [data-skin="genz"] .post-diagram-scroll { border: 2px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); }
 [data-skin="genz"] ::selection { background: var(--pop-lime); color: #111; }
 
+/* Anime skin: sakura pastel in light, a violet night sky in dark */
+[data-skin="anime"] {
+  --bg-primary: #fff5fa;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #ffe6f2;
+  --text-primary: #2b2146;
+  --text-secondary: #5a4d7a;
+  --text-muted: #9487b3;
+  --border-color: #f4d3e4;
+  --border-hover: #eab0cf;
+  --accent-primary: #ff4f9a;
+  --accent-secondary: #7c5cff;
+  --accent-soft: #ffe0ef;
+  --glow: rgb(255 79 154 / 0.35);
+  --sky-a: #ffe1f0;
+  --sky-b: #e5e0ff;
+  --card-shadow: 0 6px 24px -12px rgb(255 79 154 / 0.35);
+  --card-hover-shadow: 0 16px 40px -14px rgb(124 92 255 / 0.45);
+}
+[data-skin="anime"][data-theme="dark"] {
+  --bg-primary: #120c24;
+  --bg-secondary: #1c1436;
+  --bg-tertiary: #2a1f4d;
+  --text-primary: #f6efff;
+  --text-secondary: #cfc2ef;
+  --text-muted: #9283bd;
+  --border-color: #3a2c66;
+  --border-hover: #58439a;
+  --accent-primary: #ff7ab8;
+  --accent-secondary: #a58bff;
+  --accent-soft: #3b1a44;
+  --glow: rgb(255 122 184 / 0.4);
+  --sky-a: #2a1650;
+  --sky-b: #120c24;
+  --card-shadow: 0 8px 30px -14px rgb(165 139 255 / 0.45);
+  --card-hover-shadow: 0 18px 44px -14px rgb(255 122 184 / 0.5);
+}
+[data-skin="anime"] .display,
+[data-skin="anime"] .blog-content h1,
+[data-skin="anime"] .blog-content h2 {
+  font-family: 'M PLUS Rounded 1c', 'Inter', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+[data-skin="anime"] .blog-content h2::before { content: '✦ '; color: var(--accent-primary); }
+[data-skin="anime"] .tile { border-radius: 1.5rem; }
+[data-skin="anime"] .chip { background: var(--accent-soft); color: var(--accent-primary); }
+[data-skin="anime"] .btn-solid { background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); color: #fff; }
+[data-skin="anime"] .post-media img,
+[data-skin="anime"] .post-diagram-scroll { border-radius: 1.25rem; box-shadow: 0 10px 30px -16px var(--glow); }
+[data-skin="anime"] ::selection { background: var(--accent-primary); color: #fff; }
+
 @layer base {
   html {
     scroll-behavior: smooth;
