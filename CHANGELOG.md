@@ -4,6 +4,10 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-10-27
 
+- Add the Gen Z skin page (065e3f0)
+- Add Gen Z skin styles for shared pages and enable it in the picker (a8f6688)
+- Merge pull request #7 from YsinHsim/feat/skins-terminal (04ab804)
+- Update changelog (98b208a)
 - Add the terminal skin (5aa426d)
 - Add UI skins with a picker in the nav (bb5575a)
 - Merge pull request #6 from YsinHsim/feat/mango-and-post-media (2a9d558)

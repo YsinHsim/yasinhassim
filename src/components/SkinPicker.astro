@@ -1,8 +1,11 @@
 ---
 import { skins } from '../data/skins';
+
+// Paths that belong to a skin, so switching from one goes to the new skin's version
+const skinPages = skins.filter((s) => s.ready && s.home !== '/').map((s) => s.home.replace(/\/$/, ''));
 ---
 
-<details class="skin-picker relative" id="skin-picker">
+<details class="skin-picker relative" id="skin-picker" data-skin-pages={JSON.stringify(skinPages)}>
   <summary class="icon-btn w-auto gap-1.5 px-3 cursor-pointer list-none text-xs font-medium" aria-label="Choose a UI skin">
     <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 100 18c.8 0 1.5-.7 1.5-1.5 0-.4-.1-.7-.4-1-.3-.3-.4-.6-.4-1 0-.8.7-1.5 1.5-1.5H16a5 5 0 005-5c0-4.4-4-8-9-8z" /><circle cx="7.5" cy="10.5" r="1" /><circle cx="10.5" cy="7" r="1" /><circle cx="15" cy="7.5" r="1" /></svg>
     <span class="hidden sm:inline">Skin</span>
@@ -49,7 +52,8 @@ import { skins } from '../data/skins';
       try { localStorage.setItem('skin', skin); } catch {}
       const path = location.pathname.replace(/\/$/, '') || '/';
       const onWork = path === '/portfolio' || location.hash === '#work';
-      const onSkinPage = path === '/' || path === '/portfolio' || path.startsWith('/terminal');
+      const skinPages: string[] = JSON.parse(picker!.dataset.skinPages ?? '[]');
+      const onSkinPage = path === '/' || path === '/portfolio' || skinPages.some((p) => path.startsWith(p));
       if (onSkinPage) {
         location.href = onWork ? button.dataset.work! : button.dataset.home!;
       } else {

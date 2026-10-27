@@ -1,0 +1,340 @@
+---
+// Gen Z skin: home and work on one loud, neo-brutalist page. Facts come from the same data
+// as the other skins; only the headings and stickers are written for this skin.
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/Icon.astro';
+import { getCollection } from 'astro:content';
+import { profile, stats, projects, responsibilities, sideGig, skillGroups, coreStack, story, readingTime, formatDate } from '@/data/profile';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+// Card colours cycle through the pop palette
+const pops = ['var(--pop-lime)', 'var(--pop-pink)', 'var(--pop-blue)', 'var(--pop-yellow)', 'var(--pop-orange)'];
+const tilt = (i: number) => [-1.5, 1.2, -0.8, 1.6, -1.1, 0.7][i % 6];
+const emoji: Record<string, string> = {
+  'Kuiz Interaktif': '🎮',
+  'Rental Management System': '🏠',
+  eNORES: '🏛️',
+  Startpage: '🧭',
+  'Hardware Tracking': '🖥️',
+  'Estate Utility': '🌴',
+  'Anjung Sepi': '✍️',
+};
+const stickers = [
+  { t: profile.roles[0].toLowerCase(), bg: 'var(--pop-lime)', r: -6 },
+  { t: profile.roles[1].toLowerCase(), bg: 'var(--pop-yellow)', r: 4 },
+  { t: profile.roles[2].toLowerCase(), bg: 'var(--pop-blue)', r: -3 },
+  { t: 'sabah 🌴', bg: 'var(--pop-orange)', r: 7 },
+  { t: 'mango enjoyer 🥭', bg: 'var(--pop-pink)', r: -5 },
+];
+const statLabels = ['yrs shipping code', 'projects shipped', 'estates kept online'];
+const allSkills = skillGroups.flatMap((g) => g.items);
+---
+
+<BaseLayout
+  title="yasin hassim ✦ no cap portfolio"
+  description="Yasin Hassim's portfolio, Gen Z edition: projects, skills and lore."
+  canonical="/"
+  noindex
+  pageSkin="genz"
+>
+  <div class="gz">
+    <!-- Hero -->
+    <section class="shell pt-10 sm:pt-16">
+      <div class="grid items-center gap-10 lg:grid-cols-[1.4fr_1fr]">
+        <div>
+          <p class="gz-tag rise" style="background: var(--pop-lime);">
+            <span class="status-dot"></span> {profile.status.toLowerCase()} ✅
+          </p>
+          <h1 class="display rise mt-6 text-[3.6rem] leading-[0.9] sm:text-8xl text-primary" style="--i:1">
+            hi, i'm <span class="whitespace-nowrap"><span class="gz-mark">yasin</span> 👋</span><br />i build stuff.
+          </h1>
+          <p class="rise mt-6 max-w-lg text-lg text-secondary" style="--i:2">
+            lowkey obsessed with shipping. {profile.summary}
+          </p>
+          <div class="rise mt-8 flex flex-wrap gap-3" style="--i:3">
+            <a href="#work" class="gz-btn" style="background: var(--pop-pink);">see my work ↓</a>
+            <a href={profile.resume} download={profile.resumeName} class="gz-btn" style="background: var(--bg-secondary); color: var(--text-primary);">grab resume 📄</a>
+          </div>
+        </div>
+
+        <div class="relative mx-auto w-full max-w-[17rem] sm:max-w-sm rise" style="--i:2">
+          <div class="gz-card overflow-hidden p-0" style="background: var(--pop-yellow); transform: rotate(2deg);">
+            <img src={profile.photo} alt={`${profile.name}'s avatar`} class="aspect-square w-full object-cover" />
+          </div>
+          <div class="pointer-events-none absolute inset-0">
+            {stickers.map((s, i) => (
+              <span
+                class="gz-sticker absolute"
+                style={`background:${s.bg}; --r:${s.r}deg; ${['top:-14px;left:-10px', 'top:22%;right:-18px', 'bottom:30%;left:-22px', 'bottom:-12px;right:8%', 'bottom:12%;left:20%'][i]}`}
+              >{s.t}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="gz-marquee mt-20" aria-label={coreStack.join(', ')}>
+      <div class="marquee-track" aria-hidden="true">
+        {[...coreStack, ...coreStack].map((t) => <span class="gz-marquee-item">{t} <b>✦</b></span>)}
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <section class="shell mt-16 grid gap-4 sm:grid-cols-3">
+      {stats.map((s, i) => (
+        <div class="gz-card" style={`background:${pops[i + 2]}; --r:${tilt(i)}deg`}>
+          <p class="display text-6xl text-[#111]">{s.value}</p>
+          <p class="mt-1 font-bold text-[#111]">{statLabels[i] ?? s.label}</p>
+        </div>
+      ))}
+    </section>
+
+    <!-- Projects -->
+    <section id="work" class="shell mt-24 scroll-mt-24">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <h2 class="display text-5xl sm:text-7xl text-primary">stuff i <span class="gz-mark">built</span> 🔨</h2>
+        <p class="gz-tag" style="background: var(--pop-blue);">{projects.length} projects, all real</p>
+      </div>
+      <div class="mt-10 grid gap-6 md:grid-cols-2">
+        {projects.map((p, i) => (
+          <article class:list={['gz-card flex flex-col gap-4', { 'md:col-span-2': i === 0 }]} style={`background:${pops[i % pops.length]}; --r:${tilt(i)}deg`}>
+            <div class="flex items-start justify-between gap-3">
+              <span class="text-4xl" aria-hidden="true">{emoji[p.name] ?? '✨'}</span>
+              <span class="gz-tag" style="background: var(--bg-secondary); color: var(--text-primary);">{p.kind.toLowerCase()}</span>
+            </div>
+            <h3 class="display text-3xl sm:text-4xl text-[#111]">{p.name}</h3>
+            <p class="flex-1 text-[#111]/85">{p.description}</p>
+            <div class="flex flex-wrap gap-1.5">
+              {p.tech.map((t) => <span class="gz-chip">{t}</span>)}
+            </div>
+            <div class="flex flex-wrap gap-2 pt-1">
+              <a href={p.href} target="_blank" rel="noopener" class="gz-btn gz-btn-sm" style="background: #111; color: #fff;">peep it →</a>
+              {p.video && (
+                <a href={`https://www.youtube.com/watch?v=${p.video.youtubeId}`} target="_blank" rel="noopener" class="gz-btn gz-btn-sm" style="background: #fff; color: #111;">▶ walkthrough</a>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- Day to day + side quest -->
+    <section class="shell mt-24 grid gap-8 lg:grid-cols-2">
+      <div class="gz-card" style="background: var(--bg-secondary); --r: -0.6deg;">
+        <h2 class="display text-4xl text-primary">the daily grind ☕</h2>
+        <ul class="mt-6 space-y-3">
+          {responsibilities.map((r) => (
+            <li class="flex items-start gap-3">
+              <span class="gz-check" aria-hidden="true">✓</span>
+              <span><b class="text-primary">{r.title}</b> <span class="text-muted">· {r.detail}</span></span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="gz-card" style="background: var(--pop-orange); --r: 0.8deg;">
+        <p class="gz-tag" style="background: #111; color: #fff;">side quest unlocked 🗝️</p>
+        <h2 class="display mt-4 text-4xl text-[#111]">{sideGig.title.toLowerCase()}</h2>
+        <p class="mt-3 text-[#111]/85">{sideGig.body}</p>
+        <div class="mt-6 grid grid-cols-2 gap-4">
+          {sideGig.photos.map((ph, i) => (
+            <figure class="gz-polaroid" style={`--r:${i ? 3 : -4}deg`}>
+              <img src={ph.src} alt={ph.alt} loading="lazy" class="aspect-square w-full object-cover" />
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="shell mt-24 scroll-mt-24">
+      <h2 class="display text-5xl sm:text-7xl text-primary">the <span class="gz-mark">stack</span> 🧃</h2>
+      <div class="mt-8 flex flex-wrap gap-3">
+        {allSkills.map((s, i) => (
+          <span class="gz-sticker gz-sticker-lg" style={`background:${pops[i % pops.length]}; --r:${tilt(i) * 2}deg`}>{s}</span>
+        ))}
+      </div>
+    </section>
+
+    <!-- Lore -->
+    <section id="about" class="shell mt-24 scroll-mt-24">
+      <h2 class="display text-5xl sm:text-7xl text-primary">the lore 📜</h2>
+      <p class="mt-3 text-secondary">from a military camp in kedah to shipping code in kk. tap a card for the full story.</p>
+      <div class="gz-lore mt-8">
+        {story.map((ch, i) => (
+          <details class="gz-card gz-lore-card" style={`background:${pops[(i + 1) % pops.length]}; --r:${tilt(i)}deg`}>
+            <summary class="cursor-pointer list-none">
+              {ch.image && <img src={ch.image} alt="" loading="lazy" class="mb-4 aspect-[4/3] w-full rounded-lg border-2 border-[#111] object-cover" />}
+              <p class="font-bold text-[#111]/70">ep. {String(i + 1).padStart(2, '0')}</p>
+              <h3 class="display text-2xl text-[#111]">{ch.title.toLowerCase()}</h3>
+              <p class="mt-1 text-sm text-[#111]/75">{ch.meta}</p>
+              <span class="gz-more">read ↓</span>
+            </summary>
+            <div class="mt-3 space-y-3 text-sm text-[#111]/90">
+              {ch.body.map((para) => <p>{para}</p>)}
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- Posts -->
+    <section class="shell mt-24">
+      <div class="flex items-end justify-between gap-4">
+        <h2 class="display text-5xl text-primary">yapping 🗣️</h2>
+        <a href="/blog" class="font-bold text-primary underline decoration-4 underline-offset-4" style="text-decoration-color: var(--pop-pink);">all posts →</a>
+      </div>
+      <div class="mt-8 grid gap-4 md:grid-cols-3">
+        {posts.map((post, i) => (
+          <a href={`/blog/${post.slug}`} class="gz-card gz-hover block" style={`background: var(--bg-secondary); --r:${tilt(i + 2)}deg`}>
+            <p class="text-xs font-bold text-muted">{formatDate(post.data.pubDate)} · {readingTime(post.body)}</p>
+            <h3 class="display mt-2 text-2xl text-primary">{post.data.title}</h3>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="shell mt-24 scroll-mt-24">
+      <div class="gz-card text-center sm:p-12" style="background: var(--pop-lime); --r: -0.5deg;">
+        <h2 class="display text-5xl sm:text-7xl text-[#111]">slide into my inbox 📬</h2>
+        <p class="mx-auto mt-4 max-w-md text-[#111]/85">project idea, job, or just wanna say hi? i reply, fr.</p>
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
+          <a href={`mailto:${profile.email}`} class="gz-btn" style="background:#111; color:#fff;"><Icon name="mail" class="w-4 h-4" /> email</a>
+          <a href={profile.whatsapp} target="_blank" rel="noopener" class="gz-btn" style="background:#fff; color:#111;"><Icon name="whatsapp" class="w-4 h-4" /> whatsapp</a>
+          <a href={profile.github} target="_blank" rel="noopener" class="gz-btn" style="background:#fff; color:#111;"><Icon name="github" class="w-4 h-4" /> github</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .gz { overflow-x: clip; }
+  .gz-card {
+    position: relative;
+    border: 3px solid var(--ink);
+    border-radius: 18px;
+    padding: 1.5rem;
+    box-shadow: 6px 6px 0 var(--ink);
+    transform: rotate(var(--r, 0deg));
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .gz-card:hover { transform: rotate(0deg) translate(-2px, -2px); box-shadow: 9px 9px 0 var(--ink); }
+  .gz-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #111;
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+  .gz-mark {
+    background: var(--pop-yellow);
+    color: #111;
+    padding: 0 0.15em;
+    border-radius: 0.15em;
+    box-shadow: 4px 4px 0 var(--ink);
+    display: inline-block;
+    transform: rotate(-2deg);
+  }
+  .gz-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 3px solid var(--ink);
+    border-radius: 14px;
+    padding: 0.7rem 1.2rem;
+    font-weight: 800;
+    color: #111;
+    box-shadow: 4px 4px 0 var(--ink);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .gz-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+  .gz-btn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--ink); }
+  .gz-btn-sm { padding: 0.45rem 0.9rem; font-size: 0.9rem; border-width: 2px; box-shadow: 3px 3px 0 #111; }
+  .gz-chip {
+    border: 2px solid #111;
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: #fff;
+    color: #111;
+  }
+  .gz-sticker {
+    display: inline-block;
+    border: 2px solid #111;
+    border-radius: 999px;
+    padding: 0.35rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #111;
+    white-space: nowrap;
+    box-shadow: 3px 3px 0 #111;
+    transform: rotate(var(--r, 0deg));
+  }
+  .gz-sticker-lg { font-size: 0.95rem; padding: 0.5rem 1rem; transition: transform 0.2s ease; }
+  .gz-sticker-lg:hover { transform: rotate(0deg) scale(1.08); }
+  .gz-marquee {
+    border-block: 3px solid var(--ink);
+    background: var(--pop-pink);
+    transform: rotate(-2deg);
+    margin-inline: -2rem;
+    padding: 0.9rem 0;
+    overflow: hidden;
+  }
+  .gz-marquee-item {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 1.6rem;
+    color: #111;
+    white-space: nowrap;
+    padding-right: 1.25rem;
+  }
+  .gz-marquee-item b { color: #111; margin-left: 1.25rem; }
+  .gz-check {
+    flex-shrink: 0;
+    display: inline-flex;
+    width: 1.6rem;
+    height: 1.6rem;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--ink);
+    border-radius: 6px;
+    background: var(--pop-lime);
+    color: #111;
+    font-weight: 900;
+    font-size: 0.85rem;
+  }
+  .gz-polaroid {
+    margin: 0;
+    background: #fff;
+    padding: 0.5rem 0.5rem 1.5rem;
+    border: 2px solid #111;
+    box-shadow: 4px 4px 0 #111;
+    transform: rotate(var(--r, 0deg));
+  }
+  .gz-lore { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); align-items: start; }
+  .gz-lore-card summary::-webkit-details-marker { display: none; }
+  .gz-more {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-weight: 800;
+    font-size: 0.8rem;
+    color: #111;
+    border-bottom: 2px solid #111;
+  }
+  .gz-lore-card[open] .gz-more { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gz-card, .gz-card:hover, .gz-sticker-lg:hover, .gz-btn:hover { transition: none; transform: rotate(var(--r, 0deg)); }
+  }
+</style>
