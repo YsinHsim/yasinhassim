@@ -1,0 +1,442 @@
+---
+// Terminal skin: the home and work pages as one interactive shell. All text comes from the
+// same data the bento pages use, passed to the script as JSON.
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { profile, stats, projects, responsibilities, sideGig, skillGroups, story, readingTime, formatDate } from '@/data/profile';
+import { skins } from '@/data/skins';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .map((p) => ({
+    slug: p.slug,
+    title: p.data.title,
+    date: formatDate(p.data.pubDate),
+    read: readingTime(p.body),
+  }));
+
+const data = {
+  profile,
+  stats,
+  projects: projects.map(({ name, kind, description, tech, href }) => ({ name, kind, description, tech, href })),
+  responsibilities,
+  sideGig: { title: sideGig.title, kind: sideGig.kind, body: sideGig.body },
+  skillGroups,
+  story: story.map(({ title, meta, body }) => ({ title, meta, body })),
+  posts,
+  skins: skins.filter((s) => s.ready).map(({ id, name, home }) => ({ id, name, home })),
+};
+// JSON inside a <script> tag: escape "<" so no string can close the tag
+const json = JSON.stringify(data).replace(/</g, '\\u003c');
+
+const chips = ['help', 'whoami', 'projects', 'now', 'skills', 'story', 'blog', 'contact', 'clear'];
+---
+
+<BaseLayout
+  title="yasin@kk:~ - Yasin Hassim"
+  description="Yasin Hassim's portfolio as an interactive terminal. Type help to start."
+  canonical="/"
+  noindex
+  pageSkin="terminal"
+>
+  <section class="shell pt-6 sm:pt-10">
+    <div class="term rise" id="term">
+      <div class="term-bar">
+        <span class="term-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="term-title">yasin@kota-kinabalu: ~</span>
+        <a href="/?skin=bento" class="term-exit">exit</a>
+      </div>
+      <div class="term-body" id="term-body" aria-live="polite">
+        <div id="term-out"></div>
+        <form class="term-line" id="term-form" autocomplete="off">
+          <label for="term-input" class="term-prompt">yasin@kk:~$</label>
+          <input id="term-input" class="term-input" spellcheck="false" autocapitalize="off" enterkeyhint="send" aria-label="Type a command" />
+        </form>
+      </div>
+    </div>
+
+    <div class="mt-4 flex flex-wrap gap-2" aria-label="Quick commands">
+      {chips.map((c) => <button type="button" class="term-chip" data-cmd={c}>{c}</button>)}
+    </div>
+
+    <noscript>
+      <p class="mt-6 text-secondary">The terminal needs JavaScript. <a class="text-accent underline" href="/?skin=bento">Open the normal site</a>.</p>
+    </noscript>
+  </section>
+
+  <script type="application/json" id="term-data" set:html={json} />
+</BaseLayout>
+
+<style>
+  .term {
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    background: #050806;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgb(74 222 128 / 0.05), 0 30px 80px -40px rgb(74 222 128 / 0.35);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .term-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .term-dots { display: flex; gap: 6px; }
+  .term-dots i { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; }
+  .term-dots i:nth-child(2) { background: #febc2e; }
+  .term-dots i:nth-child(3) { background: #28c840; }
+  .term-title { flex: 1; text-align: center; }
+  .term-exit { color: var(--text-muted); }
+  .term-exit:hover { color: var(--accent-primary); }
+  .term-body {
+    height: min(68vh, 640px);
+    overflow-y: auto;
+    padding: 16px 18px 20px;
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--text-primary);
+    cursor: text;
+    /* faint scanlines */
+    background-image: repeating-linear-gradient(0deg, rgb(255 255 255 / 0.015) 0 1px, transparent 1px 3px);
+  }
+  .term-line { display: flex; gap: 10px; align-items: baseline; }
+  .term-prompt { color: var(--accent-primary); white-space: nowrap; flex-shrink: 0; }
+  .term-input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: 0;
+    outline: none;
+    color: var(--text-primary);
+    font: inherit;
+    caret-color: var(--accent-primary);
+    font-size: 16px; /* 16px stops iOS zooming into the field */
+  }
+  @media (min-width: 640px) { .term-input { font-size: inherit; } }
+  .term-chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .term-chip:hover { color: var(--accent-primary); border-color: var(--accent-primary); }
+  .term-chip::before { content: '$ '; color: var(--text-muted); }
+
+  /* Output is built by the script, so these need :global */
+  .term-body :global(.o) { white-space: pre-wrap; word-break: break-word; }
+  .term-body :global(.o + .o) { margin-top: 2px; }
+  .term-body :global(.gap) { height: 10px; }
+  .term-body :global(.echo) { color: var(--text-muted); margin-top: 10px; }
+  .term-body :global(.echo b) { color: var(--accent-primary); font-weight: 400; }
+  .term-body :global(.acc) { color: var(--accent-primary); }
+  .term-body :global(.warm) { color: var(--accent-secondary); }
+  .term-body :global(.dim) { color: var(--text-muted); }
+  .term-body :global(.err) { color: #f87171; }
+  .term-body :global(a) { color: var(--accent-secondary); text-decoration: underline; text-underline-offset: 3px; }
+  .term-body :global(a:hover) { color: var(--accent-primary); }
+  .term-body :global(.cmd) { color: var(--accent-primary); cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; }
+  .term-body :global(.ascii) { color: var(--accent-secondary); line-height: 1.2; font-size: 12px; }
+</style>
+
+<script>
+  type Seg = string | { t: string; c?: string; href?: string; cmd?: string };
+  type Line = Seg | Seg[];
+
+  const data = JSON.parse(document.getElementById('term-data')!.textContent!);
+  const out = document.getElementById('term-out')!;
+  const body = document.getElementById('term-body')!;
+  const form = document.getElementById('term-form') as HTMLFormElement;
+  const input = document.getElementById('term-input') as HTMLInputElement;
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- output helpers: everything goes through textContent, never innerHTML ----------
+  function segNode(seg: Seg): Node {
+    if (typeof seg === 'string') return document.createTextNode(seg);
+    let el: HTMLElement;
+    if (seg.href) {
+      const a = document.createElement('a');
+      a.href = seg.href;
+      if (/^https?:/.test(seg.href)) { a.target = '_blank'; a.rel = 'noopener'; }
+      el = a;
+    } else if (seg.cmd) {
+      el = document.createElement('span');
+      el.className = 'cmd';
+      el.setAttribute('role', 'button');
+      el.tabIndex = 0;
+      const run = () => exec(seg.cmd!);
+      el.addEventListener('click', run);
+      el.addEventListener('keydown', (e) => { if ((e as KeyboardEvent).key === 'Enter') run(); });
+    } else {
+      el = document.createElement('span');
+    }
+    if (seg.c) el.className += (el.className ? ' ' : '') + seg.c;
+    el.textContent = seg.t;
+    return el;
+  }
+
+  function print(...lines: Line[]) {
+    for (const line of lines) {
+      const div = document.createElement('div');
+      div.className = 'o';
+      (Array.isArray(line) ? line : [line]).forEach((s) => div.append(segNode(s)));
+      if (div.textContent === '') div.className = 'gap';
+      out.append(div);
+    }
+    body.scrollTop = body.scrollHeight;
+  }
+
+  const acc = (t: string): Seg => ({ t, c: 'acc' });
+  const warm = (t: string): Seg => ({ t, c: 'warm' });
+  const dim = (t: string): Seg => ({ t, c: 'dim' });
+  const link = (t: string, href: string): Seg => ({ t, href });
+  const cmd = (t: string, run = t): Seg => ({ t, cmd: run });
+  const pad = (s: string, n: number) => s + ' '.repeat(Math.max(1, n - s.length));
+  // Padded columns only fit on wide screens; on phones each row becomes a heading plus a dim line
+  function row(first: Seg, ...rest: string[]) {
+    if (body.clientWidth < 560) print([first], [dim('  ' + rest.join(' · '))]);
+    else {
+      const f = typeof first === 'string' ? first : { ...first, t: pad(first.t, 26) };
+      print([f, ...rest.map((r, i) => (i < rest.length - 1 ? dim(pad(r, 28)) : r))]);
+    }
+  }
+  const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+  // ---------- commands ----------
+  const p = data.profile;
+  const commands: Record<string, { help: string; run: (args: string[]) => void; hidden?: boolean }> = {
+    help: {
+      help: 'list commands',
+      run: () => {
+        print(acc('Available commands'), '');
+        Object.entries(commands)
+          .filter(([, c]) => !c.hidden)
+          .forEach(([name, c]) => print([cmd(pad(name, 12), name), dim(c.help)]));
+        print('', dim('Tip: Tab completes, ↑/↓ walks history, click any underlined word.'));
+      },
+    },
+    whoami: {
+      help: 'who is this guy',
+      run: () => {
+        print(
+          [acc(p.fullName)],
+          [dim('roles     '), p.roles.join(' · ')],
+          [dim('location  '), p.location],
+          [dim('status    '), warm('● '), p.status],
+          '',
+          p.summary,
+          '',
+          data.stats.map((s: { value: string; label: string }) => `${s.value} ${s.label.toLowerCase()}`).join('   ·   '),
+        );
+      },
+    },
+    projects: {
+      help: 'things I built (alias: ls, work)',
+      run: () => {
+        print(acc(`${data.projects.length} projects`), '');
+        data.projects.forEach((pr: { name: string; kind: string; tech: string[] }) => {
+          row(cmd(slug(pr.name), `open ${slug(pr.name)}`), pr.kind, pr.tech.join(', '));
+        });
+        print('', [dim('Type '), cmd('open <name>', 'open kuiz-interaktif'), dim(' for details and a link.')]);
+      },
+    },
+    open: {
+      help: 'show one project, e.g. open kuiz-interaktif',
+      run: ([name = '']) => {
+        const pr = data.projects.find((x: { name: string }) => slug(x.name).startsWith(slug(name)) && name);
+        if (!pr) return print([{ t: `open: no project called "${name}". `, c: 'err' }, cmd('projects'), dim(' lists them.')]);
+        print([acc(pr.name), dim(`  ${pr.kind}`)], pr.description, [dim('stack  '), pr.tech.join(', ')], [dim('link   '), link(pr.href, pr.href)]);
+      },
+    },
+    now: {
+      help: 'what I do day to day',
+      run: () => {
+        print(acc('Day to day'), '');
+        data.responsibilities.forEach((r: { title: string; detail: string }, i: number) =>
+          row(`${String(i + 1).padStart(2, '0')}  ${r.title}`, r.detail)
+        );
+        print('', [warm(`${data.sideGig.kind}: ${data.sideGig.title}`)], data.sideGig.body);
+      },
+    },
+    skills: {
+      help: 'tools and languages',
+      run: () => data.skillGroups.forEach((g: { name: string; items: string[] }) => row(acc(g.name), g.items.join(', '))),
+    },
+    story: {
+      help: 'how I got here, e.g. story 3',
+      run: ([n]) => {
+        const i = Number(n) - 1;
+        if (n && data.story[i]) {
+          const ch = data.story[i];
+          print([acc(`${String(i + 1).padStart(2, '0')} ${ch.title}`), dim(`  ${ch.meta}`)], '');
+          ch.body.forEach((para: string) => print(para, ''));
+          if (data.story[i + 1]) print([dim('next: '), cmd(`story ${i + 2}`)]);
+          return;
+        }
+        print(acc('Journey'), '');
+        data.story.forEach((ch: { title: string; meta: string }, j: number) =>
+          row(cmd(`story ${j + 1}: ${ch.title}`, `story ${j + 1}`), ch.meta)
+        );
+      },
+    },
+    blog: {
+      help: 'latest posts (alias: posts)',
+      run: () => {
+        data.posts.forEach((post: { slug: string; title: string; date: string; read: string }) =>
+          print([dim(pad(post.date, 13)), link(post.title, `/blog/${post.slug}`), dim(`  ${post.read}`)])
+        );
+      },
+    },
+    contact: {
+      help: 'ways to reach me',
+      run: () => {
+        print(
+          [dim('email     '), link(p.email, `mailto:${p.email}`)],
+          [dim('github    '), link(p.github.replace('https://', ''), p.github)],
+          [dim('whatsapp  '), link('chat on WhatsApp', p.whatsapp)],
+          [dim('resume    '), link('resume.pdf', p.resume)],
+        );
+      },
+    },
+    resume: {
+      help: 'download my resume',
+      run: () => {
+        print([dim('downloading '), link('resume.pdf', p.resume)]);
+        const a = document.createElement('a');
+        a.href = p.resume;
+        a.download = p.resumeName;
+        a.click();
+      },
+    },
+    skin: {
+      help: 'switch UI, e.g. skin bento',
+      run: ([id]) => {
+        const s = data.skins.find((x: { id: string }) => x.id === id);
+        if (!s) return print(['skins: ', ...data.skins.flatMap((x: { id: string }) => [cmd(x.id, `skin ${x.id}`), ' '])]);
+        try { localStorage.setItem('skin', s.id); } catch {}
+        print(dim(`switching to ${s.name}…`));
+        setTimeout(() => (location.href = s.home), 300);
+      },
+    },
+    neofetch: { help: 'system info', run: () => banner() },
+    clear: { help: 'clear the screen', run: () => out.replaceChildren() },
+    ls: { help: '', hidden: true, run: () => commands.projects.run([]) },
+    work: { help: '', hidden: true, run: () => commands.projects.run([]) },
+    posts: { help: '', hidden: true, run: () => commands.blog.run([]) },
+    about: { help: '', hidden: true, run: () => commands.whoami.run([]) },
+    cd: { help: '', hidden: true, run: () => print([dim('There is only ~ here. Try '), cmd('projects')]) },
+    sudo: { help: '', hidden: true, run: () => print({ t: 'yasin is not in the sudoers file. This incident will be reported. 🥭', c: 'err' }) },
+    exit: { help: '', hidden: true, run: () => commands.skin.run(['bento']) },
+  };
+
+  function banner() {
+    const mango = ['    ,--.', '  _/ _.-\'', ' /  (    )', '|    `--´ |', ' \\       /', "  `-.__.-'"];
+    const info: Line[] = [
+      [acc('yasin'), dim('@'), acc('kota-kinabalu')],
+      dim('-------------------'),
+      [warm('OS      '), 'Astro 5 on Vercel'],
+      [warm('Host    '), p.location + ', Malaysia'],
+      [warm('Roles   '), p.roles.join(', ')],
+      [warm('Shell   '), 'Laravel, Nuxt, React'],
+      [warm('Uptime  '), data.stats[0].value + ' years as a developer'],
+      [warm('Fruit   '), 'mango 🥭'],
+    ];
+    const rows = Math.max(mango.length, info.length);
+    for (let i = 0; i < rows; i++) {
+      const left: Seg = { t: pad(mango[i] ?? '', 16), c: 'ascii' };
+      const right = info[i] ?? '';
+      print([left, ...(Array.isArray(right) ? right : [right])]);
+    }
+  }
+
+  // ---------- input ----------
+  const history: string[] = [];
+  let cursor = 0;
+
+  function exec(raw: string) {
+    const line = raw.trim();
+    const echo = document.createElement('div');
+    echo.className = 'o echo';
+    const prompt = document.createElement('b');
+    prompt.textContent = 'yasin@kk:~$ ';
+    echo.append(prompt, document.createTextNode(line));
+    out.append(echo);
+    if (!line) return;
+    history.push(line);
+    cursor = history.length;
+    const [name, ...args] = line.split(/\s+/);
+    const command = commands[name.toLowerCase()];
+    if (command) command.run(args);
+    else print([{ t: `command not found: ${name}. `, c: 'err' }, dim('Try '), cmd('help')]);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    exec(input.value);
+    input.value = '';
+  });
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowUp' && cursor > 0) {
+      input.value = history[--cursor];
+      e.preventDefault();
+    } else if (e.key === 'ArrowDown') {
+      cursor = Math.min(history.length, cursor + 1);
+      input.value = history[cursor] ?? '';
+      e.preventDefault();
+    } else if (e.key === 'Tab') {
+      e.preventDefault();
+      const [first, ...rest] = input.value.split(' ');
+      if (rest.length === 0) {
+        const match = Object.keys(commands).filter((c) => c.startsWith(first) && !commands[c].hidden);
+        if (match.length === 1) input.value = match[0] + ' ';
+        else if (match.length > 1) {
+          // fill in the shared prefix, then list the options
+          let prefix = match[0];
+          match.forEach((m) => { while (!m.startsWith(prefix)) prefix = prefix.slice(0, -1); });
+          input.value = prefix;
+          print(dim(match.join('  ')));
+        }
+      } else if (first === 'open') {
+        const match = data.projects.map((x: { name: string }) => slug(x.name)).filter((s: string) => s.startsWith(rest.join(' ')));
+        if (match.length === 1) input.value = `open ${match[0]}`;
+      }
+    } else if (e.key === 'l' && e.ctrlKey) {
+      e.preventDefault();
+      out.replaceChildren();
+    }
+  });
+
+  // Click anywhere in the window to focus the prompt, unless selecting text
+  body.addEventListener('click', () => {
+    if (!getSelection()?.toString()) input.focus({ preventScroll: true });
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('[data-cmd]').forEach((chip) =>
+    chip.addEventListener('click', () => exec(chip.dataset.cmd!))
+  );
+
+  // ---------- boot ----------
+  async function boot() {
+    const steps = ['booting yasin.dev …', 'mounting /projects … ok', 'loading coffee … ok'];
+    for (const s of steps) {
+      print(dim(s));
+      if (!reduceMotion) await new Promise((r) => setTimeout(r, 220));
+    }
+    print('');
+    banner();
+    print('', ['Welcome. Type ', cmd('help'), ' or tap a command below.']);
+    if (location.hash === '#work') exec('projects');
+    // Don't pop the phone keyboard on load
+    if (matchMedia('(pointer: fine)').matches) input.focus({ preventScroll: true });
+  }
+  boot();
+</script>

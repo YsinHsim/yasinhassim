@@ -53,6 +53,36 @@
   color-scheme: dark;
 }
 
+/* Terminal skin: one fixed dark look, listed after the themes so it wins */
+[data-skin="terminal"] {
+  --bg-primary: #070a08;
+  --bg-secondary: #0c120e;
+  --bg-tertiary: #132019;
+  --text-primary: #d9f7df;
+  --text-secondary: #9cc7a6;
+  --text-muted: #5f8068;
+  --border-color: #1b2b21;
+  --border-hover: #2b4434;
+  --accent-primary: #4ade80;
+  --accent-secondary: #fbbf24;
+  --accent-soft: #0f2a19;
+  --accent-gradient: linear-gradient(135deg, #4ade80 0%, #fbbf24 100%);
+  --card-shadow: 0 0 0 1px rgb(74 222 128 / 0.04);
+  --card-hover-shadow: 0 0 24px -6px rgb(74 222 128 / 0.25);
+  color-scheme: dark;
+}
+
+/* Monospace display type in the terminal skin, body text stays readable */
+[data-skin="terminal"] .display,
+[data-skin="terminal"] .blog-content h1,
+[data-skin="terminal"] .blog-content h2,
+[data-skin="terminal"] .blog-content blockquote {
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: -0.03em;
+}
+[data-skin="terminal"] .blog-content h2::before { content: '## '; color: var(--accent-primary); }
+[data-skin="terminal"] ::selection { background: var(--accent-primary); color: #070a08; }
+
 @layer base {
   html {
     scroll-behavior: smooth;
