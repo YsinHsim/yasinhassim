@@ -1,78 +1,81 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import Footer from '@components/Footer.astro';
 import { getCollection } from 'astro:content';
+import { readingTime, formatDate } from '@/data/profile';
 
-const blogPosts = await getCollection('blog', ({ data }) => {
-  return !data.draft;
-});
-
-const sortedPosts = blogPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-const allTags = [...new Set(blogPosts.flatMap(post => post.data.tags))];
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
 ---
 
 <BaseLayout
   title="Blog - Yasin Hassim"
   description="Read my thoughts on technology, development, and random things."
 >
-  <section class="px-6 py-12">
-    <div class="max-w-4xl mx-auto">
-      <p class="section-label mb-4">Blog</p>
-      <h1 class="text-4xl font-bold mb-4 text-primary">
-        Thoughts &amp; <span class="gradient-text">Articles</span>
+  <section class="shell pt-14 sm:pt-20">
+    <div class="mx-auto max-w-3xl">
+      <p class="eyebrow rise">Blog · {posts.length} posts</p>
+      <h1 class="display rise mt-5 text-6xl sm:text-8xl text-primary" style="--i:1">
+        Notes &amp; <em class="text-accent">write-ups</em>
       </h1>
-      <p class="text-lg text-secondary">
+      <p class="rise mt-6 text-lg text-secondary" style="--i:2">
         Writing about technology, development, and random things.
       </p>
-    </div>
-  </section>
 
-  {allTags.length > 0 && (
-    <section class="px-6 py-4">
-      <div class="max-w-4xl mx-auto">
-        <div class="flex flex-wrap gap-2">
+      {allTags.length > 0 && (
+        <div class="rise mt-10 flex flex-wrap gap-1.5" style="--i:3" role="group" aria-label="Filter by tag">
+          <button type="button" class="chip" data-tag="" aria-pressed="true">All</button>
           {allTags.map((tag) => (
-            <span class="text-xs px-3 py-1 rounded-full bg-tertiary text-muted">
-              {tag}
-            </span>
+            <button type="button" class="chip" data-tag={tag} aria-pressed="false">{tag}</button>
           ))}
-        </div>
-      </div>
-    </section>
-  )}
-
-  <section class="px-6 py-12">
-    <div class="max-w-4xl mx-auto">
-      {sortedPosts.length > 0 ? (
-        <div class="space-y-6">
-          {sortedPosts.map((post) => (
-            <a href={`/blog/${post.slug}`} class="widget p-6 block transition-transform hover:scale-[1.02] cursor-pointer">
-              <div class="flex items-center gap-3 mb-3">
-                <span class="text-xs px-2 py-1 rounded-full bg-tertiary text-muted">
-                  {post.data.tags[0] || 'General'}
-                </span>
-                <span class="text-xs text-muted">
-                  {post.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                </span>
-              </div>
-              <h2 class="text-xl font-bold mb-2 text-primary">{post.data.title}</h2>
-              <p class="text-sm text-secondary">{post.data.description}</p>
-            </a>
-          ))}
-        </div>
-      ) : (
-        <div class="text-center py-12">
-          <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center bg-tertiary">
-            <svg class="w-8 h-8 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-9-3h19"/>
-            </svg>
-          </div>
-          <h3 class="text-lg font-bold mb-2 text-primary">No posts yet</h3>
-          <p class="text-secondary">Check back soon for new content!</p>
         </div>
       )}
+
+      {posts.length > 0 ? (
+        <ol class="mt-8 border-t rule" id="post-list">
+          {posts.map((post, i) => (
+            <li class="rise border-b rule" style={`--i:${Math.min(i, 8) + 3}`} data-tags={post.data.tags.join('|')}>
+              <a href={`/blog/${post.slug}`} class="group block py-7">
+                <div class="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-muted">
+                  <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+                  <span>·</span>
+                  <span>{readingTime(post.body)}</span>
+                  {post.data.tags[0] && (<><span>·</span><span>{post.data.tags[0]}</span></>)}
+                </div>
+                <h2 class="display mt-3 text-3xl sm:text-4xl text-primary transition-colors group-hover:text-accent">
+                  {post.data.title}
+                </h2>
+                <p class="mt-2 text-secondary">{post.data.description}</p>
+              </a>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <p class="mt-16 text-secondary">No posts yet. Check back soon.</p>
+      )}
+      <p id="no-match" class="hidden py-10 text-secondary">No posts with that tag.</p>
     </div>
   </section>
-
-  <Footer />
 </BaseLayout>
+
+<script>
+  // Tag filter: hide posts that don't carry the chosen tag
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-tag]');
+  const items = document.querySelectorAll<HTMLLIElement>('#post-list > li');
+  const noMatch = document.getElementById('no-match');
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const tag = button.dataset.tag ?? '';
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+      let shown = 0;
+      items.forEach((item) => {
+        const match = !tag || (item.dataset.tags ?? '').split('|').includes(tag);
+        item.hidden = !match;
+        if (match) shown++;
+      });
+      noMatch?.classList.toggle('hidden', shown > 0);
+    });
+  });
+</script>

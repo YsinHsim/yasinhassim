@@ -4,17 +4,32 @@ import '@fontsource/inter/400.css';
 import '@fontsource/inter/500.css';
 import '@fontsource/inter/600.css';
 import '@fontsource/inter/700.css';
+import '@fontsource/instrument-serif/400.css';
+import '@fontsource/instrument-serif/400-italic.css';
 import '@fontsource/jetbrains-mono/400.css';
+import Footer from '@components/Footer.astro';
+import Icon from '@components/Icon.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+}
 
 const { title, description, image = '/og-default.png' } = Astro.props;
 const currentPath = Astro.url.pathname;
 const canonicalURL = new URL(currentPath, Astro.site);
 const ogImageURL = new URL(image, Astro.site);
 
-function isActive(path: string): string {
-  if (path === '/' && currentPath === '/') return 'active';
-  if (path !== '/' && currentPath.startsWith(path)) return 'active';
-  return '';
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/portfolio', label: 'Work' },
+  { href: '/blog', label: 'Blog' },
+];
+
+function isActive(path: string): boolean {
+  if (path === '/') return currentPath === '/';
+  return currentPath.startsWith(path);
 }
 ---
 
@@ -43,67 +58,86 @@ function isActive(path: string): string {
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
+
+    <!-- Set the theme before first paint: saved choice, else the system setting -->
+    <script is:inline>
+      (function () {
+        var saved = null;
+        try { saved = localStorage.getItem('theme'); } catch (e) {}
+        var theme = saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
   </head>
-  <body>
-    <nav class="fixed top-0 left-0 right-0 z-50 border-b backdrop-blur-xl bg-primary border-color">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="flex items-center justify-between h-16">
-          <a href="/" class="text-lg font-bold gradient-text">yasin.dev</a>
+  <body id="top" class="min-h-screen flex flex-col">
+    <header class="sticky top-0 z-50 border-b rule backdrop-blur-xl" style="background: color-mix(in srgb, var(--bg-primary) 82%, transparent);">
+      <div class="shell flex h-16 items-center justify-between gap-4">
+        <a href="/" class="flex items-baseline gap-2 text-primary" aria-label="Yasin Hassim, home">
+          <span class="display text-2xl">Yasin Hassim</span>
+          <span class="hidden sm:inline font-mono text-[0.7rem] text-muted">/ dev</span>
+        </a>
 
-          <div class="hidden md:flex items-center space-x-8">
-            <a href="/" class="nav-link {isActive('/')}">Home</a>
-            <a href="/portfolio" class="nav-link {isActive('/portfolio')}">Portfolio</a>
-            <a href="/blog" class="nav-link {isActive('/blog')}">Blog</a>
-          </div>
+        <nav class="hidden md:flex items-center gap-1" aria-label="Main">
+          {links.map((link) => (
+            <a href={link.href} class:list={['nav-link', { active: isActive(link.href) }]} aria-current={isActive(link.href) ? 'page' : undefined}>
+              {link.label}
+            </a>
+          ))}
+        </nav>
 
-          <div class="flex items-center gap-4">
-            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"></button>
-            <button id="menu-btn" class="md:hidden p-2 text-secondary">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-              </svg>
-            </button>
-          </div>
+        <div class="flex items-center gap-2">
+          <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle dark mode">
+            <span class="theme-icon-dark"><Icon name="moon" class="w-4 h-4" /></span>
+            <span class="theme-icon-light"><Icon name="sun" class="w-4 h-4" /></span>
+          </button>
+          <button id="menu-btn" class="icon-btn md:hidden" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+            <Icon name="menu" class="w-4 h-4" />
+          </button>
         </div>
       </div>
 
-      <div id="mobile-menu" class="hidden md:hidden border-t bg-primary border-color">
-        <div class="px-6 py-4 space-y-4">
-          <a href="/" class="block nav-link {isActive('/')}">Home</a>
-          <a href="/portfolio" class="block nav-link {isActive('/portfolio')}">Portfolio</a>
-          <a href="/blog" class="block nav-link {isActive('/blog')}">Blog</a>
+      <nav id="mobile-menu" class="hidden md:hidden border-t rule" aria-label="Mobile">
+        <div class="shell flex flex-col py-3">
+          {links.map((link) => (
+            <a href={link.href} class:list={['py-2.5 text-lg', isActive(link.href) ? 'text-primary' : 'text-secondary']}>
+              {link.label}
+            </a>
+          ))}
         </div>
-      </div>
-    </nav>
+      </nav>
+    </header>
 
-    <main class="pt-16">
+    <main class="flex-1">
       <slot />
     </main>
 
-    <script>
-      const themeToggle = document.getElementById('theme-toggle');
-      const html = document.documentElement;
-      const savedTheme = localStorage.getItem('theme') || 'dark';
-      html.setAttribute('data-theme', savedTheme);
+    <Footer />
 
-      themeToggle?.addEventListener('click', () => {
-        const currentTheme = html.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        html.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
+    <style>
+      .theme-icon-light { display: none; }
+      :global([data-theme='dark']) .theme-icon-light { display: inline; }
+      :global([data-theme='dark']) .theme-icon-dark { display: none; }
+    </style>
+
+    <script>
+      const html = document.documentElement;
+
+      document.getElementById('theme-toggle')?.addEventListener('click', () => {
+        const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch {}
       });
 
       const menuBtn = document.getElementById('menu-btn');
       const mobileMenu = document.getElementById('mobile-menu');
 
       menuBtn?.addEventListener('click', () => {
-        mobileMenu?.classList.toggle('hidden');
+        const open = mobileMenu?.classList.toggle('hidden') === false;
+        menuBtn.setAttribute('aria-expanded', String(open));
       });
 
-      mobileMenu?.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          mobileMenu.classList.add('hidden');
-        });
+      mobileMenu?.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
       });
     </script>
   </body>
