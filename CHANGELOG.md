@@ -4,6 +4,8 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-10-27
 
+- Replace the profile photo with a new avatar (4bda2b5)
+- Update changelog (9bd0f4e)
 - Remove the old component styles (f23772d)
 - Redesign the blog index and post pages (d437ad1)
 - Redesign the work page with editorial sections (ccb7d01)
