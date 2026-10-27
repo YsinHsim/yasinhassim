@@ -4,6 +4,15 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-10-27
 
+- Replace the favicon with a strawberry (e14ffc5)
+- Add a desk photo to the software developer chapter (f072433)
+- Update changelog (471f628)
+- Add the freelance training support card to the work page (d838799)
+- Update changelog (6f7d332)
+- Update roles, responsibilities, skills and journey to the current job (33b3ca1)
+- Show a number badge for story chapters without a photo (dedca0e)
+- Merge pull request #4 from YsinHsim/feat/new-ui (a3642e7)
+- Update changelog (0a97560)
 - Replace the profile photo with a new avatar (4bda2b5)
 - Update changelog (9bd0f4e)
 - Remove the old component styles (f23772d)

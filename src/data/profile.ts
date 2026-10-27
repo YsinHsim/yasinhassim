@@ -3,12 +3,13 @@
 export const profile = {
   name: 'Yasin Hassim',
   fullName: 'Muhammad Yasin Abdul Hassim',
-  role: 'IT Technician',
-  roleAlt: 'Software Developer',
-  location: 'Sabah, Malaysia',
+  // Main title first; the others show where there is room for all three
+  roles: ['Software Developer', 'IT Technician', 'System Analyst'],
+  employer: 'Datakraf Solution Sdn Bhd',
+  location: 'Kota Kinabalu, Sabah',
   tagline: 'I build stuff. Welcome to my personal corner of the internet.',
   summary:
-    'IT Technician and Software Developer based in Sabah, Malaysia. I build full-stack apps with Laravel, Vue and React, and keep the hardware and networks behind them running.',
+    'Software developer at Datakraf in Kota Kinabalu, Sabah. I build production systems for government and agricultural-estate clients with Laravel, Nuxt and React, and I still know my way around the hardware and networks behind them.',
   status: 'Open to opportunities',
   email: 'yasinhassim43@gmail.com',
   github: 'https://github.com/YsinHsim',
@@ -19,7 +20,7 @@ export const profile = {
 };
 
 export const stats = [
-  { value: '3+', label: 'Years in IT' },
+  { value: '2+', label: 'Years as a developer' },
   { value: '8+', label: 'Projects shipped' },
   { value: '17', label: 'Estates supported' },
 ];
@@ -109,20 +110,32 @@ export const projects: Project[] = [
 ];
 
 export const responsibilities = [
-  { title: 'IT infrastructure', detail: '17 estates supported' },
-  { title: 'Full-stack development', detail: 'Laravel, React, Vue' },
-  { title: 'Network setup', detail: 'Starlink installation' },
-  { title: 'Technical support', detail: 'Hardware and software' },
-  { title: 'Client collaboration', detail: 'Requirements gathering' },
-  { title: 'System development', detail: 'Government solutions' },
+  { title: 'Backend APIs', detail: 'Laravel, MySQL' },
+  { title: 'Responsive frontends', detail: 'Nuxt, Tailwind, Naive UI' },
+  { title: 'Email and PDF generation', detail: 'Server-side templates' },
+  { title: 'Features and fixes', detail: 'Staging and production' },
+  { title: 'Version control and QA', detail: 'GitHub, GitLab, staging server' },
+  { title: 'Client liaison', detail: 'Technical detail to business needs' },
 ];
+
+// Freelance work alongside the main job, shown under the responsibilities grid
+export const sideGig = {
+  title: 'Training support',
+  kind: 'Freelance',
+  body: 'A training provider hires me as the technical crew for hands-on software training. I maintain the staging server and make sure every participant can log in and finish each practice exercise, so the trainer can focus on teaching.',
+  photos: [
+    { src: '/work/training-01.jpg', alt: 'Participants holding their certificates at the end of a training session' },
+    { src: '/work/training-02.jpg', alt: 'A hands-on training session seen from the support desk, with the staging terminal open on a laptop' },
+  ],
+};
 
 export const skillGroups = [
   { name: 'Languages', items: ['JavaScript', 'TypeScript', 'PHP', 'Python', 'C++', 'Java'] },
-  { name: 'Frontend', items: ['React', 'Vue', 'Nuxt', 'Tailwind CSS', 'Material UI', 'shadcn/ui', 'Bootstrap'] },
-  { name: 'Backend', items: ['Laravel', 'Node.js', 'Express', 'Inertia.js'] },
-  { name: 'Data', items: ['MySQL', 'MariaDB', 'PostgreSQL', 'MongoDB'] },
-  { name: 'Tools', items: ['Git', 'GitHub', 'GitLab', 'Docker', 'Vercel'] },
+  { name: 'Frontend', items: ['React', 'Vue', 'Nuxt', 'Next.js', 'Astro', 'Tailwind CSS', 'Naive UI', 'Material UI', 'shadcn/ui', 'Bootstrap'] },
+  { name: 'Backend', items: ['Laravel', 'Inertia.js', 'Node.js', 'Express'] },
+  { name: 'Data', items: ['MySQL', 'MariaDB', 'PostgreSQL (Neon)', 'MongoDB', 'DBeaver'] },
+  { name: 'Tools', items: ['Git', 'GitHub', 'GitLab', 'Docker', 'Vercel', 'Render'] },
+  { name: 'AI-assisted dev', items: ['Claude Code', 'Gemini CLI', 'Qwen Code'] },
 ];
 
 // Short list for the home page marquee
@@ -162,16 +175,25 @@ export const story = [
     image: '/about-me/butcher.jpeg',
     body: [
       'After graduation, I began applying for tech jobs that aligned with my skill set. However, I struggled to secure my desired role due to my qualifications. As a result, I focused on honing skills relevant to my work, including inventory management and entry-level management skills in the retail industry.',
-      'My journey took me from working in fisheries to butchering meat, from lifting goods to supervising teams. I kept learning and mastering a wide range of skills. After three years of persistence, I finally landed my first IT job.',
+      'My journey took me from working in fisheries to butchering meat, from lifting goods to supervising teams. At Econsave Cash & Carry I became a supervisor (November 2022 to September 2023), running daily operations, staff schedules and inventory, and acting as the on-site contact for POS, IT and customer problems. After three years of persistence, I finally landed my first IT job.',
     ],
   },
   {
-    title: 'Experience and challenges',
-    meta: 'First IT job · Continuous learning',
+    title: 'First IT job',
+    meta: 'Teck Guan Plantation · Jan 2024 to Mar 2025',
     image: '/about-me/transmitter.jpeg',
     body: [
-      "My first job as an IT technician introduced me to the real world of technology. This included troubleshooting hardware and software issues. However, it wasn't until I took on additional projects that I learned to truly apply my skills.",
-      'To this day, I continue learning and expanding my knowledge in various areas of tech to keep growing and improving.',
+      'My first IT role was as an IT technician and web developer at Teck Guan Plantation, supporting the IT infrastructure and connectivity of 17 agricultural estates. I resolved hardware and network issues, deployed Starlink for estate offices and field operations, and handled remote support, billing and hardware procurement for estate clerks.',
+      'It was also where I started building real systems: a hardware asset-tracking system, a purchase-tracking application, and frontend work on a budget management application.',
+    ],
+  },
+  {
+    title: 'Software developer',
+    meta: 'Datakraf Solution · Mar 2025 to now',
+    image: '/about-me/software-developer.jpg',
+    body: [
+      'Today I am a software developer at Datakraf Solution in Kota Kinabalu, working on eNORES, a government labour platform. I build backend APIs with Laravel and MySQL and responsive frontends with Nuxt, Tailwind CSS and Naive UI, and I own features from the database to the screen.',
+      'I also handle server-side work such as automated email and PDF generation, keep the staging server ready for QA, and translate between technical detail and what the client needs. I keep learning, now with AI tools like Claude Code as part of the workflow.',
     ],
   },
 ];
