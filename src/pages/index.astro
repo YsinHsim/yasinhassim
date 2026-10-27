@@ -13,8 +13,8 @@ const featured = projects.find((p) => p.featured) ?? projects[0];
 ---
 
 <BaseLayout
-  title="Yasin Hassim - IT Technician | Software Developer"
-  description="Portfolio of Muhammad Yasin Abdul Hassim, an IT Technician and Software Developer specializing in Laravel, React, and full-stack development."
+  title={`Yasin Hassim - ${profile.roles.join(' | ')}`}
+  description="Portfolio of Muhammad Yasin Abdul Hassim, a Software Developer, IT Technician and System Analyst in Kota Kinabalu, Sabah, building full-stack systems with Laravel, Nuxt and React."
 >
   <section class="shell pt-8 sm:pt-12">
     <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 sm:gap-4">
@@ -29,7 +29,7 @@ const featured = projects.find((p) => p.featured) ?? projects[0];
             <em class="text-accent">I build stuff.</em>
           </h1>
           <p class="mt-6 max-w-md text-secondary">
-            {profile.role} and {profile.roleAlt.toLowerCase()}. Welcome to my personal corner of the internet.
+            {profile.roles.slice(0, -1).join(', ')} and {profile.roles.at(-1)}. Welcome to my personal corner of the internet.
           </p>
         </div>
         <div class="flex flex-wrap gap-2">
@@ -43,7 +43,7 @@ const featured = projects.find((p) => p.featured) ?? projects[0];
         <img src={profile.photo} alt={`${profile.name}'s avatar`} class="absolute inset-0 h-full w-full object-cover" />
         <div class="absolute inset-x-0 bottom-0 p-4" style="background: linear-gradient(transparent, rgb(0 0 0 / 0.65));">
           <p class="text-sm font-medium text-white">{profile.fullName}</p>
-          <p class="font-mono text-[0.7rem] text-white/70">{profile.role} · {profile.roleAlt}</p>
+          <p class="font-mono text-[0.7rem] text-white/70">{profile.roles.join(' · ')}</p>
         </div>
       </div>
 
