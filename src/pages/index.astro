@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Footer from '../components/Footer.astro';
 import { getCollection } from 'astro:content';
 
 const blogPosts = await getCollection('blog', ({ data }) => {
@@ -161,5 +160,4 @@ const latestPosts = blogPosts
     </div>
   </section>
 
-  <Footer />
 </BaseLayout>
