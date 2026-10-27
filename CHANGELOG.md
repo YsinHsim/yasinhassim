@@ -4,6 +4,10 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-10-27
 
+- Add the Anime skin page (5c2bd24)
+- Add Anime skin styles for shared pages and enable it in the picker (589544c)
+- Merge pull request #8 from YsinHsim/feat/skin-genz (70847a9)
+- Update changelog (875b272)
 - Add the Gen Z skin page (065e3f0)
 - Add Gen Z skin styles for shared pages and enable it in the picker (a8f6688)
 - Merge pull request #7 from YsinHsim/feat/skins-terminal (04ab804)
