@@ -190,6 +190,7 @@ export const story = [
   {
     title: 'Software developer',
     meta: 'Datakraf Solution · Mar 2025 to now',
+    image: '/about-me/software-developer.jpg',
     body: [
       'Today I am a software developer at Datakraf Solution in Kota Kinabalu, working on eNORES, a government labour platform. I build backend APIs with Laravel and MySQL and responsive frontends with Nuxt, Tailwind CSS and Naive UI, and I own features from the database to the screen.',
       'I also handle server-side work such as automated email and PDF generation, keep the staging server ready for QA, and translate between technical detail and what the client needs. I keep learning, now with AI tools like Claude Code as part of the workflow.',
