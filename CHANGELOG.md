@@ -4,6 +4,8 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-10-27
 
+- Add the freelance training support card to the work page (d838799)
+- Update changelog (6f7d332)
 - Update roles, responsibilities, skills and journey to the current job (33b3ca1)
 - Show a number badge for story chapters without a photo (dedca0e)
 - Merge pull request #4 from YsinHsim/feat/new-ui (a3642e7)
