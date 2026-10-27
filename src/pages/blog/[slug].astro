@@ -1,6 +1,8 @@
 ---
 import BlogLayout from '@layouts/BlogLayout.astro';
+import Icon from '@components/Icon.astro';
 import { getCollection } from 'astro:content';
+import { readingTime, formatDate } from '@/data/profile';
 
 export async function getStaticPaths() {
   // Drafts get a page in `astro dev` for previewing, but are left out of production builds
@@ -18,7 +20,7 @@ const { Content } = await post.render();
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 const relatedPosts = allPosts
   .filter((p) => p.slug !== post.slug && p.data.tags.some((tag) => post.data.tags.includes(tag)))
-  .slice(0, 3);
+  .slice(0, 2);
 ---
 
 <BlogLayout
@@ -26,71 +28,50 @@ const relatedPosts = allPosts
   description={post.data.description}
   image={post.data.heroImage}
 >
-  <header class="mb-8">
-    <div class="flex items-center gap-3 mb-4">
-      <a href="/blog" class="text-sm font-medium hover:underline flex items-center gap-1 text-accent">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-        </svg>
-        Back to Blog
-      </a>
+  <div id="read-progress" class="fixed left-0 top-0 z-[60] h-0.5 w-full origin-left scale-x-0" style="background: var(--accent-primary);" aria-hidden="true"></div>
+
+  <header class="rise">
+    <a href="/blog" class="inline-flex items-center gap-1.5 text-sm text-secondary hover:text-primary">
+      <Icon name="arrow-left" class="w-4 h-4" /> All posts
+    </a>
+
+    <div class="mt-10 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-muted">
+      <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate, 'long')}</time>
+      <span>·</span>
+      <span>{readingTime(post.body)}</span>
+      {post.data.updatedDate && (<><span>·</span><span>Updated {formatDate(post.data.updatedDate, 'long')}</span></>)}
     </div>
 
-    <div class="flex items-center gap-2 mb-4">
-      {post.data.tags.map((tag: string) => (
-        <span class="text-xs px-2 py-1 rounded-full bg-tertiary text-muted">
-          {tag}
-        </span>
-      ))}
-    </div>
+    <h1 class="display mt-4 text-5xl sm:text-6xl text-primary">{post.data.title}</h1>
+    <p class="mt-5 text-xl leading-relaxed text-secondary">{post.data.description}</p>
 
-    <h1 class="text-3xl md:text-4xl font-bold mb-4 text-primary">
-      {post.data.title}
-    </h1>
-
-    <p class="text-lg mb-6 text-secondary">
-      {post.data.description}
-    </p>
-
-    <div class="flex items-center gap-4 text-sm text-muted">
-      <time datetime={post.data.pubDate.toISOString()}>
-        {post.data.pubDate.toLocaleDateString('en-US', {
-          month: 'long',
-          day: 'numeric',
-          year: 'numeric'
-        })}
-      </time>
-      {post.data.updatedDate && (
-        <span>• Updated: {post.data.updatedDate.toLocaleDateString('en-US', {
-          month: 'long',
-          day: 'numeric',
-          year: 'numeric'
-        })}</span>
-      )}
-    </div>
+    {post.data.tags.length > 0 && (
+      <div class="mt-6 flex flex-wrap gap-1.5">
+        {post.data.tags.map((tag: string) => <span class="chip">{tag}</span>)}
+      </div>
+    )}
   </header>
+
+  <hr class="my-10 rule" />
 
   <div class="blog-content">
     <Content />
   </div>
 
+  <div class="mt-16 flex flex-wrap items-center justify-between gap-4 border-t rule pt-6 text-sm">
+    <a href="/blog" class="inline-flex items-center gap-1.5 text-secondary hover:text-primary"><Icon name="arrow-left" class="w-4 h-4" /> All posts</a>
+    <a href="#top" class="text-muted hover:text-primary">Back to top ↑</a>
+  </div>
+
   {relatedPosts.length > 0 && (
-    <section class="mt-12 pt-8 border-t border-color">
-      <h2 class="text-xl font-bold mb-6 text-primary">Related Posts</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <section class="mt-16">
+      <p class="eyebrow">Keep reading</p>
+      <div class="mt-4 grid gap-3 sm:grid-cols-2">
         {relatedPosts.map((relatedPost) => (
-          <a href={`/blog/${relatedPost.slug}`} class="widget p-4 transition-transform hover:scale-105 cursor-pointer">
-            <div class="flex items-center gap-2 mb-2">
-              {relatedPost.data.tags[0] && (
-                <span class="text-xs px-2 py-1 rounded-full bg-tertiary text-muted">
-                  {relatedPost.data.tags[0]}
-                </span>
-              )}
-            </div>
-            <h3 class="font-bold mb-1 text-primary">{relatedPost.data.title}</h3>
-            <p class="text-xs text-muted">
-              {relatedPost.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-            </p>
+          <a href={`/blog/${relatedPost.slug}`} class="tile flex flex-col gap-4">
+            <Icon name="arrow" class="tile-arrow w-4 h-4 -rotate-45" />
+            <p class="font-mono text-xs text-muted">{formatDate(relatedPost.data.pubDate)}</p>
+            <h3 class="display text-2xl text-primary pr-6">{relatedPost.data.title}</h3>
           </a>
         ))}
       </div>
@@ -99,6 +80,15 @@ const relatedPosts = allPosts
 </BlogLayout>
 
 <script>
+  // Thin reading-progress bar along the top edge
+  const progress = document.getElementById("read-progress");
+  const updateProgress = () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    if (progress) progress.style.transform = `scaleX(${max > 0 ? Math.min(1, scrollY / max) : 0})`;
+  };
+  addEventListener("scroll", updateProgress, { passive: true });
+  updateProgress();
+
   // Click-to-load YouTube embeds in posts: a <button class="post-yt" data-youtube-id="..."> shows a
   // local thumbnail and only swaps in the player (privacy-enhanced domain) when a visitor clicks it.
   document.querySelectorAll<HTMLButtonElement>(".post-yt[data-youtube-id]").forEach((button) => {

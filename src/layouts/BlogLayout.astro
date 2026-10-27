@@ -11,8 +11,8 @@ const { title, description, image } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} image={image}>
-  <article class="px-6 py-12">
-    <div class="max-w-3xl mx-auto text-primary">
+  <article class="shell pt-10 sm:pt-16">
+    <div class="mx-auto max-w-[44rem] text-primary">
       <slot />
     </div>
   </article>
