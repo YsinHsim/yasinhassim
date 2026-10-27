@@ -4,6 +4,9 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-10-27
 
+- Replace the favicon with a strawberry (e14ffc5)
+- Add a desk photo to the software developer chapter (f072433)
+- Update changelog (471f628)
 - Add the freelance training support card to the work page (d838799)
 - Update changelog (6f7d332)
 - Update roles, responsibilities, skills and journey to the current job (33b3ca1)
