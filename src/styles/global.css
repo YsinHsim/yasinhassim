@@ -231,7 +231,8 @@
     animation-play-state: paused;
   }
 
-  .rule {
+  .rule,
+  .divide-rule > * + * {
     border-color: var(--border-color);
   }
 

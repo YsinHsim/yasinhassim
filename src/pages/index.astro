@@ -1,163 +1,155 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
 import { getCollection } from 'astro:content';
+import { profile, stats, projects, coreStack, readingTime, formatDate } from '../data/profile';
 
-const blogPosts = await getCollection('blog', ({ data }) => {
-  return !data.draft;
-});
-
-// Get latest 3 posts
-const latestPosts = blogPosts
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const [latest, ...olderPosts] = posts;
+const recent = olderPosts.slice(0, 4);
+const featured = projects.find((p) => p.featured) ?? projects[0];
 ---
 
 <BaseLayout
   title="Yasin Hassim - IT Technician | Software Developer"
   description="Portfolio of Muhammad Yasin Abdul Hassim, an IT Technician and Software Developer specializing in Laravel, React, and full-stack development."
 >
-  <!-- Hero Section -->
-  <section class="px-6 py-20 md:py-32">
-    <div class="max-w-4xl mx-auto text-center">
-      <p class="section-label mb-4">Welcome</p>
-      <h1 class="text-4xl md:text-6xl font-bold mb-6 text-primary">
-        Hi, I'm <span class="gradient-text">Yasin Hassim</span>
-      </h1>
-      <p class="text-xl md:text-2xl mb-8 text-secondary">
-        IT Technician <span class="text-muted">•</span> Software Developer
-      </p>
-      <p class="text-lg mb-12 max-w-2xl mx-auto text-secondary">
-        I build stuff. Welcome to my personal corner of the internet.
-      </p>
-
-      <!-- CTA Buttons -->
-      <div class="flex flex-wrap gap-4 justify-center">
-        <a href="/portfolio" class="btn-primary">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-          </svg>
-          View Portfolio
-        </a>
-        <a href="/blog" class="btn-secondary">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-9-3h19"/>
-          </svg>
-          Read Blog
-        </a>
-        <a href="mailto:yasinhassim43@gmail.com" class="btn-secondary">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-          </svg>
-          Contact Me
-        </a>
-        <a href="/resume.pdf" download="Muhammad Yasin bin Abdul Hassim Oct 2026.pdf" class="btn-secondary">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-          </svg>
-          Download Resume
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Quick Links Section -->
-  <section class="px-6 py-12 bg-secondary">
-    <div class="max-w-6xl mx-auto">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Portfolio Card -->
-        <a href="/portfolio" class="widget p-6 transition-transform hover:scale-105 cursor-pointer">
-          <div class="flex items-center gap-4 mb-4">
-            <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-gradient">
-              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold text-primary">Portfolio</h3>
-          </div>
-          <p class="text-sm text-secondary">
-            Explore my projects and work experience. From web applications to IT solutions.
+  <section class="shell pt-8 sm:pt-12">
+    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 sm:gap-4">
+      <!-- Intro -->
+      <div class="tile rise flex flex-col justify-between gap-10 sm:col-span-2 lg:row-span-2 sm:p-8" style="--i:0">
+        <div>
+          <p class="eyebrow flex items-center gap-2">
+            <Icon name="pin" class="w-3.5 h-3.5" /> {profile.location}
           </p>
-        </a>
-
-        <!-- Blog Card -->
-        <a href="/blog" class="widget p-6 transition-transform hover:scale-105 cursor-pointer">
-          <div class="flex items-center gap-4 mb-4">
-            <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-gradient">
-              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-9-3h19"/>
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold text-primary">Blog</h3>
-          </div>
-          <p class="text-sm text-secondary">
-            Read my thoughts on technology, development and random things.
+          <h1 class="display mt-6 text-[3.25rem] sm:text-7xl text-primary">
+            Hi, I'm Yasin.<br />
+            <em class="text-accent">I build stuff.</em>
+          </h1>
+          <p class="mt-6 max-w-md text-secondary">
+            {profile.role} and {profile.roleAlt.toLowerCase()}. Welcome to my personal corner of the internet.
           </p>
-        </a>
-
-        <!-- Contact Card -->
-        <a href="mailto:yasinhassim43@gmail.com" class="widget p-6 transition-transform hover:scale-105 cursor-pointer">
-          <div class="flex items-center gap-4 mb-4">
-            <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-gradient">
-              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold text-primary">Contact</h3>
-          </div>
-          <p class="text-sm text-secondary">
-            Get in touch for collaborations, opportunities, or just to say hello.
-          </p>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Latest Blog Posts Section -->
-  {latestPosts.length > 0 && (
-    <section class="px-6 py-12">
-      <div class="max-w-6xl mx-auto">
-        <div class="flex items-center justify-between mb-8">
-          <h2 class="text-2xl font-bold text-primary">Latest Posts</h2>
-          <a href="/blog" class="text-sm font-medium hover:underline text-accent">
-            View all →
-          </a>
         </div>
+        <div class="flex flex-wrap gap-2">
+          <a href="/portfolio" class="btn-solid">See my work <Icon name="arrow" class="w-4 h-4" /></a>
+          <a href={profile.resume} download={profile.resumeName} class="btn-ghost"><Icon name="download" class="w-4 h-4" /> Resume</a>
+        </div>
+      </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {latestPosts.map((post) => (
-            <a href={`/blog/${post.slug}`} class="widget p-6 transition-transform hover:scale-105 cursor-pointer">
-              <div class="flex items-center gap-2 mb-3">
-                <span class="text-xs px-2 py-1 rounded-full bg-tertiary text-muted">
-                  {post.data.tags[0] || 'General'}
-                </span>
-                <span class="text-xs text-muted">
-                  {post.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                </span>
-              </div>
-              <h3 class="text-lg font-bold mb-2 text-primary">{post.data.title}</h3>
-              <p class="text-sm text-secondary">{post.data.description}</p>
-            </a>
+      <!-- Photo -->
+      <div class="tile rise overflow-hidden p-0 sm:p-0 min-h-[18rem] lg:row-span-2" style="--i:1">
+        <img src={profile.photo} alt={profile.fullName} class="absolute inset-0 h-full w-full object-cover" />
+        <div class="absolute inset-x-0 bottom-0 p-4" style="background: linear-gradient(transparent, rgb(0 0 0 / 0.65));">
+          <p class="text-sm font-medium text-white">{profile.fullName}</p>
+          <p class="font-mono text-[0.7rem] text-white/70">{profile.role} · {profile.roleAlt}</p>
+        </div>
+      </div>
+
+      <!-- Status -->
+      <a href={`mailto:${profile.email}`} class="tile rise flex flex-col justify-between gap-6" style="--i:2">
+        <Icon name="arrow" class="tile-arrow w-4 h-4 -rotate-45" />
+        <p class="eyebrow">Status</p>
+        <div>
+          <p class="flex items-center gap-2.5 text-lg font-medium text-primary">
+            <span class="status-dot"></span> {profile.status}
+          </p>
+          <p class="mt-1 text-sm text-muted">Email me about a role or project.</p>
+        </div>
+      </a>
+
+      <!-- Stats -->
+      <div class="tile rise" style="--i:3">
+        <p class="eyebrow">By the numbers</p>
+        <dl class="mt-4 grid grid-cols-3 gap-2">
+          {stats.map((s) => (
+            <div>
+              <dt class="sr-only">{s.label}</dt>
+              <dd class="display text-4xl text-primary">{s.value}</dd>
+              <dd class="mt-1 text-xs leading-snug text-muted">{s.label}</dd>
+            </div>
           ))}
+        </dl>
+      </div>
+
+      <!-- Latest post -->
+      {latest && (
+        <a href={`/blog/${latest.slug}`} class="tile rise flex flex-col justify-between gap-8 sm:col-span-2" style="--i:4">
+          <Icon name="arrow" class="tile-arrow w-4 h-4 -rotate-45" />
+          <p class="eyebrow">Latest post</p>
+          <div>
+            <h2 class="display text-3xl sm:text-4xl text-primary pr-6">{latest.data.title}</h2>
+            <p class="mt-3 line-clamp-2 text-sm text-secondary">{latest.data.description}</p>
+            <p class="mt-4 font-mono text-[0.7rem] text-muted">
+              {formatDate(latest.data.pubDate)} · {readingTime(latest.body)}
+            </p>
+          </div>
+        </a>
+      )}
+
+      <!-- Featured project -->
+      <a href={featured.href} target="_blank" rel="noopener" class="tile rise flex flex-col justify-between gap-8 sm:col-span-2" style="--i:5">
+        <Icon name="external" class="tile-arrow w-4 h-4" />
+        <p class="eyebrow">Featured project</p>
+        <div>
+          <h2 class="display text-3xl sm:text-4xl text-primary">{featured.name}</h2>
+          <p class="mt-3 line-clamp-2 text-sm text-secondary">{featured.description}</p>
+          <div class="mt-4 flex flex-wrap gap-1.5">
+            {featured.tech.map((t) => <span class="chip">{t}</span>)}
+          </div>
+        </div>
+      </a>
+
+      <!-- Stack -->
+      <div class="tile rise flex flex-col justify-between gap-6 overflow-hidden sm:col-span-2 lg:col-span-3" style="--i:6">
+        <div class="flex items-center justify-between">
+          <p class="eyebrow">Daily stack</p>
+          <a href="/portfolio#skills" class="text-xs text-muted hover:text-primary">All skills →</a>
+        </div>
+        <p class="display text-3xl sm:text-4xl text-primary">Tools I reach for</p>
+        <div class="marquee overflow-hidden" aria-label={coreStack.join(', ')}>
+          <div class="marquee-track" aria-hidden="true">
+            {[...coreStack, ...coreStack].map((t) => (
+              <span class="whitespace-nowrap rounded-full border rule px-4 py-2 text-sm text-secondary">{t}</span>
+            ))}
+          </div>
         </div>
       </div>
+
+      <!-- Elsewhere -->
+      <div class="tile rise sm:col-span-2 lg:col-span-1" style="--i:7">
+        <p class="eyebrow">Elsewhere</p>
+        <ul class="mt-3 divide-y divide-rule text-sm">
+          <li><a href={profile.github} target="_blank" rel="noopener" class="flex items-center justify-between py-2.5 text-primary hover:text-accent"><span class="flex items-center gap-2.5"><Icon name="github" class="w-4 h-4" /> GitHub</span><Icon name="external" class="w-3.5 h-3.5 text-muted" /></a></li>
+          <li><a href={profile.whatsapp} target="_blank" rel="noopener" class="flex items-center justify-between py-2.5 text-primary hover:text-accent"><span class="flex items-center gap-2.5"><Icon name="whatsapp" class="w-4 h-4" /> WhatsApp</span><Icon name="external" class="w-3.5 h-3.5 text-muted" /></a></li>
+          <li><a href={`mailto:${profile.email}`} class="flex items-center justify-between py-2.5 text-primary hover:text-accent"><span class="flex items-center gap-2.5"><Icon name="mail" class="w-4 h-4" /> Email</span><Icon name="external" class="w-3.5 h-3.5 text-muted" /></a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Writing -->
+  {recent.length > 0 && (
+    <section class="shell mt-24">
+      <div class="flex items-end justify-between gap-4 border-b rule pb-4">
+        <h2 class="display text-4xl sm:text-5xl text-primary">More writing</h2>
+        <a href="/blog" class="text-sm text-secondary hover:text-primary whitespace-nowrap">All posts →</a>
+      </div>
+      <ol>
+        {recent.map((post) => (
+          <li class="border-b rule">
+            <a href={`/blog/${post.slug}`} class="group grid gap-1 py-6 sm:grid-cols-[9rem_1fr_auto] sm:items-baseline sm:gap-6">
+              <time datetime={post.data.pubDate.toISOString()} class="font-mono text-xs text-muted">{formatDate(post.data.pubDate)}</time>
+              <div>
+                <h3 class="text-lg font-medium text-primary group-hover:text-accent transition-colors">{post.data.title}</h3>
+                <p class="mt-1 line-clamp-1 text-sm text-secondary">{post.data.description}</p>
+              </div>
+              <span class="hidden sm:inline font-mono text-xs text-muted">{readingTime(post.body)}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
     </section>
   )}
-
-  <!-- About Preview Section -->
-  <section class="px-6 py-12 bg-secondary">
-    <div class="max-w-4xl mx-auto text-center">
-      <p class="section-label mb-4">About Me</p>
-      <h2 class="text-3xl font-bold mb-6 text-primary">
-        Passionate about technology and problem-solving
-      </h2>
-      <p class="text-lg mb-8 text-secondary">
-        I'm an IT Technician and Software Developer based in Sabah, Malaysia.
-        I specialize in building full-stack applications with Laravel, React, and modern web technologies.
-      </p>
-      <a href="/portfolio" class="btn-secondary">
-        Learn More About Me
-      </a>
-    </div>
-  </section>
-
 </BaseLayout>
