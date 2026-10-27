@@ -83,6 +83,67 @@
 [data-skin="terminal"] .blog-content h2::before { content: '## '; color: var(--accent-primary); }
 [data-skin="terminal"] ::selection { background: var(--accent-primary); color: #070a08; }
 
+/* Gen Z skin: cream paper and ink in light, ink and neon in dark; hard shadows instead of soft */
+[data-skin="genz"] {
+  --bg-primary: #fff6e5;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #ffe9c2;
+  --text-primary: #111111;
+  --text-secondary: #2e2a24;
+  --text-muted: #6b6457;
+  --border-color: #111111;
+  --border-hover: #111111;
+  --accent-primary: #e0287d;
+  --accent-secondary: #2f5bff;
+  --accent-soft: #ffd6ea;
+  --ink: #111111;
+  --pop-lime: #c6f432;
+  --pop-pink: #ff5ca8;
+  --pop-blue: #6d8cff;
+  --pop-yellow: #ffd83d;
+  --pop-orange: #ff9a3d;
+  --card-shadow: 4px 4px 0 var(--ink);
+  --card-hover-shadow: 7px 7px 0 var(--ink);
+}
+[data-skin="genz"][data-theme="dark"] {
+  --bg-primary: #121212;
+  --bg-secondary: #1c1c1c;
+  --bg-tertiary: #2a2a2a;
+  --text-primary: #fdf7ea;
+  --text-secondary: #e3dccd;
+  --text-muted: #a49c8c;
+  --border-color: #fdf7ea;
+  --border-hover: #fdf7ea;
+  --accent-primary: #ff6fb5;
+  --accent-secondary: #8aa2ff;
+  --accent-soft: #3a1328;
+  --ink: #fdf7ea;
+  --pop-lime: #b6e52a;
+  --pop-pink: #ff5ca8;
+  --pop-blue: #6d8cff;
+  --pop-yellow: #ffd43b;
+  --pop-orange: #ff9a3d;
+}
+[data-skin="genz"] .display,
+[data-skin="genz"] .blog-content h1,
+[data-skin="genz"] .blog-content h2 {
+  font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+[data-skin="genz"] .tile,
+[data-skin="genz"] .chip,
+[data-skin="genz"] .btn-ghost,
+[data-skin="genz"] .icon-btn { border-width: 2px; border-color: var(--ink); }
+[data-skin="genz"] .chip { background: var(--pop-yellow); color: #111; font-weight: 600; }
+[data-skin="genz"] .btn-solid { background: var(--pop-pink); color: #111; border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+[data-skin="genz"] .btn-solid:hover { background: var(--pop-lime); color: #111; }
+[data-skin="genz"] .blog-content a { text-decoration-color: var(--pop-pink); text-decoration-thickness: 3px; }
+[data-skin="genz"] .blog-content blockquote { border-left: 4px solid var(--ink); background: var(--pop-yellow); color: #111; padding: 0.75rem 1rem; }
+[data-skin="genz"] .post-media img,
+[data-skin="genz"] .post-diagram-scroll { border: 2px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); }
+[data-skin="genz"] ::selection { background: var(--pop-lime); color: #111; }
+
 @layer base {
   html {
     scroll-behavior: smooth;
