@@ -4,6 +4,10 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-10-27
 
+- Add the terminal skin (5aa426d)
+- Add UI skins with a picker in the nav (bb5575a)
+- Merge pull request #6 from YsinHsim/feat/mango-and-post-media (2a9d558)
+- Update changelog (496437e)
 - Add a column-order diagram and the resume page to the ATS post (572929e)
 - Add bloom screenshots and a rendering diagram to the flower post (48346c5)
 - Add screenshots and a before/after sync diagram to the startpage-app post (fa9fff2)
