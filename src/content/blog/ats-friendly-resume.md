@@ -32,11 +32,72 @@ A few structural decisions:
 - **No tables, columns, photos, or graphics** — the biggest thing that trips up ATS parsers is a multi-column layout, since the text-extraction order gets scrambled
 - **Standard section headers** (Summary, Skills, Professional Experience) instead of anything cute
 
+<figure class="post-diagram-figure">
+<div class="post-diagram-scroll">
+<svg viewBox="0 0 960 400" role="img" aria-label="A two-column resume is read line by line across both columns, so the parser mixes skills into job dates. A single-column resume is read top to bottom in the intended order.">
+<defs>
+<marker id="ats-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"></path></marker>
+</defs>
+<text x="30" y="30" font-size="11" fill="currentColor" fill-opacity="0.6" font-family="JetBrains Mono, monospace">TWO COLUMNS</text>
+<rect x="30" y="44" width="250" height="300" rx="10" fill="none" stroke="currentColor" stroke-opacity="0.55"></rect>
+<rect x="46" y="60" width="218" height="16" rx="3" fill="currentColor" fill-opacity="0.25"></rect>
+<g fill="currentColor" fill-opacity="0.12">
+<rect x="46" y="96" width="80" height="230" rx="4"></rect>
+<rect x="138" y="96" width="126" height="230" rx="4"></rect>
+</g>
+<text x="86" y="118" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor">SKILLS</text>
+<text x="201" y="118" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor">EXPERIENCE</text>
+<g class="dg-warm" stroke="currentColor" stroke-width="1.4" fill="none">
+<path d="M56 150 H 254" marker-end="url(#ats-arrow)"></path>
+<path d="M56 190 H 254" marker-end="url(#ats-arrow)"></path>
+<path d="M56 230 H 254" marker-end="url(#ats-arrow)"></path>
+</g>
+<text x="300" y="150" font-size="12" fill="currentColor" fill-opacity="0.8">The parser reads straight across:</text>
+<g class="dg-warm" font-family="JetBrains Mono, monospace" font-size="11.5" fill="currentColor">
+<text x="300" y="178">"Laravel  Datakraf Solution"</text>
+<text x="300" y="200">"React  March 2025 – Present"</text>
+<text x="300" y="222">"MySQL  Develop and maintain…"</text>
+</g>
+<text x="300" y="250" font-size="12" fill="currentColor" fill-opacity="0.8">✗ skills land inside job titles and dates</text>
+<line x1="610" y1="20" x2="610" y2="380" stroke="currentColor" stroke-opacity="0.2" stroke-dasharray="4 5"></line>
+<text x="650" y="30" font-size="11" fill="currentColor" fill-opacity="0.6" font-family="JetBrains Mono, monospace">ONE COLUMN</text>
+<rect x="650" y="44" width="250" height="300" rx="10" fill="none" stroke="currentColor" stroke-opacity="0.55"></rect>
+<rect x="666" y="60" width="218" height="16" rx="3" fill="currentColor" fill-opacity="0.25"></rect>
+<g font-size="11" font-weight="700" fill="currentColor">
+<text x="676" y="112">1 · SUMMARY</text>
+<text x="676" y="172">2 · SKILLS</text>
+<text x="676" y="232">3 · EXPERIENCE</text>
+<text x="676" y="302">4 · EDUCATION</text>
+</g>
+<g fill="currentColor" fill-opacity="0.12">
+<rect x="676" y="120" width="200" height="22" rx="3"></rect>
+<rect x="676" y="180" width="200" height="22" rx="3"></rect>
+<rect x="676" y="240" width="200" height="40" rx="3"></rect>
+<rect x="676" y="310" width="200" height="18" rx="3"></rect>
+</g>
+<g class="dg-accent" stroke="currentColor" stroke-width="1.6">
+<line x1="920" y1="100" x2="920" y2="320" marker-end="url(#ats-arrow)"></line>
+</g>
+<g class="dg-accent">
+<text x="775" y="372" text-anchor="middle" font-size="12" fill="currentColor">✓ read top to bottom, in order</text>
+</g>
+</svg>
+</div>
+<figcaption>Why columns are risky: many parsers read a PDF line by line across the whole page, not column by column.</figcaption>
+</figure>
+
+
 ## Trimming for Signal
 
 The first full draft technically worked, but it was 21 bullets across four roles and spilled onto two pages — either with everything cramped to fit one page, or with generous spacing and an awkwardly empty second page. I went back and forth on the CSS a few times and it kept looking worse each way.
 
 The actual fix wasn't spacing, it was content. I merged overlapping bullets — nine for my current role became five, six for my previous IT role became four — and that gave the layout enough room to fit one page *without* squeezing line-height and margins down to nothing. Lesson noted: when a resume doesn't fit, the first thing to cut isn't whitespace, it's the redundant bullets.
+
+<figure class="post-media post-media-narrow">
+<img src="/blog/ats-friendly-resume/resume-page-1.jpg" alt="The rebuilt one-page resume: single column with Summary, Skills, Professional Experience, Leadership Experience and Education sections" loading="lazy" />
+<figcaption>The rebuilt resume: one column, standard headers, categorised skills, one page. (This is the current version, updated since the post was written.)</figcaption>
+</figure>
+
 
 ## Getting It Onto the Site
 
