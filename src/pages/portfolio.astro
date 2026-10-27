@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
-import { profile, stats, projects, responsibilities, skillGroups, story } from '../data/profile';
+import { profile, stats, projects, responsibilities, sideGig, skillGroups, story } from '../data/profile';
 
 const featured = projects.filter((p) => p.featured);
 const others = projects.filter((p) => !p.featured);
@@ -104,6 +104,19 @@ const videos = projects.flatMap((p) => (p.video ? [p.video] : []));
         ))}
       </ol>
     </div>
+
+    <article class="tile mt-4 grid gap-6 overflow-hidden lg:ml-[calc(18rem+2rem)] lg:grid-cols-[1fr_1.3fr] lg:items-center sm:p-8">
+      <div>
+        <p class="eyebrow">{sideGig.kind}</p>
+        <h3 class="display mt-3 text-4xl text-primary">{sideGig.title}</h3>
+        <p class="mt-4 text-secondary">{sideGig.body}</p>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        {sideGig.photos.map((photo) => (
+          <img src={photo.src} alt={photo.alt} class="aspect-[4/3] w-full rounded-xl object-cover" loading="lazy" />
+        ))}
+      </div>
+    </article>
   </section>
 
   <!-- Skills -->

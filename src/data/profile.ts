@@ -118,6 +118,17 @@ export const responsibilities = [
   { title: 'Client liaison', detail: 'Technical detail to business needs' },
 ];
 
+// Freelance work alongside the main job, shown under the responsibilities grid
+export const sideGig = {
+  title: 'Training support',
+  kind: 'Freelance',
+  body: 'A training provider hires me as the technical crew for hands-on software training. I maintain the staging server and make sure every participant can log in and finish each practice exercise, so the trainer can focus on teaching.',
+  photos: [
+    { src: '/work/training-01.jpg', alt: 'Participants holding their certificates at the end of a training session' },
+    { src: '/work/training-02.jpg', alt: 'A hands-on training session seen from the support desk, with the staging terminal open on a laptop' },
+  ],
+};
+
 export const skillGroups = [
   { name: 'Languages', items: ['JavaScript', 'TypeScript', 'PHP', 'Python', 'C++', 'Java'] },
   { name: 'Frontend', items: ['React', 'Vue', 'Nuxt', 'Next.js', 'Astro', 'Tailwind CSS', 'Naive UI', 'Material UI', 'shadcn/ui', 'Bootstrap'] },
