@@ -108,8 +108,15 @@ const petals = Array.from({ length: 14 }, (_, i) => ({
       <div class="mt-10 grid gap-5 md:grid-cols-2">
         {projects.map((p) => (
           <article class:list={['an-card an-quest flex flex-col gap-3', { main: p.featured }]}>
+            <a href={`/work/${p.slug}`} class="an-banner" aria-label={`${p.name} case study`}>
+              {p.cover ? (
+                <img src={p.cover} alt={`Screenshot of ${p.name}`} class="aspect-[16/10] w-full object-cover object-top" loading="lazy" width="1280" height="800" />
+              ) : (
+                <span class="display flex aspect-[16/10] w-full items-center justify-center p-6 text-center text-3xl text-primary" style="background: var(--accent-soft);">{p.name}</span>
+              )}
+              <span class="an-rank absolute left-3 top-3">{p.featured ? '★ Main quest' : 'Side quest'}</span>
+            </a>
             <div class="flex items-center justify-between gap-3">
-              <span class="an-rank">{p.featured ? '★ Main quest' : 'Side quest'}</span>
               <span class="text-xs text-muted">{p.kind}</span>
             </div>
             <h3 class="display text-2xl sm:text-3xl text-primary">{p.name}</h3>
@@ -122,6 +129,7 @@ const petals = Array.from({ length: 14 }, (_, i) => ({
             </div>
             <div class="flex flex-wrap gap-2 pt-1">
               <a href={p.href} target="_blank" rel="noopener" class="an-btn">Start quest →</a>
+              <a href={`/work/${p.slug}`} class="an-btn an-btn-ghost">Quest details</a>
               {p.video && <a href={`https://www.youtube.com/watch?v=${p.video.youtubeId}`} target="_blank" rel="noopener" class="an-btn an-btn-ghost">▶ Watch cutscene</a>}
             </div>
           </article>
@@ -294,6 +302,7 @@ const petals = Array.from({ length: 14 }, (_, i) => ({
   }
   .an-quest:hover, .an-hover:hover { transform: translateY(-4px); box-shadow: var(--card-hover-shadow); border-color: var(--accent-primary); }
   .an-quest.main { border-color: var(--accent-primary); background: linear-gradient(160deg, color-mix(in srgb, var(--accent-soft) 70%, var(--bg-secondary)), var(--bg-secondary)); }
+  .an-banner { position: relative; display: block; overflow: hidden; border-radius: 1rem; }
   .an-rank {
     display: inline-block;
     font-size: 0.72rem;

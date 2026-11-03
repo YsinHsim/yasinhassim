@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
+import BrowserFrame from '../components/BrowserFrame.astro';
+import VideoDialog from '../components/VideoDialog.astro';
 import { profile, stats, projects, responsibilities, sideGig, skillGroups, story } from '../data/profile';
 
 const featured = projects.filter((p) => p.featured);
@@ -41,12 +43,17 @@ const videos = projects.flatMap((p) => (p.video ? [p.video] : []));
     <div class="mt-6 grid gap-4 md:grid-cols-2">
       {featured.map((p, i) => (
         <article class="tile tile-hover rise flex flex-col gap-6 sm:p-8" style={`--i:${i}`}>
+          <a href={`/work/${p.slug}`} aria-label={`${p.name} case study`}>
+            <BrowserFrame src={p.cover} alt={`Screenshot of ${p.name}`} host={new URL(p.href).hostname} name={p.name} />
+          </a>
           <div class="flex items-start justify-between gap-4">
             <p class="eyebrow">{p.kind}</p>
             <span class="font-mono text-xs text-muted">0{i + 1}</span>
           </div>
           <div class="flex-1">
-            <h3 class="display text-4xl sm:text-5xl text-primary">{p.name}</h3>
+            <h3 class="display text-4xl sm:text-5xl text-primary">
+              <a href={`/work/${p.slug}`}>{p.name}</a>
+            </h3>
             <p class="mt-4 text-secondary">{p.description}</p>
             {p.note && <p class="mt-3 text-sm text-muted">{p.note}</p>}
           </div>
@@ -69,8 +76,9 @@ const videos = projects.flatMap((p) => (p.video ? [p.video] : []));
 
     <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {others.map((p) => (
-        <a href={p.href} target="_blank" rel="noopener" class="tile flex flex-col gap-5">
-          <Icon name="external" class="tile-arrow w-4 h-4" />
+        <a href={`/work/${p.slug}`} class="tile flex flex-col gap-5">
+          <Icon name="arrow" class="tile-arrow w-4 h-4" />
+          <BrowserFrame src={p.cover} alt={`Screenshot of ${p.name}`} host={new URL(p.href).hostname} name={p.name} />
           <p class="eyebrow pr-6">{p.kind}</p>
           <div class="flex-1">
             <h3 class="display text-3xl text-primary">{p.name}</h3>
@@ -203,19 +211,7 @@ const videos = projects.flatMap((p) => (p.video ? [p.video] : []));
     </div>
   </section>
 
-  <!-- Walkthrough video modals. The YouTube player (privacy-enhanced domain) is only injected when
-       a modal opens and removed when it closes, so nothing loads from YouTube until a visitor asks. -->
-  {videos.map((v) => (
-    <dialog id={v.id} class="video-dialog" data-youtube-id={v.youtubeId} aria-label={v.title}>
-      <div class="p-3 sm:p-4">
-        <div class="mb-3 flex items-center justify-between gap-4">
-          <p class="text-sm font-medium text-primary">{v.title}</p>
-          <button type="button" class="icon-btn" data-video-close aria-label="Close video"><Icon name="close" class="w-4 h-4" /></button>
-        </div>
-        <div class="video-frame" data-video-frame></div>
-      </div>
-    </dialog>
-  ))}
+  <VideoDialog videos={videos} />
 </BaseLayout>
 
 <style>
@@ -232,61 +228,4 @@ const videos = projects.flatMap((p) => (p.video ? [p.video] : []));
     background: var(--accent-soft);
   }
   .chapter-badge.display { font-family: 'Instrument Serif', Georgia, serif; font-size: 4.5rem; }
-
-  .video-dialog {
-    width: min(1100px, calc(100vw - 32px));
-    max-width: none;
-    padding: 0;
-    border: 1px solid var(--border-color);
-    border-radius: 1.25rem;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-  }
-  .video-dialog::backdrop {
-    background: rgb(0 0 0 / 0.75);
-    backdrop-filter: blur(4px);
-  }
-  .video-frame {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    border-radius: 0.75rem;
-    overflow: hidden;
-    background: #000;
-  }
-  /* :global because the iframe is created by the script, outside Astro's scoped-style attributes */
-  .video-frame :global(iframe) {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-  }
 </style>
-
-<script>
-  // Open a video dialog from any [data-video-open] button; load the player on open, unload on close.
-  document.querySelectorAll<HTMLButtonElement>('[data-video-open]').forEach((button) => {
-    const dialog = document.getElementById(button.dataset.videoOpen ?? '') as HTMLDialogElement | null;
-    if (!dialog) return;
-    const frame = dialog.querySelector<HTMLElement>('[data-video-frame]');
-    const id = dialog.dataset.youtubeId;
-    button.addEventListener('click', () => {
-      if (frame && id) {
-        const iframe = document.createElement('iframe');
-        iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
-        iframe.title = dialog.getAttribute('aria-label') ?? 'Video';
-        iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-        iframe.allowFullscreen = true;
-        frame.replaceChildren(iframe);
-      }
-      dialog.showModal();
-    });
-    dialog.querySelector('[data-video-close]')?.addEventListener('click', () => dialog.close());
-    // a click on the backdrop lands on the dialog element itself
-    dialog.addEventListener('click', (e) => {
-      if (e.target === dialog) dialog.close();
-    });
-    dialog.addEventListener('close', () => frame?.replaceChildren());
-  });
-</script>

@@ -1,0 +1,51 @@
+---
+interface Props {
+  src?: string;
+  alt: string;
+  host: string;
+  name: string;
+  eager?: boolean;
+}
+
+const { src, alt, host, name, eager = false } = Astro.props;
+---
+
+<div class="browser-frame overflow-hidden rounded-xl border rule bg-tertiary">
+  <div class="flex h-9 items-center gap-3 border-b rule px-3">
+    <div class="flex gap-1.5" aria-hidden="true">
+      <span class="h-2 w-2 rounded-full bg-[#ff5f57]"></span>
+      <span class="h-2 w-2 rounded-full bg-[#febc2e]"></span>
+      <span class="h-2 w-2 rounded-full bg-[#28c840]"></span>
+    </div>
+    <span class="truncate font-mono text-[0.65rem] text-muted">{host}</span>
+  </div>
+  {src ? (
+    <div class="aspect-[16/10] overflow-hidden">
+      <img
+        src={src}
+        alt={alt}
+        width="1280"
+        height="800"
+        loading={eager ? 'eager' : 'lazy'}
+        class="browser-shot h-full w-full object-cover object-top"
+      />
+    </div>
+  ) : (
+    <div class="flex aspect-[16/10] items-center justify-center p-5 text-center" style="background: var(--accent-soft);">
+      <span class="display text-3xl sm:text-4xl text-primary">{name}</span>
+    </div>
+  )}
+</div>
+
+<style>
+  .browser-shot {
+    transition: transform 0.35s ease;
+  }
+  :global(.tile:hover) .browser-shot,
+  :global(a:hover > .browser-frame) .browser-shot {
+    transform: scale(1.03);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .browser-shot { transition: none; }
+  }
+</style>

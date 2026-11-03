@@ -27,6 +27,11 @@ export const stats = [
 
 export interface Project {
   name: string;
+  slug: string;
+  cover?: string;
+  highlights?: string[];
+  flow?: { title: string; detail: string }[];
+  role?: string;
   kind: string;
   description: string;
   tech: string[];
@@ -40,6 +45,22 @@ export interface Project {
 export const projects: Project[] = [
   {
     name: 'Kuiz Interaktif',
+    slug: 'kuiz-interaktif',
+    cover: '/work/kuiz-interaktif.webp',
+    highlights: [
+      'Kahoot-style multiplayer quiz',
+      'No backend: the host tab is the game server',
+      'QR-code join from players’ phones',
+      'Direct WebRTC connections with PeerJS',
+      'Live answers, scoring and leaderboard',
+    ],
+    flow: [
+      { title: 'Open the host', detail: 'Host opens the app on a laptop or projector; the host’s browser tab becomes the game server.' },
+      { title: 'Players join', detail: 'Players scan a QR code and join from their phones.' },
+      { title: 'Connect directly', detail: 'Phones connect to the host directly over WebRTC (PeerJS); there is no backend.' },
+      { title: 'Score the round', detail: 'Answers stream to the host, which scores the round and shows the leaderboard.' },
+    ],
+    role: 'Solo: design, build and deploy (Vercel)',
     kind: 'Multiplayer quiz game',
     description:
       "Kahoot-style quiz game with no backend. The host's browser tab is the game server, and players' phones connect to it directly over WebRTC by scanning a QR code.",
@@ -51,6 +72,23 @@ export const projects: Project[] = [
   },
   {
     name: 'Rental Management System',
+    slug: 'rental-management',
+    cover: '/work/rental-management.webp',
+    highlights: [
+      'Flexible leasing',
+      'Itemized billing',
+      'Stripe payments',
+      'Maintenance tracking',
+      'Self-service tenant portal',
+      'Multi-property landlords',
+    ],
+    flow: [
+      { title: 'Set up properties', detail: 'Landlord sets up properties and units.' },
+      { title: 'Sign the lease', detail: 'Tenants sign a lease and get portal access.' },
+      { title: 'Bill and pay', detail: 'Bills are itemized and paid through Stripe.' },
+      { title: 'Track maintenance', detail: 'Tenants raise maintenance requests and track them to resolution.' },
+    ],
+    role: 'Solo: full-stack (Laravel, Vue, PostgreSQL), deployed on Render',
     kind: 'Property management SaaS',
     description:
       'Full rental management system for multi-property landlords: flexible leasing, itemized billing, Stripe payments, maintenance tracking and a self-service tenant portal.',
@@ -67,6 +105,8 @@ export const projects: Project[] = [
   },
   {
     name: 'eNORES',
+    slug: 'enores',
+    cover: '/work/enores.webp',
     kind: 'Government web system',
     description:
       'A government system built with Laravel and Nuxt (Vue) for efficient resource management and digital services.',
@@ -76,6 +116,8 @@ export const projects: Project[] = [
   },
   {
     name: 'Startpage',
+    slug: 'startpage',
+    cover: '/work/startpage.webp',
     kind: 'New tab page',
     description:
       'Account-synced new tab page with link groups, a wallpaper gallery and a floating music player.',
@@ -85,6 +127,7 @@ export const projects: Project[] = [
   },
   {
     name: 'Hardware Tracking',
+    slug: 'hardware-tracking',
     kind: 'Asset management',
     description: 'Track and manage hardware assets with this open-source solution.',
     tech: ['Laravel', 'MySQL'],
@@ -93,6 +136,8 @@ export const projects: Project[] = [
   },
   {
     name: 'Estate Utility',
+    slug: 'estate-utility',
+    cover: '/work/estate-utility.webp',
     kind: 'Management tool',
     description: 'Utility management system for estate operations.',
     tech: ['Laravel', 'React'],
@@ -101,6 +146,8 @@ export const projects: Project[] = [
   },
   {
     name: 'Anjung Sepi',
+    slug: 'anjung-sepi',
+    cover: '/work/anjung-sepi.webp',
     kind: 'Personal project',
     description: 'A personal web application built with modern static site generation.',
     tech: ['Astro', 'Tailwind'],

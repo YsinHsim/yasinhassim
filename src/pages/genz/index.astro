@@ -101,21 +101,31 @@ const allSkills = skillGroups.flatMap((g) => g.items);
       </div>
       <div class="mt-10 grid gap-6 md:grid-cols-2">
         {projects.map((p, i) => (
-          <article class:list={['gz-card flex flex-col gap-4', { 'md:col-span-2': i === 0 }]} style={`background:${pops[i % pops.length]}; --r:${tilt(i)}deg`}>
-            <div class="flex items-start justify-between gap-3">
-              <span class="text-4xl" aria-hidden="true">{emoji[p.name] ?? '✨'}</span>
-              <span class="gz-tag" style="background: var(--bg-secondary); color: var(--text-primary);">{p.kind.toLowerCase()}</span>
-            </div>
-            <h3 class="display text-3xl sm:text-4xl text-[#111]">{p.name}</h3>
-            <p class="flex-1 text-[#111]/85">{p.description}</p>
-            <div class="flex flex-wrap gap-1.5">
-              {p.tech.map((t) => <span class="gz-chip">{t}</span>)}
-            </div>
-            <div class="flex flex-wrap gap-2 pt-1">
-              <a href={p.href} target="_blank" rel="noopener" class="gz-btn gz-btn-sm" style="background: #111; color: #fff;">peep it →</a>
-              {p.video && (
-                <a href={`https://www.youtube.com/watch?v=${p.video.youtubeId}`} target="_blank" rel="noopener" class="gz-btn gz-btn-sm" style="background: #fff; color: #111;">▶ walkthrough</a>
+          <article class:list={['gz-card flex flex-col gap-4', { 'md:col-span-2 md:grid md:grid-cols-[1.2fr_1fr] md:items-center md:gap-8': i === 0 }]} style={`background:${pops[i % pops.length]}; --r:${tilt(i)}deg`}>
+            <a href={`/work/${p.slug}`} class="gz-shot" style={`--r:${-tilt(i)}deg`} aria-label={`${p.name} case study`}>
+              {p.cover ? (
+                <img src={p.cover} alt={`Screenshot of ${p.name}`} class="aspect-[16/10] w-full object-cover object-top" loading="lazy" width="1280" height="800" />
+              ) : (
+                <span class="flex aspect-[16/10] w-full items-center justify-center bg-white text-7xl" aria-hidden="true">{emoji[p.name] ?? '✨'}</span>
               )}
+            </a>
+            <div class="flex flex-col gap-4">
+              <div class="flex items-start justify-between gap-3">
+                <span class="text-4xl" aria-hidden="true">{emoji[p.name] ?? '✨'}</span>
+                <span class="gz-tag" style="background: var(--bg-secondary); color: var(--text-primary);">{p.kind.toLowerCase()}</span>
+              </div>
+              <h3 class="display text-3xl sm:text-4xl text-[#111]">{p.name}</h3>
+              <p class="flex-1 text-[#111]/85">{p.description}</p>
+              <div class="flex flex-wrap gap-1.5">
+                {p.tech.map((t) => <span class="gz-chip">{t}</span>)}
+              </div>
+              <div class="flex flex-wrap gap-2 pt-1">
+                <a href={p.href} target="_blank" rel="noopener" class="gz-btn gz-btn-sm" style="background: #111; color: #fff;">peep it →</a>
+                <a href={`/work/${p.slug}`} class="gz-btn gz-btn-sm" style="background: #fff; color: #111;">the tea →</a>
+                {p.video && (
+                  <a href={`https://www.youtube.com/watch?v=${p.video.youtubeId}`} target="_blank" rel="noopener" class="gz-btn gz-btn-sm" style="background: #fff; color: #111;">▶ walkthrough</a>
+                )}
+              </div>
             </div>
           </article>
         ))}
@@ -224,6 +234,16 @@ const allSkills = skillGroups.flatMap((g) => g.items);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
   .gz-card:hover { transform: rotate(0deg) translate(-2px, -2px); box-shadow: 9px 9px 0 var(--ink); }
+  .gz-shot {
+    display: block;
+    overflow: hidden;
+    border: 3px solid var(--ink);
+    border-radius: 12px;
+    box-shadow: 4px 4px 0 var(--ink);
+    transform: rotate(var(--r, 0deg));
+    transition: transform 0.2s ease;
+  }
+  .gz-shot:hover { transform: rotate(0deg); }
   .gz-tag {
     display: inline-flex;
     align-items: center;
@@ -335,6 +355,6 @@ const allSkills = skillGroups.flatMap((g) => g.items);
   .gz-lore-card[open] .gz-more { display: none; }
 
   @media (prefers-reduced-motion: reduce) {
-    .gz-card, .gz-card:hover, .gz-sticker-lg:hover, .gz-btn:hover { transition: none; transform: rotate(var(--r, 0deg)); }
+    .gz-card, .gz-card:hover, .gz-sticker-lg:hover, .gz-btn:hover, .gz-shot, .gz-shot:hover { transition: none; transform: rotate(var(--r, 0deg)); }
   }
 </style>
