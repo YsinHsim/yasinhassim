@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import BrowserFrame from '../../components/BrowserFrame.astro';
+import VideoDialog from '../../components/VideoDialog.astro';
+import { projects, type Project } from '../../data/profile';
+
+export function getStaticPaths() {
+  return projects.map((project, i) => ({
+    params: { slug: project.slug },
+    props: {
+      project,
+      previous: projects[(i - 1 + projects.length) % projects.length],
+      next: projects[(i + 1) % projects.length],
+    },
+  }));
+}
+
+interface Props {
+  project: Project;
+  previous: Project;
+  next: Project;
+}
+
+const { project, previous, next } = Astro.props;
+---
+
+<BaseLayout title={`${project.name} - Yasin Hassim`} description={project.description} image={project.cover}>
+  <section class="shell pt-14 sm:pt-20">
+    <a href="/portfolio#work" class="inline-flex items-center gap-2 text-sm text-secondary link-underline">
+      <Icon name="arrow-left" class="w-4 h-4" /> Back to work
+    </a>
+
+    <div class="mt-8 max-w-4xl">
+      <p class="eyebrow rise">{project.kind}</p>
+      <h1 class="display rise mt-4 text-5xl sm:text-7xl text-primary" style="--i:1">{project.name}</h1>
+      <p class="rise mt-6 max-w-2xl text-lg text-secondary" style="--i:2">{project.description}</p>
+      {project.note && <p class="mt-3 text-sm text-muted">{project.note}</p>}
+      <div class="mt-6 flex flex-wrap gap-1.5">
+        {project.tech.map((t) => <span class="chip">{t}</span>)}
+      </div>
+      <div class="mt-8 flex flex-wrap gap-2">
+        <a href={project.href} target="_blank" rel="noopener" class="btn-solid">
+          <span class="status-dot"></span> {project.linkLabel}
+        </a>
+        {project.video && (
+          <button type="button" class="btn-ghost" data-video-open={project.video.id}>
+            <Icon name="play" class="w-4 h-4" /> {project.video.label}
+          </button>
+        )}
+      </div>
+    </div>
+
+    <div class="rise mt-10" style="--i:3">
+      <BrowserFrame src={project.cover} alt={`Screenshot of ${project.name}`} host={new URL(project.href).hostname} name={project.name} eager />
+    </div>
+
+    {project.role && (
+      <div class="mt-8 border-y rule py-5">
+        <p class="eyebrow">My role</p>
+        <p class="mt-2 text-secondary">{project.role}</p>
+      </div>
+    )}
+
+    {project.highlights && (
+      <div class="mt-12">
+        <p class="eyebrow">Highlights</p>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {project.highlights.map((highlight) => (
+            <div class="tile text-sm text-secondary">{highlight}</div>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {project.flow && (
+      <div class="mt-16 grid gap-8 lg:grid-cols-[18rem_1fr]">
+        <div>
+          <p class="eyebrow">How it works</p>
+          <h2 class="display mt-3 text-4xl text-primary">The flow</h2>
+        </div>
+        <ol class="grid gap-px overflow-hidden rounded-[1.25rem] border rule sm:grid-cols-2" style="background: var(--border-color);">
+          {project.flow.map((step, i) => (
+            <li class="bg-secondary p-5 sm:p-6">
+              <span class="font-mono text-xs text-muted">{String(i + 1).padStart(2, '0')}</span>
+              <p class="mt-6 font-medium text-primary">{step.title}</p>
+              <p class="mt-1 text-sm text-muted">{step.detail}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    )}
+
+    <nav class="mt-20 grid gap-4 border-t rule pt-8 sm:grid-cols-2" aria-label="More projects">
+      <a href={`/work/${previous.slug}`} class="tile tile-hover">
+        <span class="eyebrow flex items-center gap-2"><Icon name="arrow-left" class="w-4 h-4" /> Previous project</span>
+        <span class="display mt-3 block text-3xl text-primary">{previous.name}</span>
+      </a>
+      <a href={`/work/${next.slug}`} class="tile tile-hover sm:text-right">
+        <span class="eyebrow flex items-center gap-2 sm:justify-end">Next project <Icon name="arrow" class="w-4 h-4" /></span>
+        <span class="display mt-3 block text-3xl text-primary">{next.name}</span>
+      </a>
+    </nav>
+  </section>
+
+  {project.video && <VideoDialog videos={[project.video]} />}
+</BaseLayout>
