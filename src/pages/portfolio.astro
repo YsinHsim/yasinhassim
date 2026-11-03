@@ -77,7 +77,7 @@ const videos = projects.flatMap((p) => (p.video ? [p.video] : []));
     <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {others.map((p) => (
         <a href={`/work/${p.slug}`} class="tile flex flex-col gap-5">
-          <Icon name="external" class="tile-arrow w-4 h-4" />
+          <Icon name="arrow" class="tile-arrow w-4 h-4" />
           <BrowserFrame src={p.cover} alt={`Screenshot of ${p.name}`} host={new URL(p.href).hostname} name={p.name} />
           <p class="eyebrow pr-6">{p.kind}</p>
           <div class="flex-1">
