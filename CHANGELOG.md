@@ -4,6 +4,11 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-11-03
 
+- feat(terminal): show role, highlights, flow and case study link in open (e1b2dd0)
+- feat(anime): add quest banner screenshots and Quest details links (0529494)
+- feat(genz): add sticker screenshots and case study links to project cards (e988eff)
+- fix: use an internal arrow icon on Work cards that open case studies (6eb08e1)
+- docs: update changelog (2c1c492)
 - feat: add /work/[slug] case study pages (04c18b3)
 - feat: show framed cover screenshots on Work cards and link them to case studies (4ce5ee3)
 - feat: add project slugs, cover screenshots and case study data (07b6bea)
