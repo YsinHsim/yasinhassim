@@ -18,7 +18,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 const data = {
   profile,
   stats,
-  projects: projects.map(({ name, kind, description, tech, href }) => ({ name, kind, description, tech, href })),
+  projects: projects.map(({ name, slug, kind, description, tech, href, highlights, flow, role }) => ({ name, slug, kind, description, tech, href, highlights, flow, role })),
   responsibilities,
   sideGig: { title: sideGig.title, kind: sideGig.kind, body: sideGig.body },
   skillGroups,
@@ -250,9 +250,29 @@ const chips = ['help', 'whoami', 'projects', 'now', 'skills', 'story', 'blog', '
     open: {
       help: 'show one project, e.g. open kuiz-interaktif',
       run: ([name = '']) => {
-        const pr = data.projects.find((x: { name: string }) => slug(x.name).startsWith(slug(name)) && name);
+        const pr: {
+          name: string;
+          slug: string;
+          kind: string;
+          description: string;
+          tech: string[];
+          href: string;
+          highlights?: string[];
+          flow?: { title: string; detail: string }[];
+          role?: string;
+        } | undefined = data.projects.find((x: { name: string }) => slug(x.name).startsWith(slug(name)) && name);
         if (!pr) return print([{ t: `open: no project called "${name}". `, c: 'err' }, cmd('projects'), dim(' lists them.')]);
         print([acc(pr.name), dim(`  ${pr.kind}`)], pr.description, [dim('stack  '), pr.tech.join(', ')], [dim('link   '), link(pr.href, pr.href)]);
+        if (pr.role) print([dim('role   '), pr.role]);
+        if (pr.highlights) {
+          print(dim('highlights'));
+          pr.highlights.forEach((h) => print(`  - ${h}`));
+        }
+        if (pr.flow) {
+          print(dim('how it works'));
+          pr.flow.forEach((step, i) => print(`  ${String(i + 1).padStart(2, '0')} ${step.title}: ${step.detail}`));
+        }
+        print([dim('case   '), link('/work/' + pr.slug, '/work/' + pr.slug)]);
       },
     },
     now: {
