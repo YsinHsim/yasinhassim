@@ -2,8 +2,16 @@
 
 Auto-generated from git history. Run `npm run changelog` to regenerate.
 
+## 2026-11-03
+
+- feat: add /work/[slug] case study pages (04c18b3)
+- feat: show framed cover screenshots on Work cards and link them to case studies (4ce5ee3)
+- feat: add project slugs, cover screenshots and case study data (07b6bea)
+
 ## 2026-10-27
 
+- Merge pull request #9 from YsinHsim/feat/skin-anime (c9f6fe7)
+- Update changelog (e8379fc)
 - Add the Anime skin page (5c2bd24)
 - Add Anime skin styles for shared pages and enable it in the picker (589544c)
 - Merge pull request #8 from YsinHsim/feat/skin-genz (70847a9)
