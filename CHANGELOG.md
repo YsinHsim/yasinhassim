@@ -4,6 +4,8 @@ Auto-generated from git history. Run `npm run changelog` to regenerate.
 
 ## 2026-11-26
 
+- feat: add portrait photo, freelance image lightbox, Antigravity skill, and clean text-only journey stages (b0d63b4)
+- docs: update changelog (79d5079)
 - fix: tone down unverified eNORES case study claims (73eed1a)
 - refactor: streamline portfolio to professional bento identity and enrich case studies (52f1436)
 
