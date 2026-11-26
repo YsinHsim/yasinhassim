@@ -2,8 +2,15 @@
 
 Auto-generated from git history. Run `npm run changelog` to regenerate.
 
+## 2026-11-26
+
+- fix: tone down unverified eNORES case study claims (73eed1a)
+- refactor: streamline portfolio to professional bento identity and enrich case studies (52f1436)
+
 ## 2026-11-03
 
+- Merge pull request #10 from YsinHsim/feat/work-showcase (f41ac0c)
+- docs: update changelog (572cb08)
 - feat(terminal): show role, highlights, flow and case study link in open (e1b2dd0)
 - feat(anime): add quest banner screenshots and Quest details links (0529494)
 - feat(genz): add sticker screenshots and case study links to project cards (e988eff)
