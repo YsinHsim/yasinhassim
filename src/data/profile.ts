@@ -55,14 +55,14 @@ export const projects: Project[] = [
     highlights: [
       'End-to-end Laravel REST APIs backed by MySQL',
       'Responsive Nuxt, Tailwind CSS and Naive UI interfaces',
-      'Automated server-side PDF certificates and email notifications',
+      'Automated server-side PDF and email generation',
       'Dedicated staging server management for QA and hands-on client training',
       'Translating regulatory workflows into maintainable application features',
     ],
     flow: [
-      { title: 'Application intake', detail: 'Employers submit structured applications and supporting documents through the Nuxt portal.' },
-      { title: 'Review and processing', detail: 'Laravel APIs validate submissions, enforce business rules and route records through officer workflows.' },
-      { title: 'Document generation', detail: 'Approved records trigger automated server-side PDF generation and email notifications.' },
+      { title: 'Application intake', detail: 'Applicants register and submit their details through the Nuxt portal.' },
+      { title: 'Processing', detail: 'Laravel APIs validate submissions and apply the business rules behind the licensing workflow.' },
+      { title: 'Document generation', detail: 'The server generates PDF documents and sends email notifications automatically.' },
       { title: 'QA and release', detail: 'Changes are verified on a dedicated staging environment before rolling out to production.' },
     ],
     tech: ['Laravel', 'Nuxt', 'Vue', 'MySQL'],
@@ -211,7 +211,7 @@ export const story = [
     meta: 'Diploma in Computer Science · UiTM',
     body: [
       'Growing up in a military family meant relocating often and adapting quickly, which instilled discipline and teamwork early on. Outside school, curiosity about how operating systems, networks, and Windows/Linux internals actually work turned into a lasting interest in software and security.',
-      'That focus led me to pursue a Diploma in Computer Science at MARA University of Technology (UiTM), where I built a foundation in programming, scripting, and systems architecture.',
+      'That focus led me to pursue a Diploma in Computer Science at MARA University of Technology (UiTM), where I built a foundation in programming and scripting.',
     ],
   },
   {
