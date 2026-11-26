@@ -6,7 +6,8 @@ import VideoDialog from '../components/VideoDialog.astro';
 import { profile, stats, projects, responsibilities, sideGig, skillGroups, story } from '../data/profile';
 
 const featured = projects.filter((p) => p.featured);
-const others = projects.filter((p) => !p.featured);
+const others = projects.filter((p) => !p.featured && !p.archived);
+const archived = projects.filter((p) => p.archived);
 const videos = projects.flatMap((p) => (p.video ? [p.video] : []));
 ---
 
@@ -18,7 +19,7 @@ const videos = projects.flatMap((p) => (p.video ? [p.video] : []));
   <section id="home" class="shell pt-14 sm:pt-20 scroll-mt-20">
     <p class="eyebrow rise">Work · {profile.location}</p>
     <h1 class="display rise mt-5 max-w-4xl text-5xl sm:text-7xl text-primary" style="--i:1">
-      Systems for government, landlords and <em class="text-accent">whoever's next.</em>
+      Production web systems, from database to <em class="text-accent">interface.</em>
     </h1>
     <div class="rise mt-8 grid gap-8 md:grid-cols-[1fr_auto] md:items-end" style="--i:2">
       <p class="max-w-xl text-lg text-secondary">{profile.summary}</p>
@@ -93,6 +94,30 @@ const videos = projects.flatMap((p) => (p.video ? [p.video] : []));
         </a>
       ))}
     </div>
+
+    {archived.length > 0 && (
+      <div class="mt-10">
+        <p class="eyebrow">More projects &amp; experiments</p>
+        <ul class="mt-3 divide-y divide-rule border-y rule">
+          {archived.map((p) => (
+            <li class="py-4">
+              <a href={`/work/${p.slug}`} class="group flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+                <div class="min-w-0">
+                  <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                    <span class="font-medium text-primary group-hover:text-accent transition-colors">{p.name}</span>
+                    <span class="font-mono text-[0.7rem] text-muted">{p.kind}</span>
+                  </div>
+                  <p class="mt-1 text-sm text-secondary">{p.description}</p>
+                </div>
+                <div class="flex flex-shrink-0 flex-wrap items-center gap-1.5">
+                  {p.tech.map((t) => <span class="chip">{t}</span>)}
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
   </section>
 
   <!-- Day to day -->
@@ -153,7 +178,7 @@ const videos = projects.flatMap((p) => (p.video ? [p.video] : []));
       <div>
         <p class="eyebrow">Journey</p>
         <h2 class="display mt-3 text-4xl text-primary">How I got here</h2>
-        <p class="mt-4 text-sm text-secondary">{story.length} chapters, from a military camp in Kedah to writing software for a living.</p>
+        <p class="mt-4 text-sm text-secondary">{story.length} stages, from computer science foundations to shipping government web systems.</p>
       </div>
       <div class="border-t rule">
         {story.map((chapter, i) => (
@@ -202,8 +227,7 @@ const videos = projects.flatMap((p) => (p.video ? [p.video] : []));
           </p>
         </div>
         <div class="flex flex-wrap gap-2">
-          <a href={`${profile.whatsapp}?text=${encodeURIComponent('Hi there! I just saw your portfolio.')}`} target="_blank" rel="noopener" class="btn-solid"><Icon name="whatsapp" class="w-4 h-4" /> WhatsApp</a>
-          <a href={`mailto:${profile.email}`} class="btn-ghost"><Icon name="mail" class="w-4 h-4" /> Email</a>
+          <a href={`mailto:${profile.email}`} class="btn-solid"><Icon name="mail" class="w-4 h-4" /> Email</a>
           <a href={profile.github} target="_blank" rel="noopener" class="btn-ghost"><Icon name="github" class="w-4 h-4" /> GitHub</a>
           <a href={profile.resume} download={profile.resumeName} class="btn-ghost"><Icon name="download" class="w-4 h-4" /> Resume</a>
         </div>

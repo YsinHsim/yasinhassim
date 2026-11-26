@@ -7,16 +7,16 @@ export const profile = {
   roles: ['Software Developer', 'IT Technician', 'System Analyst'],
   employer: 'Datakraf Solution Sdn Bhd',
   location: 'Kota Kinabalu, Sabah',
-  tagline: 'I build stuff. Welcome to my personal corner of the internet.',
+  tagline: 'Full-stack developer building production web systems.',
   summary:
     'Software developer at Datakraf in Kota Kinabalu, Sabah. I build production systems for government and agricultural-estate clients with Laravel, Nuxt and React, and I still know my way around the hardware and networks behind them.',
   status: 'Open to opportunities',
   email: 'yasinhassim43@gmail.com',
   github: 'https://github.com/YsinHsim',
-  whatsapp: 'https://wa.me/+60128507469',
   resume: '/resume.pdf',
   resumeName: 'Muhammad Yasin bin Abdul Hassim Oct 2026.pdf',
-  photo: '/profile.jpg',
+  // Drop a portrait in /public (e.g. '/portrait.jpg') and set its path here
+  photo: '',
 };
 
 export const stats = [
@@ -38,36 +38,36 @@ export interface Project {
   href: string;
   linkLabel: string;
   featured?: boolean;
+  archived?: boolean;
   note?: string;
   video?: { id: string; youtubeId: string; label: string; title: string };
 }
 
 export const projects: Project[] = [
   {
-    name: 'Kuiz Interaktif',
-    slug: 'kuiz-interaktif',
-    cover: '/work/kuiz-interaktif.webp',
+    name: 'eNORES',
+    slug: 'enores',
+    cover: '/work/enores.webp',
+    kind: 'Government web system',
+    description:
+      'Production government labour platform for Jabatan Tenaga Kerja Sabah, managing non-resident worker employment licensing and digital workflows.',
+    role: 'Software Developer at Datakraf Solution — backend APIs, Nuxt frontend, PDF/email generation, staging & QA',
     highlights: [
-      'Kahoot-style multiplayer quiz',
-      'No backend: the host tab is the game server',
-      'QR-code join from players’ phones',
-      'Direct WebRTC connections with PeerJS',
-      'Live answers, scoring and leaderboard',
+      'End-to-end Laravel REST APIs backed by MySQL',
+      'Responsive Nuxt, Tailwind CSS and Naive UI interfaces',
+      'Automated server-side PDF certificates and email notifications',
+      'Dedicated staging server management for QA and hands-on client training',
+      'Translating regulatory workflows into maintainable application features',
     ],
     flow: [
-      { title: 'Open the host', detail: 'Host opens the app on a laptop or projector; the host’s browser tab becomes the game server.' },
-      { title: 'Players join', detail: 'Players scan a QR code and join from their phones.' },
-      { title: 'Connect directly', detail: 'Phones connect to the host directly over WebRTC (PeerJS); there is no backend.' },
-      { title: 'Score the round', detail: 'Answers stream to the host, which scores the round and shows the leaderboard.' },
+      { title: 'Application intake', detail: 'Employers submit structured applications and supporting documents through the Nuxt portal.' },
+      { title: 'Review and processing', detail: 'Laravel APIs validate submissions, enforce business rules and route records through officer workflows.' },
+      { title: 'Document generation', detail: 'Approved records trigger automated server-side PDF generation and email notifications.' },
+      { title: 'QA and release', detail: 'Changes are verified on a dedicated staging environment before rolling out to production.' },
     ],
-    role: 'Solo: design, build and deploy (Vercel)',
-    kind: 'Multiplayer quiz game',
-    description:
-      "Kahoot-style quiz game with no backend. The host's browser tab is the game server, and players' phones connect to it directly over WebRTC by scanning a QR code.",
-    tech: ['Vue', 'Vite', 'PeerJS', 'WebRTC'],
-    href: 'https://kuiz-interaktif.vercel.app/',
-    linkLabel: 'Live demo',
-    note: 'Host on a laptop, join from your phone',
+    tech: ['Laravel', 'Nuxt', 'Vue', 'MySQL'],
+    href: 'https://enores.jtksabah.gov.my/',
+    linkLabel: 'Visit site',
     featured: true,
   },
   {
@@ -104,15 +104,30 @@ export const projects: Project[] = [
     },
   },
   {
-    name: 'eNORES',
-    slug: 'enores',
-    cover: '/work/enores.webp',
-    kind: 'Government web system',
+    name: 'Kuiz Interaktif',
+    slug: 'kuiz-interaktif',
+    cover: '/work/kuiz-interaktif.webp',
+    highlights: [
+      'Kahoot-style multiplayer quiz',
+      'No backend: the host tab is the game server',
+      'QR-code join from players’ phones',
+      'Direct WebRTC connections with PeerJS',
+      'Live answers, scoring and leaderboard',
+    ],
+    flow: [
+      { title: 'Open the host', detail: 'Host opens the app on a laptop or projector; the host’s browser tab becomes the game server.' },
+      { title: 'Players join', detail: 'Players scan a QR code and join from their phones.' },
+      { title: 'Connect directly', detail: 'Phones connect to the host directly over WebRTC (PeerJS); there is no backend.' },
+      { title: 'Score the round', detail: 'Answers stream to the host, which scores the round and shows the leaderboard.' },
+    ],
+    role: 'Solo: design, build and deploy (Vercel)',
+    kind: 'Multiplayer quiz game',
     description:
-      'A government system built with Laravel and Nuxt (Vue) for efficient resource management and digital services.',
-    tech: ['Laravel', 'Nuxt', 'Vue', 'MySQL'],
-    href: 'https://enores.jtksabah.gov.my/',
-    linkLabel: 'Visit site',
+      "Kahoot-style quiz game with no backend. The host's browser tab is the game server, and players' phones connect to it directly over WebRTC by scanning a QR code.",
+    tech: ['Vue', 'Vite', 'PeerJS', 'WebRTC'],
+    href: 'https://kuiz-interaktif.vercel.app/',
+    linkLabel: 'Live demo',
+    note: 'Host on a laptop, join from your phone',
   },
   {
     name: 'Startpage',
@@ -143,6 +158,7 @@ export const projects: Project[] = [
     tech: ['Laravel', 'React'],
     href: 'https://estate-utility.vercel.app/',
     linkLabel: 'Live demo',
+    archived: true,
   },
   {
     name: 'Anjung Sepi',
@@ -153,6 +169,7 @@ export const projects: Project[] = [
     tech: ['Astro', 'Tailwind'],
     href: 'https://anjung-sepi.vercel.app/',
     linkLabel: 'Visit site',
+    archived: true,
   },
 ];
 
@@ -190,43 +207,23 @@ export const coreStack = ['Laravel', 'PHP', 'Vue', 'Nuxt', 'React', 'Next.js', '
 
 export const story = [
   {
-    title: 'Before the tech',
-    meta: 'Military upbringing · Discipline and teamwork',
-    image: '/about-me/military.jpeg',
+    title: 'Computer science foundations',
+    meta: 'Diploma in Computer Science · UiTM',
     body: [
-      'Growing up in a military environment, my family and I frequently relocated, adapting to new places and cultures. I spent much of my time with friends who shared similar experiences, and it was here that I first learned the values of teamwork and discipline.',
-      'Our days were filled with military-style activities such as marching, handling firearms, and more, especially during my time at a military camp near Sungai Petani, Kedah. These formative experiences helped shape my character and work ethic.',
+      'Growing up in a military family meant relocating often and adapting quickly, which instilled discipline and teamwork early on. Outside school, curiosity about how operating systems, networks, and Windows/Linux internals actually work turned into a lasting interest in software and security.',
+      'That focus led me to pursue a Diploma in Computer Science at MARA University of Technology (UiTM), where I built a foundation in programming, scripting, and systems architecture.',
     ],
   },
   {
-    title: 'Process Suspender',
-    meta: 'Cyber cafés · First hacking experience',
-    image: '/about-me/cyber-cafe.png',
+    title: 'Operations and team leadership',
+    meta: 'Econsave Cash & Carry · Nov 2022 to Sep 2023',
     body: [
-      'After that, I transitioned to living among civilians and experienced life as any typical child. It was during this time that I began to skip school and spend countless hours at cyber cafés, which were booming businesses at the time.',
-      'However, the issue was that I needed money to keep returning to the cyber café. This led me to discover a tool called Process Suspender, which allowed me to stop selected background processes. In my case, I used it for hacking purposes.',
+      'While applying for entry-level tech roles after graduation, I built operational resilience in retail and worked my way up to supervisor at Econsave Cash & Carry.',
+      'I managed daily floor operations, staff scheduling, and inventory, and served as the on-site point of contact for point-of-sale systems, local IT issues, and customer escalations before transitioning into full-time IT.',
     ],
   },
   {
-    title: 'Linux and scripting',
-    meta: 'University · Deep dive into technology',
-    image: '/about-me/radare2.jpeg',
-    body: [
-      'Fascinated by my earlier discoveries, I began to dive deeper into technology, exploring Windows batch files and the Linux operating system. My growing passion for tech led me to pursue a Diploma in Computer Science at MARA University of Technology (UiTM).',
-      "During my learning journey, I became intrigued by how keyloggers and Nmap work, which eventually led me to discover C++ and Tor Browser. This marked the beginning of an exciting chapter in my tech exploration. I quickly realized that hacking isn't just about sitting behind a screen; it's about truly understanding how technology functions.",
-    ],
-  },
-  {
-    title: 'Life skills and career',
-    meta: 'Retail · Management · Persistence',
-    image: '/about-me/butcher.jpeg',
-    body: [
-      'After graduation, I began applying for tech jobs that aligned with my skill set. However, I struggled to secure my desired role due to my qualifications. As a result, I focused on honing skills relevant to my work, including inventory management and entry-level management skills in the retail industry.',
-      'My journey took me from working in fisheries to butchering meat, from lifting goods to supervising teams. At Econsave Cash & Carry I became a supervisor (November 2022 to September 2023), running daily operations, staff schedules and inventory, and acting as the on-site contact for POS, IT and customer problems. After three years of persistence, I finally landed my first IT job.',
-    ],
-  },
-  {
-    title: 'First IT job',
+    title: 'IT infrastructure and first production apps',
     meta: 'Teck Guan Plantation · Jan 2024 to Mar 2025',
     image: '/about-me/transmitter.jpeg',
     body: [
@@ -235,12 +232,12 @@ export const story = [
     ],
   },
   {
-    title: 'Software developer',
+    title: 'Full-stack software developer',
     meta: 'Datakraf Solution · Mar 2025 to now',
     image: '/about-me/software-developer.jpg',
     body: [
       'Today I am a software developer at Datakraf Solution in Kota Kinabalu, working on eNORES, a government labour platform. I build backend APIs with Laravel and MySQL and responsive frontends with Nuxt, Tailwind CSS and Naive UI, and I own features from the database to the screen.',
-      'I also handle server-side work such as automated email and PDF generation, keep the staging server ready for QA, and translate between technical detail and what the client needs. I keep learning, now with AI tools like Claude Code as part of the workflow.',
+      'I also handle server-side work such as automated email and PDF generation, keep the staging server ready for QA, and translate between technical detail and what the client needs — supported by structured AI-assisted engineering workflows.',
     ],
   },
 ];

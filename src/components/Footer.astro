@@ -17,7 +17,6 @@ const currentYear = new Date().getFullYear();
 
       <div class="flex items-center gap-2">
         <a href={profile.github} target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub"><Icon name="github" class="w-4 h-4" /></a>
-        <a href={profile.whatsapp} target="_blank" rel="noopener" class="icon-btn" aria-label="WhatsApp"><Icon name="whatsapp" class="w-4 h-4" /></a>
         <a href={`mailto:${profile.email}`} class="icon-btn" aria-label="Email"><Icon name="mail" class="w-4 h-4" /></a>
       </div>
     </div>
@@ -29,6 +28,7 @@ const currentYear = new Date().getFullYear();
         <a href="/portfolio" class="hover:text-primary">Work</a>
         <a href="/blog" class="hover:text-primary">Blog</a>
         <a href={profile.resume} download={profile.resumeName} class="hover:text-primary">Resume</a>
+        <a href="/terminal/" class="hover:text-primary">Terminal</a>
       </nav>
       <p class="font-mono">Built with Astro &amp; Tailwind · {profile.location}</p>
     </div>

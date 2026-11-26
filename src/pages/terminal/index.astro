@@ -4,7 +4,6 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { profile, stats, projects, responsibilities, sideGig, skillGroups, story, readingTime, formatDate } from '@/data/profile';
-import { skins } from '@/data/skins';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -24,7 +23,6 @@ const data = {
   skillGroups,
   story: story.map(({ title, meta, body }) => ({ title, meta, body })),
   posts,
-  skins: skins.filter((s) => s.ready).map(({ id, name, home }) => ({ id, name, home })),
 };
 // JSON inside a <script> tag: escape "<" so no string can close the tag
 const json = JSON.stringify(data).replace(/</g, '\\u003c');
@@ -44,7 +42,7 @@ const chips = ['help', 'whoami', 'projects', 'now', 'skills', 'story', 'blog', '
       <div class="term-bar">
         <span class="term-dots" aria-hidden="true"><i></i><i></i><i></i></span>
         <span class="term-title">yasin@kota-kinabalu: ~</span>
-        <a href="/?skin=bento" class="term-exit">exit</a>
+        <a href="/" class="term-exit">exit</a>
       </div>
       <div class="term-body" id="term-body" aria-live="polite">
         <div id="term-out"></div>
@@ -60,7 +58,7 @@ const chips = ['help', 'whoami', 'projects', 'now', 'skills', 'story', 'blog', '
     </div>
 
     <noscript>
-      <p class="mt-6 text-secondary">The terminal needs JavaScript. <a class="text-accent underline" href="/?skin=bento">Open the normal site</a>.</p>
+      <p class="mt-6 text-secondary">The terminal needs JavaScript. <a class="text-accent underline" href="/">Open the normal site</a>.</p>
     </noscript>
   </section>
 
@@ -244,11 +242,11 @@ const chips = ['help', 'whoami', 'projects', 'now', 'skills', 'story', 'blog', '
         data.projects.forEach((pr: { name: string; kind: string; tech: string[] }) => {
           row(cmd(slug(pr.name), `open ${slug(pr.name)}`), pr.kind, pr.tech.join(', '));
         });
-        print('', [dim('Type '), cmd('open <name>', 'open kuiz-interaktif'), dim(' for details and a link.')]);
+        print('', [dim('Type '), cmd('open <name>', 'open enores'), dim(' for details and a link.')]);
       },
     },
     open: {
-      help: 'show one project, e.g. open kuiz-interaktif',
+      help: 'show one project, e.g. open enores',
       run: ([name = '']) => {
         const pr: {
           name: string;
@@ -320,7 +318,6 @@ const chips = ['help', 'whoami', 'projects', 'now', 'skills', 'story', 'blog', '
         print(
           [dim('email     '), link(p.email, `mailto:${p.email}`)],
           [dim('github    '), link(p.github.replace('https://', ''), p.github)],
-          [dim('whatsapp  '), link('chat on WhatsApp', p.whatsapp)],
           [dim('resume    '), link('resume.pdf', p.resume)],
         );
       },
@@ -335,16 +332,6 @@ const chips = ['help', 'whoami', 'projects', 'now', 'skills', 'story', 'blog', '
         a.click();
       },
     },
-    skin: {
-      help: 'switch UI, e.g. skin bento',
-      run: ([id]) => {
-        const s = data.skins.find((x: { id: string }) => x.id === id);
-        if (!s) return print(['skins: ', ...data.skins.flatMap((x: { id: string }) => [cmd(x.id, `skin ${x.id}`), ' '])]);
-        try { localStorage.setItem('skin', s.id); } catch {}
-        print(dim(`switching to ${s.name}…`));
-        setTimeout(() => (location.href = s.home), 300);
-      },
-    },
     neofetch: { help: 'system info', run: () => banner() },
     clear: { help: 'clear the screen', run: () => out.replaceChildren() },
     ls: { help: '', hidden: true, run: () => commands.projects.run([]) },
@@ -353,7 +340,14 @@ const chips = ['help', 'whoami', 'projects', 'now', 'skills', 'story', 'blog', '
     about: { help: '', hidden: true, run: () => commands.whoami.run([]) },
     cd: { help: '', hidden: true, run: () => print([dim('There is only ~ here. Try '), cmd('projects')]) },
     sudo: { help: '', hidden: true, run: () => print({ t: 'yasin is not in the sudoers file. This incident will be reported. 🥭', c: 'err' }) },
-    exit: { help: '', hidden: true, run: () => commands.skin.run(['bento']) },
+    exit: {
+      help: '',
+      hidden: true,
+      run: () => {
+        print(dim('exiting terminal…'));
+        setTimeout(() => (location.href = '/'), 250);
+      },
+    },
   };
 
   function banner() {
