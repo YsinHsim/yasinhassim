@@ -16,7 +16,7 @@ export const profile = {
   resume: '/resume.pdf',
   resumeName: 'Muhammad Yasin bin Abdul Hassim Oct 2026.pdf',
   // Drop a portrait in /public (e.g. '/portrait.jpg') and set its path here
-  photo: '',
+  photo: '/portrait.jpg',
 };
 
 export const stats = [
@@ -199,7 +199,7 @@ export const skillGroups = [
   { name: 'Backend', items: ['Laravel', 'Inertia.js', 'Node.js', 'Express'] },
   { name: 'Data', items: ['MySQL', 'MariaDB', 'PostgreSQL (Neon)', 'MongoDB', 'DBeaver'] },
   { name: 'Tools', items: ['Git', 'GitHub', 'GitLab', 'Docker', 'Vercel', 'Render'] },
-  { name: 'AI-assisted dev', items: ['Claude Code', 'Gemini CLI', 'Qwen Code'] },
+  { name: 'AI-assisted dev', items: ['Claude Code', 'Gemini CLI', 'Antigravity', 'Qwen Code'] },
 ];
 
 // Short list for the home page marquee

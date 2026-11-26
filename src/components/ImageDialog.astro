@@ -1,0 +1,56 @@
+---
+import Icon from './Icon.astro';
+---
+
+<dialog id="image-lightbox" class="image-dialog" aria-label="Photo preview">
+  <div class="p-3 sm:p-4">
+    <div class="mb-3 flex items-center justify-between gap-4">
+      <p class="text-sm font-medium text-primary" data-lightbox-caption></p>
+      <button type="button" class="icon-btn flex-shrink-0" data-lightbox-close aria-label="Close image">
+        <Icon name="close" class="w-4 h-4" />
+      </button>
+    </div>
+    <div class="flex items-center justify-center overflow-hidden rounded-xl bg-tertiary">
+      <img data-lightbox-img src="" alt="" class="max-h-[78vh] w-auto max-w-full object-contain" />
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .image-dialog {
+    width: min(1000px, calc(100vw - 32px));
+    max-width: none;
+    padding: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 1.25rem;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+  }
+  .image-dialog::backdrop {
+    background: rgb(0 0 0 / 0.78);
+    backdrop-filter: blur(4px);
+  }
+</style>
+
+<script>
+  const dialog = document.getElementById('image-lightbox') as HTMLDialogElement | null;
+  const img = dialog?.querySelector<HTMLImageElement>('[data-lightbox-img]') ?? null;
+  const caption = dialog?.querySelector<HTMLElement>('[data-lightbox-caption]') ?? null;
+
+  document.querySelectorAll<HTMLButtonElement>('[data-lightbox-src]').forEach((button) => {
+    button.addEventListener('click', () => {
+      if (!dialog || !img || !caption) return;
+      const src = button.dataset.lightboxSrc ?? '';
+      const alt = button.dataset.lightboxAlt ?? '';
+      img.src = src;
+      img.alt = alt;
+      caption.textContent = alt;
+      dialog.showModal();
+    });
+  });
+
+  dialog?.querySelector('[data-lightbox-close]')?.addEventListener('click', () => dialog.close());
+  dialog?.addEventListener('click', (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+</script>
